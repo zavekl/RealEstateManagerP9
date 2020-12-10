@@ -65,17 +65,7 @@ public class Utils {
 
     //New method
     public static Boolean isInternetAvailable2(Context context) {
-//        try {
-//            InetAddress ipAddr = InetAddress.getByName("google.com");
-//            return !ipAddr.equals("");
-//
-//        } catch (Exception e) {
-//            Log.e("Utils", "isInternetAvailable2: ", e);
-//            return false;
-//        }
-
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
-
     }
 }
