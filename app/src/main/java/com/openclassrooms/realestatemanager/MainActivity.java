@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
         this.configureTextViewMain();
         this.configureTextViewQuantity();
+
+        if(Utils.isInternetAvailable2(this)){
+            Toast.makeText(this, "Connexion", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "No connexion", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void configureTextViewMain(){
