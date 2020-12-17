@@ -1,41 +1,28 @@
 package com.openclassrooms.realestatemanager;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textViewMain;
-    private TextView textViewQuantity;
+    private RecyclerView mRecyclerView;
+    private ListRealEstateRVAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
 
-        this.textViewMain = findViewById(R.id.activity_main_activity_text_view_main);
-        this.textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity);
-
-        this.configureTextViewMain();
-        this.configureTextViewQuantity();
-
-        if(Utils.isInternetAvailable2(this)){
-            Toast.makeText(this, "Connexion", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this, "No connexion", Toast.LENGTH_LONG).show();
-        }
+        mRecyclerView = findViewById(R.id.rv_real_estate);
+        setRecyclerView();
     }
 
-    private void configureTextViewMain(){
-        this.textViewMain.setTextSize(15);
-        this.textViewMain.setText("Le premier bien immobilier enregistré vaut ");
-    }
-
-    private void configureTextViewQuantity(){
-        String quantity = String.valueOf(Utils.convertDollarToEuro(100));
-        this.textViewQuantity.setTextSize(20);
-        this.textViewQuantity.setText(quantity);
+    private void setRecyclerView() {
+        mAdapter = new ListRealEstateRVAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 }
