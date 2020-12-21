@@ -1,14 +1,21 @@
 package com.openclassrooms.realestatemanager;
 
+import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Arrays;
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,11 +23,14 @@ import java.util.List;
  */
 class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
     private static final String TAG = "ListRealEstateRVAdapter";
-    private final List<RealEstate> mItemRealEstate = Arrays.asList(
-            new RealEstate("Maison1",121212.50f,520.25f,16,"Description1",
-                    "adresse1","Rien",false,"12/2/2019","0","Jean"),
-            new RealEstate("Maison2",121212.50f,520.25f,16,"Description2",
-                    "adresse2","Rien",false,"12/2/2019","0","Jean"));
+    private List<RealEstate> mItemRealEstate = new ArrayList<>();
+
+    private final Context mContext;
+
+    public ListRealEstateRVAdapter(List<RealEstate> mItemRealEstate, Context context) {
+        this.mItemRealEstate = mItemRealEstate;
+        mContext = context;
+    }
 
     @NonNull
     @Override
@@ -31,8 +41,17 @@ class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapt
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListRealEstateRVAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.mType.setText(mItemRealEstate.get(position).getmType());
+        holder.mTown.setText(mItemRealEstate.get(position).getmAddress());
+
+        String price = String.valueOf(mItemRealEstate.get(position).getmPrice());
+        holder.mPrice.setText(price);
+
+        Glide.with(mContext)
+                .load(mItemRealEstate.get(position).getmDrawable())
+                .centerCrop()
+                .into(holder.mImageView);
     }
 
     @Override
@@ -50,10 +69,16 @@ class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapt
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView mType;
+        final TextView mTown;
+        final TextView mPrice;
+        final ImageView mImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mType = itemView.findViewById(R.id.item_type);
+            mType = itemView.findViewById(R.id.rv_tv_item_type);
+            mTown = itemView.findViewById(R.id.rv_tv_item_town);
+            mPrice = itemView.findViewById(R.id.rv_tv_item_price);
+            mImageView = itemView.findViewById(R.id.rv_iv_photo);
         }
     }
 }

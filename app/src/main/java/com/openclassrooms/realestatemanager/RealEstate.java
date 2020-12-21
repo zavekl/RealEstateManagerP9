@@ -1,24 +1,27 @@
 package com.openclassrooms.realestatemanager;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Created by <NIATEL Brice> on <16/12/2020>.
  */
 public class RealEstate {
-    //TODO avec la classe address pour généraliser? + faire photo
+    //TODO avec la classe address pour généraliser?
     private String mType;
-    private float mPrice;
+    private int mPrice;
     private float mSurface;
     private int mPieceNumber;
     private String mDescription;
     private String mAddress;
     private String mPointOfInterest;
     private boolean mBuy;
+    private Drawable mDrawable;
     private String mIncommingDate;
     private String mDateOfSale;
     private String mRealEstateAgent;
 
-    public RealEstate(String mType, float mPrice, float mSurface, int mPieceNumber, String mDescription, String mAddress, String mPointOfInterest,
-                      boolean mBuy, String mIncommingDate, String mDateOfSale, String mRealEstateAgent) {
+    public RealEstate(String mType, int mPrice, float mSurface, int mPieceNumber, String mDescription, String mAddress, String mPointOfInterest,
+                      Drawable mDrawable, boolean mBuy, String mIncommingDate, String mDateOfSale, String mRealEstateAgent) {
         this.mType = mType;
         this.mPrice = mPrice;
         this.mSurface = mSurface;
@@ -26,6 +29,7 @@ public class RealEstate {
         this.mDescription = mDescription;
         this.mAddress = mAddress;
         this.mPointOfInterest = mPointOfInterest;
+        this.mDrawable= mDrawable;
         this.mBuy = mBuy;
         this.mIncommingDate = mIncommingDate;
         this.mDateOfSale = mDateOfSale;
@@ -40,11 +44,11 @@ public class RealEstate {
         this.mType = mType;
     }
 
-    public float getmPrice() {
+    public int getmPrice() {
         return mPrice;
     }
 
-    public void setmPrice(float mPrice) {
+    public void setmPrice(int mPrice) {
         this.mPrice = mPrice;
     }
 
@@ -118,5 +122,13 @@ public class RealEstate {
 
     public void setmRealEstateAgent(String mRealEstateAgent) {
         this.mRealEstateAgent = mRealEstateAgent;
+    }
+
+    public Drawable getmDrawable() {
+        return mDrawable;
+    }
+
+    public void setmDrawable(Drawable mDrawable) {
+        this.mDrawable = mDrawable;
     }
 }
