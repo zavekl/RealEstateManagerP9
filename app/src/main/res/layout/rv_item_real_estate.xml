@@ -4,14 +4,80 @@
     android:id="@+id/item_real_estate"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorSecondary"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/item_type"
+    <ImageView
+        android:id="@+id/rv_iv_photo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bien immobilier"
-        android:textSize="30sp"
+        android:layout_height="175dp"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/rv_icon_type"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_house"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rv_tv_item_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+
+    <TextView
+        android:id="@+id/rv_tv_item_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TEST"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rv_icon_town"
+        app:layout_constraintStart_toEndOf="@id/rv_icon_type"
+        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+
+    <ImageView
+        android:id="@+id/rv_icon_town"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rv_tv_item_town"
+        app:layout_constraintStart_toEndOf="@id/rv_tv_item_type"
+        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+
+    <TextView
+        android:id="@+id/rv_tv_item_town"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TEST"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rv_icon_price"
+        app:layout_constraintStart_toEndOf="@id/rv_icon_town"
+        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+
+    <ImageView
+        android:id="@+id/rv_icon_price"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_money"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rv_tv_item_price"
+        app:layout_constraintStart_toEndOf="@id/rv_tv_item_town"
+        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+
+    <TextView
+        android:id="@+id/rv_tv_item_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TEST"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/rv_icon_price"
+        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
