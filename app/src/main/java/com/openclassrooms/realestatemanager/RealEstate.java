@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by <NIATEL Brice> on <16/12/2020>.
  */
-public class RealEstate {
+public class RealEstate{
     //TODO avec la classe address pour généraliser?
     private String mType;
     private int mPrice;
@@ -29,7 +29,7 @@ public class RealEstate {
         this.mDescription = mDescription;
         this.mAddress = mAddress;
         this.mPointOfInterest = mPointOfInterest;
-        this.mDrawable= mDrawable;
+        this.mDrawable = mDrawable;
         this.mBuy = mBuy;
         this.mIncommingDate = mIncommingDate;
         this.mDateOfSale = mDateOfSale;
@@ -131,4 +131,5 @@ public class RealEstate {
     public void setmDrawable(Drawable mDrawable) {
         this.mDrawable = mDrawable;
     }
+
 }

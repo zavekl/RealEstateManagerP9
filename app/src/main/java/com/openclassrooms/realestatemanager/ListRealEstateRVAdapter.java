@@ -1,21 +1,18 @@
 package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
-import android.os.Build;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +20,7 @@ import java.util.List;
  */
 class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
     private static final String TAG = "ListRealEstateRVAdapter";
-    private List<RealEstate> mItemRealEstate = new ArrayList<>();
+    private List<RealEstate> mItemRealEstate;
 
     private final Context mContext;
 
@@ -41,7 +38,7 @@ class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapt
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.mType.setText(mItemRealEstate.get(position).getmType());
         holder.mTown.setText(mItemRealEstate.get(position).getmAddress());
 
@@ -52,6 +49,13 @@ class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapt
                 .load(mItemRealEstate.get(position).getmDrawable())
                 .centerCrop()
                 .into(holder.mImageView);
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,DescriptionRealEstateActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

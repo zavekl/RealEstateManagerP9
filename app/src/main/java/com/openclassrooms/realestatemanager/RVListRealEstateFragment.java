@@ -5,6 +5,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -40,7 +41,7 @@ public class RVListRealEstateFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider((ViewModelStoreOwner) this, new ViewModelProvider.NewInstanceFactory()).get(RVListRealEstateViewModel.class);
+        mViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RVListRealEstateViewModel.class);
         // TODO: Use the ViewModel
     }
 
@@ -79,14 +80,14 @@ public class RVListRealEstateFragment extends Fragment {
                 new RealEstate("Maison1", 120000, 520.25f, 16, "Description1",
                         "adresse1", "Rien", drawable1, false, "12/2/2019", "0", "Jean"),
                 new RealEstate("Maison2", 210000, 520.25f, 16, "Description2",
-                        "adresse2", "Rien", drawable2, false, "12/2/2019", "0", "Jean"),
+                        "adresse2", "Rien",drawable2 , false, "12/2/2019", "0", "Jean"),
                 new RealEstate("Maison3", 170000, 520.25f, 16, "Description3",
-                        "adresse3", "Rien", drawable3, false, "12/2/2019", "0", "Jean"),
+                        "adresse3", "Rien",drawable3 , false, "12/2/2019", "0", "Jean"),
                 new RealEstate("Maison4", 260000, 520.25f, 16, "Description4",
-                        "adresse4", "Rien", drawable4, false, "12/2/2019", "0", "Jean"),
+                        "adresse4", "Rien",drawable4 , false, "12/2/2019", "0", "Jean"),
                 new RealEstate("Maison5", 190000, 520.25f, 16, "Description5",
-                        "adresse5", "Rien", drawable5, false, "12/2/2019", "0", "Jean"),
+                        "adresse5", "Rien",drawable5 , false, "12/2/2019", "0", "Jean"),
                 new RealEstate("Maison6", 230000, 520.25f, 16, "Description6",
-                        "adresse6", "Rien", drawable6, false, "12/2/2019", "0", "Jean"));
+                        "adresse6", "Rien",drawable6 , false, "12/2/2019", "0", "Jean"));
     }
 }
