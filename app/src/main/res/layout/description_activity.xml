@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_description"
+            android:layout_width="match_parent"
+            android:layout_height="225dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/house_five"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_title_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:text="DESCRIPTION"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_description" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:maxLines="6"
+            android:text="qsdqsqsdqdqsdqsdqsdqdsqdqdsqdqsdqsdqsdqsdqsdqdqsd qsdqsd qsdqsd qqsdqsdq qsdqs dqsdqdsqdsq d qsdqsqsdqdqsdqsdqsdqdsqdqdsqdqsdqsdqsdqsdqsdqdqsd qsdqsd qsdqsd qqsdqsdq qsdqs dqsdqdsqdsq d qsdqsqsdqdqsdqsdqsdqdsqdqdsqdqsdqsdqsdqsdqsdqdqsd qsdqsd qsdqsd qqsdqsdq qsdqs dqsdqdsqdsq d qsdqsqsdqdqsdqsdqsdqdsqdqdsqdqsdqsdqsdqsdqsdqdqsd qsdqsd qsdqsd qqsdqsdq qsdqs dqsdqdsqdsq d qsdqsqsdqdqsdqsdqsdqdsqdqdsqdqsdqsdqsdqsdqsdqdqsd qsdqsd qsdqsd qqsdqsdq qsdqs dqsdqdsqdsq d"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_description" />
+
+        <TextView
+            android:id="@+id/tv_title_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:text="LOCATION"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description" />
+
+        <TextView
+            android:id="@+id/tv_location1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:text="923 Neslson Avenue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_location" />
+
+        <TextView
+            android:id="@+id/tv_location2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:text="Apt 8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_location1" />
+
+        <TextView
+            android:id="@+id/tv_location3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:text="BS 1456"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_location2" />
+
+        <TextView
+            android:id="@+id/tv_location4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:text="BRISTOL"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_location3" />
+
+        <ImageView
+            android:id="@+id/iv_surface"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_size"
+            app:layout_constraintEnd_toStartOf="@id/iv_room"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_location4" />
+
+        <ImageView
+            android:id="@+id/iv_room"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_house"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_surface"
+            app:layout_constraintTop_toBottomOf="@id/tv_location4"
+            app:tint="@android:color/black" />
+
+        <ImageView
+            android:id="@+id/iv_bedroom"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_bedroom"
+            app:layout_constraintEnd_toStartOf="@id/iv_bathroom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_surface" />
+
+        <ImageView
+            android:id="@+id/iv_bathroom"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_bathtub_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_surface"
+            app:layout_constraintTop_toBottomOf="@id/iv_surface"
+            android:layout_marginBottom="32dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

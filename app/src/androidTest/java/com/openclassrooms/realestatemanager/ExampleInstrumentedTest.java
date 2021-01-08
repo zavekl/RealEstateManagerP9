@@ -27,7 +27,6 @@ public class ExampleInstrumentedTest {
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule(MainActivity.class);
 
-
     @Test
     public void connectivitySuccess() {
         Context mockContext = Mockito.mock(Context.class);
