@@ -1,13 +1,20 @@
 package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -16,11 +23,34 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
-    @Test
-    public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+    @Rule
+    public ActivityScenarioRule<MainActivity> activityRule =
+            new ActivityScenarioRule(MainActivity.class);
 
-        assertEquals("com.openclassrooms.go4lunch", appContext.getPackageName());
+
+    @Test
+    public void connectivitySuccess() {
+        Context mockContext = Mockito.mock(Context.class);
+        ConnectivityManager mockConnectivityManager = Mockito.mock(ConnectivityManager.class);
+        NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
+        when(mockContext.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(mockConnectivityManager);
+        when(mockConnectivityManager.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+        when(mockNetworkInfo.isConnected()).thenReturn(true);
+
+        boolean result1 = Utils.isInternetAvailable2(mockContext);
+        assertTrue("Connectivity available", result1);
+    }
+
+    @Test
+    public void connectivityFail() {
+        Context mockContext = Mockito.mock(Context.class);
+        ConnectivityManager mockConnectivityManager = Mockito.mock(ConnectivityManager.class);
+        NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
+        when(mockContext.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(mockConnectivityManager);
+        when(mockConnectivityManager.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+        when(mockNetworkInfo.isConnected()).thenReturn(false);
+
+        boolean result2 = Utils.isInternetAvailable2(mockContext);
+        assertFalse("Connectivity available", result2);
     }
 }
