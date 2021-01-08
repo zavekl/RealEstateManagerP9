@@ -1,0 +1,84 @@
+package com.openclassrooms.realestatemanager;
+
+import android.content.Context;
+import android.os.Build;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by <NIATEL Brice> on <16/02/2020>.
+ */
+class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
+    private static final String TAG = "ListRealEstateRVAdapter";
+    private List<RealEstate> mItemRealEstate = new ArrayList<>();
+
+    private final Context mContext;
+
+    public ListRealEstateRVAdapter(List<RealEstate> mItemRealEstate, Context context) {
+        this.mItemRealEstate = mItemRealEstate;
+        mContext = context;
+    }
+
+    @NonNull
+    @Override
+    public ListRealEstateRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.rv_item_real_estate, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.mType.setText(mItemRealEstate.get(position).getmType());
+        holder.mTown.setText(mItemRealEstate.get(position).getmAddress());
+
+        String price = String.valueOf(mItemRealEstate.get(position).getmPrice());
+        holder.mPrice.setText(price);
+
+        Glide.with(mContext)
+                .load(mItemRealEstate.get(position).getmDrawable())
+                .centerCrop()
+                .into(holder.mImageView);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mItemRealEstate != null) {
+            if (mItemRealEstate.size() == 0) {
+                return 0;
+            } else {
+                return mItemRealEstate.size();
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        final TextView mType;
+        final TextView mTown;
+        final TextView mPrice;
+        final ImageView mImageView;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mType = itemView.findViewById(R.id.rv_tv_item_type);
+            mTown = itemView.findViewById(R.id.rv_tv_item_town);
+            mPrice = itemView.findViewById(R.id.rv_tv_item_price);
+            mImageView = itemView.findViewById(R.id.rv_iv_photo);
+        }
+    }
+}
