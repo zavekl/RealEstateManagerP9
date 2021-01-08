@@ -20,13 +20,13 @@
             android:id="@+id/tabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Map" />
+            android:text="@string/map" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Real Estate" />
+            android:text="@string/real_estate" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
