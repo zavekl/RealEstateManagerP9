@@ -19,8 +19,7 @@ import java.util.List;
  * Created by <NIATEL Brice> on <16/02/2020>.
  */
 class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
-    private static final String TAG = "ListRealEstateRVAdapter";
-    private List<RealEstate> mItemRealEstate;
+    private final List<RealEstate> mItemRealEstate;
 
     private final Context mContext;
 
@@ -39,14 +38,14 @@ class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.mType.setText(mItemRealEstate.get(position).getmType());
-        holder.mTown.setText(mItemRealEstate.get(position).getmAddress());
+        holder.mType.setText(mItemRealEstate.get(position).getType());
+        holder.mTown.setText(mItemRealEstate.get(position).getAddress());
 
-        String price = String.valueOf(mItemRealEstate.get(position).getmPrice());
+        String price = String.valueOf(mItemRealEstate.get(position).getPrice());
         holder.mPrice.setText(price);
 
         Glide.with(mContext)
-                .load(mItemRealEstate.get(position).getmDrawable())
+                .load(mItemRealEstate.get(position).getDrawable())
                 .centerCrop()
                 .into(holder.mImageView);
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
