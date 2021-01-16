@@ -15,12 +15,10 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapFragmentViewModel mViewModel;
-    private FloatingActionButton mFab;
     private MapView mMapView;
 
     public static MapFragment newInstance() {
@@ -33,9 +31,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.map_fragment, container, false);
 
-        //Set the component
-        mFab = view.findViewById(R.id.fab);
-        mFab.setVisibility(View.INVISIBLE);
         mMapView = view.findViewById(R.id.mapView);
 
         //Create the map
@@ -81,6 +76,4 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
-
-
 }
