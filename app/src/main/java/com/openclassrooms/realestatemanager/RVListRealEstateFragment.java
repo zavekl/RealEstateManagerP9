@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,12 +64,12 @@ public class RVListRealEstateFragment extends Fragment {
             drawable5 = ContextCompat.getDrawable(requireContext(), R.drawable.house_five);
             drawable6 = ContextCompat.getDrawable(requireContext(), R.drawable.house_six);
         } else {
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_one, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_two, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_three, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_four, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_five, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_six, null);
+            drawable1 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_one, null);
+            drawable2 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_two, null);
+            drawable3 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_three, null);
+            drawable4 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_four, null);
+            drawable5 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_five, null);
+            drawable6 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_six, null);
         }
 
         mItemRealEstate = Arrays.asList(

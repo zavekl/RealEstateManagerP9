@@ -21,7 +21,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
-public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class MainActivity extends AppCompatActivity  {
     private static final String TAG = "MainActivity";
 
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -40,84 +40,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-
-        askPermissions();
-    }
-
-    //Set XML
-    private void setView() {
-        ViewPager mViewPager = findViewById(R.id.view_pager);
-        TabLayout mTabLayout = findViewById(R.id.tab_layout);
-
-        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mViewPager.setAdapter(mViewPagerAdapter);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-    }
-
-    @AfterPermissionGranted(123)
-    private void askPermissions() {
-        if (EasyPermissions.hasPermissions(this, permissions)) {
-            Log.d(TAG, "askPermissions: has permissions");
-            setView();
-        } else {
-            Log.d(TAG, "askPermissions: hasn't permissions");
-            EasyPermissions.requestPermissions(this, "We need permissions for the map.",
-                    123, permissions);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(TAG, "onRequestPermissionsResult: start");
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        if (EasyPermissions.hasPermissions(this, permissions)) {
-            Log.d(TAG, "onPermissionsGranted: has permissions");
-            setView();
-        }
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        boolean toast = false;
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            Log.d(TAG, "onPermissionsDenied: permanently denied");
-            new AppSettingsDialog.Builder(this).build().show();
-            toast = true;
-        }
-        if (!toast) {
-            Log.d(TAG, "onPermissionsDenied: denied");
-            displayToastIfPermsDenied();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-            Log.d(TAG, "onActivityResult: request code is the same");
-            if (displayToastIfPermsDenied()) {
-                Log.d(TAG, "onActivityResult: set the view");
-                setView();
-            }
-        }
-    }
-
-    //Toast if permissions denied
-    private boolean displayToastIfPermsDenied() {
-        if (EasyPermissions.somePermissionDenied(this, permissions)) {
-            Utils.getEmojiByUnicode(0x26A0);
-            Toast.makeText(this, (Utils.getEmojiByUnicode(0x26A0)) + "Warn This application will not work normally, please restart the application." +
-                    (Utils.getEmojiByUnicode(0x26A0)), Toast.LENGTH_LONG).show();
-            return false;
-        } else {
-            return true;
-        }
     }
 }
 
