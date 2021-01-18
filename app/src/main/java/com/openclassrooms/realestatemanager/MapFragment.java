@@ -92,7 +92,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
     private void askPermissions() {
         if (!EasyPermissions.hasPermissions(requireContext(), permissions)) {
             Log.d(TAG, "askPermissions: hasn't permissions");
-            EasyPermissions.requestPermissions(this, "We need permissions for the map.",
+            EasyPermissions.requestPermissions(this, requireContext().getResources().getString(R.string.permissions_denied),
                     123, permissions);
         } else {
             Log.d(TAG, "askPermissions: has permissions");
@@ -140,7 +140,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
     private void displayToastIfPermsDenied() {
         if (EasyPermissions.somePermissionDenied(this, permissions)) {
             Utils.getEmojiByUnicode(0x26A0);
-            Toast.makeText(requireContext(), (Utils.getEmojiByUnicode(0x26A0)) + "Warn This application will not work normally, please restart the application." +
+            Toast.makeText(requireContext(), (Utils.getEmojiByUnicode(0x26A0)) + requireContext().getResources().getString(R.string.permissions_toast_denied) +
                     (Utils.getEmojiByUnicode(0x26A0)), Toast.LENGTH_LONG).show();
         }
     }

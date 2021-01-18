@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
+
     <string name="map">Map</string>
     <string name="real_estate">Real Estate</string>
+
+    <string name="permissions_toast_denied">This application will not work normally. Please, accept the location permission.</string>
+    <string name="permissions_denied">We need permissions for the map.</string>
+
 </resources>
