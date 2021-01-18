@@ -21,7 +21,6 @@ import java.util.List;
 public class RVListRealEstateFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<RealEstate> mItemRealEstate;
-    private Drawable drawable1, drawable2, drawable3, drawable4, drawable5, drawable6;
     private RVListRealEstateViewModel mViewModel;
 
     public static RVListRealEstateFragment newInstance() {
@@ -55,6 +54,12 @@ public class RVListRealEstateFragment extends Fragment {
     }
 
     private void setDatasRV() {
+        Drawable drawable1;
+        Drawable drawable2;
+        Drawable drawable3;
+        Drawable drawable4;
+        Drawable drawable5;
+        Drawable drawable6;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             drawable1 = ContextCompat.getDrawable(requireContext(), R.drawable.house_one);
             drawable2 = ContextCompat.getDrawable(requireContext(), R.drawable.house_two);
@@ -63,12 +68,12 @@ public class RVListRealEstateFragment extends Fragment {
             drawable5 = ContextCompat.getDrawable(requireContext(), R.drawable.house_five);
             drawable6 = ContextCompat.getDrawable(requireContext(), R.drawable.house_six);
         } else {
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_one, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_two, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_three, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_four, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_five, null);
-            ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_six, null);
+            drawable1 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_one, null);
+            drawable2 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_two, null);
+            drawable3 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_three, null);
+            drawable4 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_four, null);
+            drawable5 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_five, null);
+            drawable6 = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.house_six, null);
         }
 
         mItemRealEstate = Arrays.asList(

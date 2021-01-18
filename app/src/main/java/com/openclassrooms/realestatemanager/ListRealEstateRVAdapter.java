@@ -20,7 +20,6 @@ import java.util.List;
  */
 class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
     private final List<RealEstate> mItemRealEstate;
-
     private final Context mContext;
 
     public ListRealEstateRVAdapter(List<RealEstate> mItemRealEstate, Context context) {
