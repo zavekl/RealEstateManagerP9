@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +21,6 @@ import java.util.List;
 public class RVListRealEstateFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<RealEstate> mItemRealEstate;
-    private Drawable drawable1, drawable2, drawable3, drawable4, drawable5, drawable6;
     private RVListRealEstateViewModel mViewModel;
 
     public static RVListRealEstateFragment newInstance() {
@@ -56,6 +54,12 @@ public class RVListRealEstateFragment extends Fragment {
     }
 
     private void setDatasRV() {
+        Drawable drawable1;
+        Drawable drawable2;
+        Drawable drawable3;
+        Drawable drawable4;
+        Drawable drawable5;
+        Drawable drawable6;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             drawable1 = ContextCompat.getDrawable(requireContext(), R.drawable.house_one);
             drawable2 = ContextCompat.getDrawable(requireContext(), R.drawable.house_two);
