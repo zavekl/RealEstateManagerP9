@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,6 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.openclassrooms.realestatemanager.adapter.ListRealEstateRVAdapter;
+import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.viewmodel.RVListRealEstateViewModel;
+import com.openclassrooms.realestatemanager.model.RealEstate;
 
 import java.util.Arrays;
 import java.util.List;

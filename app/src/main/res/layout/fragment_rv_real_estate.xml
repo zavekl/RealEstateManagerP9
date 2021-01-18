@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:context=".MainActivity"
+        tools:context=".activity.MainActivity"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/rv_item_real_estate" />
 </androidx.constraintlayout.widget.ConstraintLayout>

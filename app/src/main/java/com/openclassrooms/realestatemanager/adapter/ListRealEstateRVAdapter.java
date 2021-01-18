@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.activity.DescriptionRealEstateActivity;
+import com.openclassrooms.realestatemanager.model.RealEstate;
 
 import java.util.List;
 
 /**
  * Created by <NIATEL Brice> on <16/02/2020>.
  */
-class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
+public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
     private final List<RealEstate> mItemRealEstate;
     private final Context mContext;
 
@@ -50,7 +53,7 @@ class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapt
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,DescriptionRealEstateActivity.class);
+                Intent intent = new Intent(mContext, DescriptionRealEstateActivity.class);
                 mContext.startActivity(intent);
             }
         });
@@ -69,7 +72,7 @@ class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapt
         }
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView mType;
         final TextView mTown;
         final TextView mPrice;
