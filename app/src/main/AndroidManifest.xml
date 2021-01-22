@@ -20,14 +20,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name="com.openclassrooms.realestatemanager.MainActivity">
+        <activity android:name="com.openclassrooms.realestatemanager.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.openclassrooms.realestatemanager.DescriptionRealEstateActivity" />
+        <activity android:name="com.openclassrooms.realestatemanager.activity.DescriptionRealEstateActivity" />
     </application>
 
 </manifest>
