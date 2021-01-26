@@ -22,7 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.realestatemanager.viewmodel.MapFragmentViewModel;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.model.Utils;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.List;
 

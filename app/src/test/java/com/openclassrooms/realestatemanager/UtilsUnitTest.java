@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager;
 
-import com.openclassrooms.realestatemanager.model.Utils;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import org.junit.Test;
 import org.mockito.Mockito;

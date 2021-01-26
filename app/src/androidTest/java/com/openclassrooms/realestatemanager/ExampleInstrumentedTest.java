@@ -8,7 +8,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.openclassrooms.realestatemanager.activity.MainActivity;
-import com.openclassrooms.realestatemanager.model.Utils;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import org.junit.Rule;
 import org.junit.Test;
