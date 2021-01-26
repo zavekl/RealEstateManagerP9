@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.model;
+package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,18 +6,14 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.util.Base64;
-import android.util.Log;
 
 import androidx.room.TypeConverter;
 
 import java.io.ByteArrayOutputStream;
-import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Philippe on 21/02/2018.
