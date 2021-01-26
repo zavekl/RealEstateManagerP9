@@ -6,34 +6,35 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
 
 import java.util.List;
 
 public class RVListRealEstateViewModel extends AndroidViewModel {
-    private final RealEstateRepository realEstateRepository;
-    private LiveData<List<RealEstate>> mAllRealestates;
+    private final RealEstateRepository mRealEstateRepository;
+    private LiveData<List<Long>> mAllRealestates;
 
     public RVListRealEstateViewModel(@NonNull Application application) {
         super(application);
-        realEstateRepository = new RealEstateRepository(application);
-        mAllRealestates = realEstateRepository.getAllRealEstates();
+        mRealEstateRepository = ((MyApplication) application).getContainerDependencies().getRealEstateRepository();
+        mAllRealestates = mRealEstateRepository.getAllIdRealEstate();
     }
 
     public void insert(RealEstate realEstate) {
-        realEstateRepository.insert(realEstate);
+        mRealEstateRepository.insert(realEstate);
     }
 
     public void update(RealEstate realEstate) {
-        realEstateRepository.update(realEstate);
+        mRealEstateRepository.update(realEstate);
     }
 
     public void delete(RealEstate realEstate) {
-        realEstateRepository.delete(realEstate);
+        mRealEstateRepository.delete(realEstate);
     }
 
-    public LiveData<List<RealEstate>> getAllRealestates() {
+    public LiveData<List<Long>> getAllIdRealEstate() {
         return mAllRealestates;
     }
 }

@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,13 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.activity.DescriptionRealEstateActivity;
+import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.model.RealEstate;
-import com.openclassrooms.realestatemanager.model.Utils;
+import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +31,23 @@ import java.util.List;
 public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
     private static final String TAG = "ListRERVAdapter";
     private List<RealEstate> mItemRealEstate = new ArrayList<>();
-    private final Context mContext;
+    private List<Long> mItemIdRealEstate = new ArrayList<>();
 
-    public ListRealEstateRVAdapter(Context context) {
-        mContext = context;
+    private final Activity activity;
+    private final RealEstateRepository mRealEstateRepository;
+
+    public ListRealEstateRVAdapter(Activity activity) {
+        Log.d(TAG, "ListRealEstateRVAdapter: ");
+        this.activity = activity;
+        mRealEstateRepository = ((MyApplication) activity.getApplicationContext()).getContainerDependencies().getRealEstateRepository();
+        mRealEstateRepository.getAllIdRealEstate().observe((LifecycleOwner) this.activity, new Observer<List<Long>>() {
+            @Override
+            public void onChanged(List<Long> longs) {
+                Log.d(TAG, "onChanged: " + longs);
+                mItemIdRealEstate = longs;
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @NonNull
@@ -42,38 +59,37 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: item : " + position);
-        holder.mType.setText(mItemRealEstate.get(position).getType());
-        holder.mTown.setText(mItemRealEstate.get(position).getAddress());
+        mRealEstateRepository.getRealEstateById(mItemIdRealEstate.get(position)).observe((LifecycleOwner) activity, new Observer<RealEstate>() {
+            @Override
+            public void onChanged(RealEstate realEstate) {
+                holder.mType.setText(realEstate.getType());
+                holder.mTown.setText(realEstate.getAddress());
+                holder.mPrice.setText(String.valueOf(realEstate.getPrice()));
 
-        String price = String.valueOf(mItemRealEstate.get(position).getPrice());
-        holder.mPrice.setText(price);
-
-        Glide.with(mContext)
-                .load(Utils.StringToBitMap(mItemRealEstate.get(position).getImage()))
-                .centerCrop()
-                .into(holder.mImageView);
+                Glide.with(activity)
+                        .load(Utils.StringToBitMap(realEstate.getImage()))
+                        .centerCrop()
+                        .into(holder.mImageView);
+            }
+        });
 
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, DescriptionRealEstateActivity.class);
-                Log.d(TAG, "onClick: " + mItemRealEstate.get(position).getId());
-                intent.putExtra("id", mItemRealEstate.get(position).getId());
-                mContext.startActivity(intent);
+                Intent intent = new Intent(activity, DescriptionRealEstateActivity.class);
+                Log.d(TAG, "onClick: " + mItemIdRealEstate.get(position));
+                intent.putExtra("id", mItemIdRealEstate.get(position));
+                activity.startActivity(intent);
             }
         });
     }
 
-    public void setRealEstate(List<RealEstate> realEstate) {
-        this.mItemRealEstate = realEstate;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
-        return mItemRealEstate.size();
+        Log.d(TAG, "getItemCount: ");
+        return mItemIdRealEstate.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
