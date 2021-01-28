@@ -1,17 +1,18 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
-import java.net.InetAddress;
+import com.openclassrooms.realestatemanager.BuildConfig;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -71,7 +72,39 @@ public class Utils {
     }
 
     //Get Emoji by unicode
-    public static String getEmojiByUnicode(int unicode){
+    public static String getEmojiByUnicode(int unicode) {
         return new String(Character.toChars(unicode));
+    }
+
+    public static Boolean checkFirstRun(Context context) {
+        boolean result = false;
+        final String PREFS_NAME = "MyPrefsFile";
+        final String PREF_VERSION_CODE_KEY = "version_code";
+        final int DOESNT_EXIST = -1;
+
+        // Get current version code
+        int currentVersionCode = BuildConfig.VERSION_CODE;
+
+        // Get saved version code
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+        // Check for first run or upgrade
+        if (currentVersionCode == savedVersionCode) {
+
+            // This is just a normal run
+            result = false;
+
+        } else if (savedVersionCode == DOESNT_EXIST) {
+            result = true;
+
+        } else if (currentVersionCode > savedVersionCode) {
+            // TODO Faut il recreer les fichiers lors d'une upgrade?
+            result = false;
+
+        }
+        // Update the shared preferences with the current version code
+        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+        return result;
     }
 }

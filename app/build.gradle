@@ -52,4 +52,9 @@ dependencies {
 
     //EASYPERMISSIONS
     implementation 'pub.devrel:easypermissions:3.0.0'
+
+    //ROOM
+    implementation "androidx.room:room-rxjava2:2.2.6"
+    implementation "androidx.room:room-runtime:2.2.6"
+    annotationProcessor "androidx.room:room-compiler:2.2.6"
 }

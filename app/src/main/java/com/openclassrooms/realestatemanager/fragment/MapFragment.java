@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -20,6 +20,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.openclassrooms.realestatemanager.viewmodel.MapFragmentViewModel;
+import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.List;
 
@@ -35,10 +38,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
 
     private MapFragmentViewModel mViewModel;
     private MapView mMapView;
-
-    public static MapFragment newInstance() {
-        return new MapFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
