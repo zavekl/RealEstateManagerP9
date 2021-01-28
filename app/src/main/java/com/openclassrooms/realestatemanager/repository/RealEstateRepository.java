@@ -1,18 +1,14 @@
 package com.openclassrooms.realestatemanager.repository;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.bdd.RealEstateDao;
 import com.openclassrooms.realestatemanager.bdd.RealEstateDatabase;
 import com.openclassrooms.realestatemanager.model.RealEstate;
-import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.List;
 
@@ -22,13 +18,13 @@ import java.util.List;
 public class RealEstateRepository {
     private static final String TAG = "RealEstateRepository";
     private final RealEstateDao mRealEstateDao;
-    private final LiveData<List<Long>> mAllIdRealEstates;
+    private final LiveData<List<RealEstate>> mAllIdRealEstates;
 
     public RealEstateRepository(Context context) {
         Log.d(TAG, "RealEstateRepository: ");
         RealEstateDatabase database = RealEstateDatabase.getInstance(context);
         mRealEstateDao = database.realEstateDao();
-        mAllIdRealEstates = mRealEstateDao.getAllIdRealEstate();
+        mAllIdRealEstates = mRealEstateDao.getAllRealEstate();
     }
 
     public void insert(RealEstate realEstate) {
@@ -46,15 +42,16 @@ public class RealEstateRepository {
         new DeleteRealEstateAsyncTask(mRealEstateDao).execute(realEstate);
     }
 
-    public LiveData<RealEstate> getRealEstateById(long id) {
-        Log.d(TAG, "getRealEstateById: ");
-        return mRealEstateDao.getRealEstateById(id);
-    }
-
-    public LiveData<List<Long>> getAllIdRealEstate() {
+    public LiveData<List<RealEstate>> getAllRealEstate() {
         Log.d(TAG, "getAllIdRealEstate: ");
         return mAllIdRealEstates;
     }
+
+    public LiveData<RealEstate> getRealEstateById(long id) {
+        Log.d(TAG, "getAllIdRealEstate: ");
+        return mRealEstateDao.getRealEstateById(id);
+    }
+
 
     private static class InsertRealEstateAsyncTask extends AsyncTask<RealEstate, Void, Void> {
         private final RealEstateDao mRealEstateDao;

@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
-
 /**
  * Created by <NIATEL Brice> on <16/12/2020>.
  */
@@ -19,13 +17,17 @@ public class RealEstate {
     @ColumnInfo(name = "price")
     private int mPrice;
     @ColumnInfo(name = "surface")
-    private float mSurface;
+    private String mSurface;
     @ColumnInfo(name = "piece_number")
     private int mPieceNumber;
+    @ColumnInfo(name = "bedroom_number")
+    private int mBedroomNumber;
+    @ColumnInfo(name = "bathroom_number")
+    private int mBathroomNumber;
     @ColumnInfo(name = "description")
     private String mDescription;
     @ColumnInfo(name = "address")
-    private String mAddress;
+    private Address mAddress;
     @ColumnInfo(name = "pointofinterest")
     private String mPointOfInterest;
     @ColumnInfo(name = "buy")
@@ -39,17 +41,20 @@ public class RealEstate {
     @ColumnInfo(name = "agent")
     private String mRealEstateAgent;
 
-    public RealEstate(String mType, int mPrice, float mSurface, int mPieceNumber, String mDescription, String mAddress, String mPointOfInterest,
-                      boolean mBuy, String image, String mIncomingDate, String mDateOfSale, String mRealEstateAgent) {
+    public RealEstate(String mType, int mPrice, String mSurface, int mPieceNumber, int mBedroomNumber, int mBathroomNumber,
+                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, String mImage, String mIncomingDate,
+                      String mDateOfSale, String mRealEstateAgent) {
         this.mType = mType;
         this.mPrice = mPrice;
         this.mSurface = mSurface;
         this.mPieceNumber = mPieceNumber;
+        this.mBedroomNumber = mBedroomNumber;
+        this.mBathroomNumber = mBathroomNumber;
         this.mDescription = mDescription;
         this.mAddress = mAddress;
         this.mPointOfInterest = mPointOfInterest;
-        this.mImage = image;
         this.mBuy = mBuy;
+        this.mImage = mImage;
         this.mIncomingDate = mIncomingDate;
         this.mDateOfSale = mDateOfSale;
         this.mRealEstateAgent = mRealEstateAgent;
@@ -71,11 +76,11 @@ public class RealEstate {
         this.mPrice = price;
     }
 
-    public float getSurface() {
+    public String getSurface() {
         return mSurface;
     }
 
-    public void setSurface(float surface) {
+    public void setSurface(String surface) {
         this.mSurface = surface;
     }
 
@@ -95,11 +100,11 @@ public class RealEstate {
         this.mDescription = description;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return mAddress;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.mAddress = address;
     }
 
@@ -157,5 +162,21 @@ public class RealEstate {
 
     public void setImage(String image) {
         this.mImage = image;
+    }
+
+    public int getBedroomNumber() {
+        return mBedroomNumber;
+    }
+
+    public void setBedroomNumber(int mBedroomNumber) {
+        this.mBedroomNumber = mBedroomNumber;
+    }
+
+    public int getBathroomNumber() {
+        return mBathroomNumber;
+    }
+
+    public void setBathroomNumber(int mBathroomNumber) {
+        this.mBathroomNumber = mBathroomNumber;
     }
 }

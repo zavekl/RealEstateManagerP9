@@ -25,8 +25,8 @@ public interface RealEstateDao {
     @Delete
     void deleteRealEstate(RealEstate realEstate);
 
-    @Query("SELECT id FROM realEstate")
-    LiveData<List<Long>> getAllIdRealEstate();
+    @Query("SELECT * FROM realEstate")
+    LiveData<List<RealEstate>> getAllRealEstate();
 
     @Query("SELECT * FROM realEstate WHERE id=:id")
     LiveData<RealEstate> getRealEstateById(long id);

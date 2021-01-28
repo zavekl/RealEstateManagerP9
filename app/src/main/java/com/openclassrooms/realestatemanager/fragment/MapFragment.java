@@ -39,10 +39,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
     private MapFragmentViewModel mViewModel;
     private MapView mMapView;
 
-    public static MapFragment newInstance() {
-        return new MapFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
