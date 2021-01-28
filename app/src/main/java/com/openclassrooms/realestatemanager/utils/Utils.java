@@ -1,19 +1,18 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import android.util.Base64;
 
-import androidx.room.TypeConverter;
+import com.openclassrooms.realestatemanager.BuildConfig;
 
-import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -77,24 +76,35 @@ public class Utils {
         return new String(Character.toChars(unicode));
     }
 
-    @TypeConverter
-    public static String BitMapToString(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        return Base64.encodeToString(b, Base64.DEFAULT);
-    }
+    public static Boolean checkFirstRun(Context context) {
+        boolean result = false;
+        final String PREFS_NAME = "MyPrefsFile";
+        final String PREF_VERSION_CODE_KEY = "version_code";
+        final int DOESNT_EXIST = -1;
 
-    @TypeConverter
-    public static Bitmap StringToBitMap(String encodedString) {
-        try {
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        // Get current version code
+        int currentVersionCode = BuildConfig.VERSION_CODE;
 
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
+        // Get saved version code
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+        // Check for first run or upgrade
+        if (currentVersionCode == savedVersionCode) {
+
+            // This is just a normal run
+            result = false;
+
+        } else if (savedVersionCode == DOESNT_EXIST) {
+            result = true;
+
+        } else if (currentVersionCode > savedVersionCode) {
+            // TODO Faut il recreer les fichiers lors d'une upgrade?
+            result = false;
+
         }
-
+        // Update the shared preferences with the current version code
+        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+        return result;
     }
 }
