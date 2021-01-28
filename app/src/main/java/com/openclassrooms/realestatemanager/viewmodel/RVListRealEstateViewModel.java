@@ -14,12 +14,12 @@ import java.util.List;
 
 public class RVListRealEstateViewModel extends AndroidViewModel {
     private final RealEstateRepository mRealEstateRepository;
-    private LiveData<List<Long>> mAllRealestates;
+    private final LiveData<List<RealEstate>> mAllRealestates;
 
     public RVListRealEstateViewModel(@NonNull Application application) {
         super(application);
         mRealEstateRepository = ((MyApplication) application).getContainerDependencies().getRealEstateRepository();
-        mAllRealestates = mRealEstateRepository.getAllIdRealEstate();
+        mAllRealestates = mRealEstateRepository.getAllRealEstate();
     }
 
     public void insert(RealEstate realEstate) {
@@ -34,7 +34,7 @@ public class RVListRealEstateViewModel extends AndroidViewModel {
         mRealEstateRepository.delete(realEstate);
     }
 
-    public LiveData<List<Long>> getAllIdRealEstate() {
+    public LiveData<List<RealEstate>> getAllRealEstate() {
         return mAllRealestates;
     }
 }
