@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
-        if(Utils.checkFirstRun(this)){
+        if (Utils.checkFirstRun(this)) {
             savePhotoInApp();
         }
         Log.d(TAG, "onCreate: end");
@@ -44,17 +45,29 @@ public class MainActivity extends AppCompatActivity {
         InternalFilesRepository internalFilesRepository = ((MyApplication) getApplication()).getContainerDependencies().getInternalFilesRepository();
 
         Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.house_one);
-        internalFilesRepository.setFile("creationDb1", bitmap1);
+        if (internalFilesRepository.setFile("creationDb1", bitmap1)) {
+            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
+        }
         Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.house_two);
-        internalFilesRepository.setFile("creationDb2", bitmap2);
+        if (internalFilesRepository.setFile("creationDb2", bitmap2)) {
+            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
+        }
         Bitmap bitmap3 = BitmapFactory.decodeResource(getResources(), R.drawable.house_three);
-        internalFilesRepository.setFile("creationDb3", bitmap3);
+        if (internalFilesRepository.setFile("creationDb3", bitmap3)) {
+            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
+        }
         Bitmap bitmap4 = BitmapFactory.decodeResource(getResources(), R.drawable.house_four);
-        internalFilesRepository.setFile("creationDb4", bitmap4);
+        if (internalFilesRepository.setFile("creationDb4", bitmap4)) {
+            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
+        }
         Bitmap bitmap5 = BitmapFactory.decodeResource(getResources(), R.drawable.house_five);
-        internalFilesRepository.setFile("creationDb5", bitmap5);
+        if (internalFilesRepository.setFile("creationDb5", bitmap5)) {
+            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
+        }
         Bitmap bitmap6 = BitmapFactory.decodeResource(getResources(), R.drawable.house_six);
-        internalFilesRepository.setFile("creationDb6", bitmap6);
+        if (internalFilesRepository.setFile("creationDb6", bitmap6)) {
+            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
+        }
     }
 }
 
