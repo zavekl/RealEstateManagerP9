@@ -42,8 +42,10 @@ public class InternalFilesRepository {
         return availableBlocks * blockSize > MEMORY;
     }
 
-    public void setFile(String name, Bitmap bitmapImage) {
+    public boolean setFile(String name, Bitmap bitmapImage) {
+        boolean result;
         if (checkSpaceMemory()) {
+            result = false;
             File directory = mContext.getDir("imageDir", Context.MODE_PRIVATE); // path to /data/data/yourapp/app_data/imageDir
             File mypath = new File(directory, name + ".jpg");
 
@@ -52,6 +54,7 @@ public class InternalFilesRepository {
                 fos = new FileOutputStream(mypath);
                 // Use the compress method on the BitMap object to write image to the OutputStream
                 bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                result = true;
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(TAG, "setFile: ", e);
@@ -69,9 +72,9 @@ public class InternalFilesRepository {
                 }
             }
         } else {
-            Toast.makeText(mContext, mContext.getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
+            result = true;
         }
-
+        return result;
     }
 
     public Bitmap getFile(String name) {
@@ -86,37 +89,4 @@ public class InternalFilesRepository {
         }
         return null;
     }
-
-
-//    public String getFile(String filename) {
-//        File file = new File(mContext.getFilesDir(), filename);
-//
-//        if (!file.exists()) {
-//            Log.d(TAG, "getFile: file does not exist");
-//            return null;
-//        }
-//
-//        FileInputStream fis = null;
-//        String textContent = "";
-//
-//        try {
-//            fis = new FileInputStream(file);
-//            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-//            textContent = br.readLine();
-//        } catch (Exception e) {
-//            Log.e(TAG, "getFile: ", e);
-//        } finally {
-//            if (fis != null) {
-//                Log.d(TAG, "getFile: Read Successfully");
-//                try {
-//                    fis.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    Log.d(TAG, "getFile: Failed to read");
-//                }
-//            }
-//        }
-//        Log.d(TAG, "getFile: " + textContent);
-//        return textContent;
-//    }
 }
