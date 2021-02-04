@@ -60,8 +60,11 @@ public class DescriptionRealEstateFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
 
+        long id = getArguments().getLong(Constants.BUNDLE_ID);
+        Log.d(TAG, "onActivityCreated: id = " + id);
+
         if (getArguments() != null) {
-            mViewModel.getRealestateById(getArguments().getLong(Constants.BUNDLE_ID)).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
+            mViewModel.getRealestateById(id).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
                 @Override
                 public void onChanged(RealEstate realEstate) {
                     //TODO Point d'intéret à faire
@@ -69,7 +72,7 @@ public class DescriptionRealEstateFragment extends Fragment {
 
                     mDescription.setText(realEstate.getDescription());
 
-                    mLocation1.setText(new StringBuilder(realEstate.getAddress().getNumber() + realEstate.getAddress().getStreet()));
+                    mLocation1.setText(new StringBuilder(realEstate.getAddress().getNumber() + " " + realEstate.getAddress().getStreet()));
                     mLocation2.setText(realEstate.getAddress().getPostalCode());
                     mLocation3.setText(realEstate.getAddress().getTown());
 
