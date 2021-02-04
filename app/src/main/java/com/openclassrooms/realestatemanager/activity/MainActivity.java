@@ -1,25 +1,26 @@
 package com.openclassrooms.realestatemanager.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter;
 import com.openclassrooms.realestatemanager.di.MyApplication;
-import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
-import com.openclassrooms.realestatemanager.utils.Utils;
+import com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment;
 
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+
+    private static ViewPager mViewPager;
+    private static TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,47 +28,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        mViewPager = findViewById(R.id.view_pager);
+        mTabLayout = findViewById(R.id.tab_layout);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-
-        if (Utils.checkFirstRun(this)) {
-            savePhotoInApp();
-        }
-        Log.d(TAG, "onCreate: end");
+        mViewPager.setAdapter(viewPagerAdapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        ((MyApplication) getApplication()).getContainerDependencies().getInternalFilesRepository().savePhotoInApp();
     }
 
-    private void savePhotoInApp() {
-        InternalFilesRepository internalFilesRepository = ((MyApplication) getApplication()).getContainerDependencies().getInternalFilesRepository();
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.description_fragment);
+        if (fragment instanceof DescriptionRealEstateFragment) {
+            Log.d(TAG, "onBackPressed: Description fragment is visible");
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            revealViewPager();
+        } else {
+            Log.d(TAG, "onBackPressed: Description fragment is not visible");
+            super.onBackPressed();
+        }
+    }
 
-        Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.house_one);
-        if (internalFilesRepository.setFile("creationDb1", bitmap1)) {
-            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
-        }
-        Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.house_two);
-        if (internalFilesRepository.setFile("creationDb2", bitmap2)) {
-            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
-        }
-        Bitmap bitmap3 = BitmapFactory.decodeResource(getResources(), R.drawable.house_three);
-        if (internalFilesRepository.setFile("creationDb3", bitmap3)) {
-            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
-        }
-        Bitmap bitmap4 = BitmapFactory.decodeResource(getResources(), R.drawable.house_four);
-        if (internalFilesRepository.setFile("creationDb4", bitmap4)) {
-            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
-        }
-        Bitmap bitmap5 = BitmapFactory.decodeResource(getResources(), R.drawable.house_five);
-        if (internalFilesRepository.setFile("creationDb5", bitmap5)) {
-            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
-        }
-        Bitmap bitmap6 = BitmapFactory.decodeResource(getResources(), R.drawable.house_six);
-        if (internalFilesRepository.setFile("creationDb6", bitmap6)) {
-            Toast.makeText(this, getResources().getText(R.string.insufficient_memory), Toast.LENGTH_LONG).show();
-        }
+    public static void hideViewPager() {
+        mTabLayout.setVisibility(View.INVISIBLE);
+        mViewPager.setVisibility(View.INVISIBLE);
+    }
+
+    private void revealViewPager() {
+        mTabLayout.setVisibility(View.VISIBLE);
+        mViewPager.setVisibility(View.VISIBLE);
     }
 }
 

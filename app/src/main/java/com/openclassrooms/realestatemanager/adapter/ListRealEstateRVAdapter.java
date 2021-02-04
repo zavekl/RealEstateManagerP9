@@ -1,8 +1,8 @@
 package com.openclassrooms.realestatemanager.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.Constants;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.activity.DescriptionRealEstateActivity;
+import com.openclassrooms.realestatemanager.activity.MainActivity;
 import com.openclassrooms.realestatemanager.di.MyApplication;
+import com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment;
+import com.openclassrooms.realestatemanager.fragment.RVListRealEstateFragment;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
 
@@ -32,13 +34,17 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
 
     private List<RealEstate> mItemRealEstate = new ArrayList<>();
 
-    private final Activity activity;
+    private final Activity mActivity;
+
     private final InternalFilesRepository mInternalFilesRepository;
 
-    public ListRealEstateRVAdapter(Activity activity) {
+    private final RVListRealEstateFragment mRvListRealEstateFragment;
+
+    public ListRealEstateRVAdapter(Activity mActivity, RVListRealEstateFragment rvListRealEstateFragment) {
         Log.d(TAG, "ListRealEstateRVAdapter: ");
-        this.activity = activity;
-        mInternalFilesRepository = ((MyApplication) activity.getApplicationContext()).getContainerDependencies().getInternalFilesRepository();
+        this.mActivity = mActivity;
+        mRvListRealEstateFragment = rvListRealEstateFragment;
+        mInternalFilesRepository = ((MyApplication) mActivity.getApplicationContext()).getContainerDependencies().getInternalFilesRepository();
     }
 
     @NonNull
@@ -64,7 +70,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
         //Image
         Bitmap image = mInternalFilesRepository.getFile(mItemRealEstate.get(position).getImage());
         Log.d(TAG, "onBindViewHolder: " + image);
-        Glide.with(activity)
+        Glide.with(mActivity)
                 .load(image)
                 .centerCrop()
                 .into(holder.mImageView);
@@ -73,10 +79,18 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, DescriptionRealEstateActivity.class);
-                Log.d(TAG, "onClick: " + mItemRealEstate.get(position));
-                intent.putExtra(Constants.INTENT_ID, mItemRealEstate.get(position).getId());
-                activity.startActivity(intent);
+                DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
+
+                Bundle bundle = new Bundle();
+                bundle.putLong(Constants.BUNDLE_ID, mItemRealEstate.get(position).getId());
+
+                fragment.setArguments(bundle);
+
+                mRvListRealEstateFragment.getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
+                        .add(R.id.description_fragment, fragment, null)
+                        .commit();
+
+                MainActivity.hideViewPager();
             }
         });
     }

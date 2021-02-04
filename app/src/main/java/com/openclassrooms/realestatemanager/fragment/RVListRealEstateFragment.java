@@ -18,13 +18,11 @@ import com.openclassrooms.realestatemanager.adapter.ListRealEstateRVAdapter;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.viewmodel.RVListRealEstateViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RVListRealEstateFragment extends Fragment {
-    private List<RealEstate> mRealEstate = new ArrayList<>();
-
     private ListRealEstateRVAdapter mAdapter;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -35,13 +33,14 @@ public class RVListRealEstateFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RVListRealEstateViewModel mViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())).
-                get(RVListRealEstateViewModel.class);
+//        RVListRealEstateViewModel mViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())).
+//                get(RVListRealEstateViewModel.class);
+        RVListRealEstateViewModel mViewModel = new ViewModelProvider(this).get(RVListRealEstateViewModel.class);
+
         mViewModel.getAllRealEstate().observe((LifecycleOwner) requireContext(), new Observer<List<RealEstate>>() {
             @Override
             public void onChanged(List<RealEstate> realEstates) {
-                mRealEstate = realEstates;
-                mAdapter.setItems(mRealEstate);
+                mAdapter.setItems(realEstates);
             }
         });
 
@@ -51,7 +50,7 @@ public class RVListRealEstateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView mRecyclerView = view.findViewById(R.id.rv_real_estate);
-        mAdapter = new ListRealEstateRVAdapter(requireActivity());
+        mAdapter = new ListRealEstateRVAdapter(requireActivity(), this);
         mRecyclerView.setAdapter(mAdapter);
     }
 }
