@@ -6,9 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +28,6 @@ public class InternalFilesRepository {
 
     public InternalFilesRepository(Context mContext) {
         this.mContext = mContext;
-
     }
 
     private boolean checkSpaceMemory() {
@@ -88,5 +87,43 @@ public class InternalFilesRepository {
             Log.e(TAG, "getFile: ", e);
         }
         return null;
+    }
+
+    public void savePhotoInApp() {
+        if (Utils.checkFirstRun(mContext)) {
+            boolean b1 = false, b2 = false, b3 = false, b4 = false, b5 = false, b6 = false;
+            Bitmap bitmap1 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.house_one);
+            if (setFile("creationDb1", bitmap1)) {
+                b1 = true;
+            }
+            Bitmap bitmap2 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.house_two);
+            if (setFile("creationDb2", bitmap2)) {
+                b2 = true;
+            }
+            Bitmap bitmap3 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.house_three);
+            if (setFile("creationDb3", bitmap3)) {
+                b3 = true;
+            }
+            Bitmap bitmap4 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.house_four);
+            if (setFile("creationDb4", bitmap4)) {
+                b4 = true;
+            }
+            Bitmap bitmap5 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.house_five);
+            if (setFile("creationDb5", bitmap5)) {
+                b5 = true;
+            }
+            Bitmap bitmap6 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.house_six);
+            if (setFile("creationDb6", bitmap6)) {
+                b6 = true;
+            }
+            if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6) {
+                Log.d(TAG, "savePhotoInApp: all saved");
+            } else {
+                Log.d(TAG, "savePhotoInApp: not enough space");
+            }
+
+        } else {
+            Log.d(TAG, "savePhotoInApp: don't need to save");
+        }
     }
 }
