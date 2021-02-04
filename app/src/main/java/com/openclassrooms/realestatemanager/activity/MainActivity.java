@@ -19,8 +19,8 @@ import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CU
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    private static ViewPager viewPager;
-    private static TabLayout tabLayout;
+    private static ViewPager mViewPager;
+    private static TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tab_layout);
+        mViewPager = findViewById(R.id.view_pager);
+        mTabLayout = findViewById(R.id.tab_layout);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        mViewPager.setAdapter(viewPagerAdapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         ((MyApplication) getApplication()).getContainerDependencies().getInternalFilesRepository().savePhotoInApp();
     }
 
@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void hideViewPager() {
-        tabLayout.setVisibility(View.INVISIBLE);
-        viewPager.setVisibility(View.INVISIBLE);
+        mTabLayout.setVisibility(View.INVISIBLE);
+        mViewPager.setVisibility(View.INVISIBLE);
     }
 
     private void revealViewPager() {
-        tabLayout.setVisibility(View.VISIBLE);
-        viewPager.setVisibility(View.VISIBLE);
+        mTabLayout.setVisibility(View.VISIBLE);
+        mViewPager.setVisibility(View.VISIBLE);
     }
 }
 

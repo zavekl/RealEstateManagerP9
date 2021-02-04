@@ -61,12 +61,7 @@ public class DescriptionRealEstateFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
 
         if (getArguments() != null) {
-            Log.d(TAG, "onActivityCreated: in if");
-
-            long mId = getArguments().getLong(Constants.BUNDLE_ID);
-            Log.d(TAG, "onActivityCreated: in if : " + mId);
-
-            mViewModel.getRealestateById(mId).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
+            mViewModel.getRealestateById(getArguments().getLong(Constants.BUNDLE_ID)).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
                 @Override
                 public void onChanged(RealEstate realEstate) {
                     //TODO Point d'intéret à faire
@@ -85,7 +80,7 @@ public class DescriptionRealEstateFragment extends Fragment {
                 }
             });
         } else {
-            Log.d(TAG, "onActivityCreated: in else");
+            Log.d(TAG, "onActivityCreated: getArguments() = null");
         }
     }
 
