@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter;
 import com.openclassrooms.realestatemanager.di.MyApplication;
+import com.openclassrooms.realestatemanager.fragment.AddRealEstateFragment;
 import com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment;
 
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.view_pager);
         mTabLayout = findViewById(R.id.tab_layout);
 
+
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(viewPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
@@ -41,12 +43,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.description_fragment);
+
         if (fragment instanceof DescriptionRealEstateFragment) {
             Log.d(TAG, "onBackPressed: Description fragment is visible");
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             revealViewPager();
-        } else {
-            Log.d(TAG, "onBackPressed: Description fragment is not visible");
+        }
+
+        if (fragment instanceof AddRealEstateFragment) {
+            Log.d(TAG, "onBackPressed: AddRealEstate fragment is visible");
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            revealViewPager();
+        }
+
+        if (!(fragment instanceof DescriptionRealEstateFragment) & !(fragment instanceof AddRealEstateFragment)) {
+            Log.d(TAG, "onBackPressed: MainActivity is visible");
             super.onBackPressed();
         }
     }
