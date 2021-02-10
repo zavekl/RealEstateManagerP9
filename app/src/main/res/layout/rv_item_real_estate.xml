@@ -1,83 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_real_estate"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorSecondary"
-    android:orientation="vertical">
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    app:cardCornerRadius="15dp"
+    app:cardBackgroundColor="@android:color/black">
 
-    <ImageView
-        android:id="@+id/rv_iv_photo"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_real_estate"
         android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:layout_marginBottom="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/rv_icon_type"
-        android:layout_width="24dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_house"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rv_tv_item_type"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+        android:background="@color/colorSecondaryVariant"
+        android:orientation="vertical"
+        android:layout_margin="2dp">
 
-    <TextView
-        android:id="@+id/rv_tv_item_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="TEST"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rv_icon_town"
-        app:layout_constraintStart_toEndOf="@id/rv_icon_type"
-        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+        <ImageView
+            android:id="@+id/rv_iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/rv_icon_town"
-        android:layout_width="24dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rv_tv_item_town"
-        app:layout_constraintStart_toEndOf="@id/rv_tv_item_type"
-        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
 
-    <TextView
-        android:id="@+id/rv_tv_item_town"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="TEST"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rv_icon_price"
-        app:layout_constraintStart_toEndOf="@id/rv_icon_town"
-        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+        <ImageView
+            android:id="@+id/rv_icon_type"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:src="@drawable/ic_house"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rv_tv_item_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
 
-    <ImageView
-        android:id="@+id/rv_icon_price"
-        android:layout_width="24dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_money"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rv_tv_item_price"
-        app:layout_constraintStart_toEndOf="@id/rv_tv_item_town"
-        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+        <TextView
+            android:id="@+id/rv_tv_item_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rv_icon_town"
+            app:layout_constraintStart_toEndOf="@id/rv_icon_type"
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo"
+            tools:text="TEST" />
 
-    <TextView
-        android:id="@+id/rv_tv_item_price"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="TEST"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/rv_icon_price"
-        app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+        <ImageView
+            android:id="@+id/rv_icon_town"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:src="@drawable/ic_location"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rv_tv_item_town"
+            app:layout_constraintStart_toEndOf="@id/rv_tv_item_type"
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+
+        <TextView
+            android:id="@+id/rv_tv_item_town"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rv_icon_price"
+            app:layout_constraintStart_toEndOf="@id/rv_icon_town"
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo"
+            tools:text="TEST" />
+
+        <ImageView
+            android:id="@+id/rv_icon_price"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:src="@drawable/ic_money"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rv_tv_item_price"
+            app:layout_constraintStart_toEndOf="@id/rv_tv_item_town"
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+
+        <TextView
+            android:id="@+id/rv_tv_item_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/rv_icon_price"
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo"
+            tools:text="TEST" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
