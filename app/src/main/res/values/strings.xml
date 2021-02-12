@@ -29,4 +29,9 @@
     <string name="bathroom">BATHROOM</string>
     <string name="create">CREATE</string>
 
+    <string name="field_empty">Field can\'t be empty</string>
+    <string name="image_view">image_view</string>
+
+    <string name="image_intent">Select image</string>
+
 </resources>
