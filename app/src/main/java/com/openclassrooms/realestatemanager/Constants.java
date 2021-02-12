@@ -5,4 +5,5 @@ package com.openclassrooms.realestatemanager;
  */
 public class Constants {
     public static final String BUNDLE_ID = "BUNDLE_ID";
+    public static final int REQUEST_CODE = 101;
 }
