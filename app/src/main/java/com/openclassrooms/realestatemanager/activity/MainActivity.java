@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setVisibility(View.INVISIBLE);
     }
 
-    private void revealViewPager() {
+    public static void revealViewPager() {
         mTabLayout.setVisibility(View.VISIBLE);
         mViewPager.setVisibility(View.VISIBLE);
     }
