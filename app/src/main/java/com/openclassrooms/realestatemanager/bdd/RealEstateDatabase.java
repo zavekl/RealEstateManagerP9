@@ -15,6 +15,8 @@ import com.openclassrooms.realestatemanager.model.Address;
 import com.openclassrooms.realestatemanager.model.Converters;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 
+import java.util.Collections;
+
 /**
  * Created by <NIATEL Brice> on <19/01/2021>.
  */
@@ -59,36 +61,35 @@ public abstract class RealEstateDatabase extends RoomDatabase {
         protected Void doInBackground(Void... voids) {
             mRealEstateDao.insertRealEstate(new RealEstate("Maison1", 120000, "520.25", 12, 4,
                     2, "Description1", new Address("1", "Rue des fleurs", "96512", "NewYork"),
-                    "Rien", false, "creationDb1", "12/2/2019", "0", "Jean"));
+                    "Rien", false, Collections.singletonList("creationDb1"), "12/2/2019", "0", "Jean"));
             Log.d(TAG, "PopulateDbAsyncTask : doInBackground: 1");
 
             mRealEstateDao.insertRealEstate(new RealEstate("Maison2", 210000, "520.25", 16, 4,
                     2, "Description2", new Address("2", "Rue des fleurs", "96512", "NewYork"),
-                    "Rien", false, "creationDb2",
-                    "12/2/2019", "0", "Jean"));
+                    "Rien", false, Collections.singletonList("creationDb2"), "12/2/2019", "0", "Jean"));
             Log.d(TAG, "PopulateDbAsyncTask : doInBackground: 2");
 
             mRealEstateDao.insertRealEstate(new RealEstate("Maison3", 170000, "520.25", 16, 4,
                     2, "Description3", new Address("3", "Rue des fleurs", "96512", "NewYork"),
-                    "Rien", false, "creationDb3",
+                    "Rien", false, Collections.singletonList("creationDb3"),
                     "12 / 2 / 2019", "0", "Jean"));
             Log.d(TAG, "PopulateDbAsyncTask : doInBackground: 3");
 
             mRealEstateDao.insertRealEstate(new RealEstate("Maison4", 260000, "520.25", 16, 4,
                     2, "Description4", new Address("4", "Rue des fleurs", "96512", "NewYork"),
-                    "Rien", false, "creationDb4",
+                    "Rien", false, Collections.singletonList("creationDb4"),
                     "12/2/2019", "0", "Jean"));
             Log.d(TAG, "PopulateDbAsyncTask : doInBackground: 4");
 
             mRealEstateDao.insertRealEstate(new RealEstate("Maison5", 190000, "520.25", 16, 4,
                     2, "Description5", new Address("5", "Rue des fleurs", "96512", "NewYork"),
-                    "Rien", false, "creationDb5",
+                    "Rien", false, Collections.singletonList("creationDb5"),
                     "12/2/2019", "0", "Jean"));
             Log.d(TAG, "PopulateDbAsyncTask : doInBackground: 5");
 
             mRealEstateDao.insertRealEstate(new RealEstate("Maison6", 230000, "520.25", 16, 4,
                     2, "Description6", new Address("6", "Rue des fleurs", "96512", "NewYork"),
-                    "Rien", false, "creationDb6",
+                    "Rien", false, Collections.singletonList("creationDb6"),
                     "12/2/2019", "0", "Jean"));
             Log.d(TAG, "PopulateDbAsyncTask : doInBackground: 6");
             return null;

@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.viewmodel;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.model.RealEstate;
+import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
 import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
 import com.openclassrooms.realestatemanager.utils.TextInputUtils;
 
@@ -17,12 +19,14 @@ import java.util.List;
 
 public class AddRealEstateViewModel extends AndroidViewModel {
     private TextInputUtils mTextInputUtils;
+
     private final RealEstateRepository mRealEstateRepository;
+    private final InternalFilesRepository mIternalFilesRepository;
 
     public AddRealEstateViewModel(@NonNull Application application) {
         super(application);
         mRealEstateRepository = ((MyApplication) application).getContainerDependencies().getRealEstateRepository();
-
+        mIternalFilesRepository = new InternalFilesRepository(application);
     }
 
     public void createTextInputUtils(AutoCompleteTextView autoCompleteTextView, TextInputEditText price, TextInputEditText description,
@@ -43,5 +47,9 @@ public class AddRealEstateViewModel extends AndroidViewModel {
 
     public void insert(RealEstate realEstate) {
         mRealEstateRepository.insert(realEstate);
+    }
+
+    public void setImageInInternalMemory(String name, Bitmap bitmap) {
+        mIternalFilesRepository.setFile(name, bitmap);
     }
 }

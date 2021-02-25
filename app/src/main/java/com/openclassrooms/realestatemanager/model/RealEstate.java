@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 /**
  * Created by <NIATEL Brice> on <16/12/2020>.
  */
@@ -33,7 +35,7 @@ public class RealEstate {
     @ColumnInfo(name = "buy")
     private boolean mBuy;
     @ColumnInfo(name = "image")
-    private String mImage;
+    private List<String> mImage;
     @ColumnInfo(name = "incoming_date")
     private String mIncomingDate;
     @ColumnInfo(name = "date_sale")
@@ -42,7 +44,7 @@ public class RealEstate {
     private String mRealEstateAgent;
 
     public RealEstate(String mType, int mPrice, String mSurface, int mPieceNumber, int mBedroomNumber, int mBathroomNumber,
-                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, String mImage, String mIncomingDate,
+                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, List<String> mImage, String mIncomingDate,
                       String mDateOfSale, String mRealEstateAgent) {
         this.mType = mType;
         this.mPrice = mPrice;
@@ -156,11 +158,11 @@ public class RealEstate {
         this.id = id;
     }
 
-    public String getImage() {
+    public List<String> getImage() {
         return mImage;
     }
 
-    public void setImage(String image) {
+    public void setImage(List<String> image) {
         this.mImage = image;
     }
 

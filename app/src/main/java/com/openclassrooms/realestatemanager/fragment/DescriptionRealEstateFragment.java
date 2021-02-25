@@ -68,7 +68,7 @@ public class DescriptionRealEstateFragment extends Fragment {
                 @Override
                 public void onChanged(RealEstate realEstate) {
                     //TODO Point d'intéret à faire
-                    mImage.setImageBitmap(mViewModel.getBitmap(realEstate.getImage()));
+                    mImage.setImageBitmap(mViewModel.getBitmap(realEstate.getImage().get(0)));
 
                     mDescription.setText(realEstate.getDescription());
 

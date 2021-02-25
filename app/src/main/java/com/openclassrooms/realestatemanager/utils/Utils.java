@@ -2,8 +2,13 @@ package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+
+import androidx.core.content.ContextCompat;
 
 import com.openclassrooms.realestatemanager.BuildConfig;
 
@@ -49,7 +54,7 @@ public class Utils {
 
     //New method
     public static String getTodayDate2() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss.SSS", Locale.getDefault());
         return dateFormat.format(new Date());
     }
 
@@ -107,4 +112,16 @@ public class Utils {
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
         return result;
     }
+
+    public static Bitmap getBitmap(int drawableRes, Context context) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableRes);
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
 }
