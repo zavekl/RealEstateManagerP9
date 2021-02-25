@@ -13,7 +13,6 @@
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:context=".activity.MainActivity"
-        tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/rv_item_real_estate" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
