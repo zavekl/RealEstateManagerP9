@@ -53,10 +53,6 @@ public class AddRealEstateFragment extends Fragment {
     private final List<Bitmap> mListBitmap = new ArrayList<>();
     private final List<String> mListBitmapNameFile = new ArrayList<>();
 
-    private String mNameFile;
-
-    private Bitmap mBitmap;
-
     private NestedScrollView mNestedScrollView;
 
     private AutoCompleteTextView mTIType;
@@ -152,6 +148,7 @@ public class AddRealEstateFragment extends Fragment {
         });
     }
 
+    //Get the photo of intent
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -159,13 +156,13 @@ public class AddRealEstateFragment extends Fragment {
             //Get the image by uri and transform it in bitmap
             Uri uri = data.getData();
             try {
-                mBitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), uri);
+                Bitmap mBitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), uri);
                 //Set grid view item
                 mAddGridViewAdapter.addItem(mBitmap);    //Or create another adapter with the data
                 mGridView.setAdapter(mAddGridViewAdapter);
 
                 //Get unique ID of file to save in memory
-                mNameFile = Utils.getTodayDate2().replace("/", ":");
+                String mNameFile = Utils.getTodayDate2().replace("/", ":");
                 mListBitmapNameFile.add(mNameFile);
             } catch (IOException e) {
                 Log.e(TAG, "onActivityResult: ", e);
