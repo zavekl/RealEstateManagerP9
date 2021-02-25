@@ -27,7 +27,7 @@ public class UtilsUnitTest {
         final Date date = Mockito.mock(Date.class);
         Mockito.when(date.getTime()).thenReturn(new Date().getTime());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd:MM:yyyy - HH:mm:ss.SSS");
         String toto = dateFormat.format(date.getTime());
 
         assertEquals(toto, Utils.getTodayDate2());
