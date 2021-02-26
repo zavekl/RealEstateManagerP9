@@ -10,5 +10,28 @@
 
     <string name="description">DESCRIPTION</string>
     <string name="location">LOCATION</string>
+    <string name="tv_creation_title">CREATE NEW REAL ESTATE</string>
+    <string name="tv_type">TYPE</string>
+    <string name="tv_description">DESCRIPTION</string>
+    <string name="tv_price">PRICE</string>
+    <string name="tv_surface">SURFACE</string>
+    <string name="tv_room_number">ROOM NUMBER</string>
+    <string name="tv_bedroom_number">BEDROOM NUMBER</string>
+    <string name="tv_bathroom_number">BATHROOM NUMBER</string>
+    <string name="tv_address">ADDRESS</string>
+    <string name="b_create">Create</string>
+    <string name="number_and_street">NUMBER AND STREET</string>
+    <string name="postal_code">POSTAL CODE</string>
+    <string name="town">TOWN</string>
+    <string name="surface">SURFACE</string>
+    <string name="room">ROOM</string>
+    <string name="bedroom">BEDROOM</string>
+    <string name="bathroom">BATHROOM</string>
+    <string name="create">CREATE</string>
+
+    <string name="field_empty">Field can\'t be empty</string>
+    <string name="image_view">image_view</string>
+
+    <string name="image_intent">Select image</string>
 
 </resources>

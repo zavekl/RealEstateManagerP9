@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 /**
  * Created by <NIATEL Brice> on <16/12/2020>.
  */
@@ -33,7 +35,7 @@ public class RealEstate {
     @ColumnInfo(name = "buy")
     private boolean mBuy;
     @ColumnInfo(name = "image")
-    private String mImage;
+    private List<String> mListPathImage;
     @ColumnInfo(name = "incoming_date")
     private String mIncomingDate;
     @ColumnInfo(name = "date_sale")
@@ -42,7 +44,7 @@ public class RealEstate {
     private String mRealEstateAgent;
 
     public RealEstate(String mType, int mPrice, String mSurface, int mPieceNumber, int mBedroomNumber, int mBathroomNumber,
-                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, String mImage, String mIncomingDate,
+                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, List<String> ListPathImage, String mIncomingDate,
                       String mDateOfSale, String mRealEstateAgent) {
         this.mType = mType;
         this.mPrice = mPrice;
@@ -54,7 +56,7 @@ public class RealEstate {
         this.mAddress = mAddress;
         this.mPointOfInterest = mPointOfInterest;
         this.mBuy = mBuy;
-        this.mImage = mImage;
+        this.mListPathImage = ListPathImage;
         this.mIncomingDate = mIncomingDate;
         this.mDateOfSale = mDateOfSale;
         this.mRealEstateAgent = mRealEstateAgent;
@@ -156,12 +158,12 @@ public class RealEstate {
         this.id = id;
     }
 
-    public String getImage() {
-        return mImage;
+    public List<String> getImage() {
+        return mListPathImage;
     }
 
-    public void setImage(String image) {
-        this.mImage = image;
+    public void setImage(List<String> image) {
+        this.mListPathImage = image;
     }
 
     public int getBedroomNumber() {

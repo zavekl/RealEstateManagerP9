@@ -32,6 +32,7 @@ import java.util.List;
 public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
     private static final String TAG = "ListRERVAdapter";
 
+    @NonNull
     private List<RealEstate> mItemRealEstate = new ArrayList<>();
 
     private final Activity mActivity;
@@ -68,7 +69,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
         holder.mPrice.setText(String.valueOf(mItemRealEstate.get(position).getPrice()));
 
         //Image
-        Bitmap image = mInternalFilesRepository.getFile(mItemRealEstate.get(position).getImage());
+        Bitmap image = mInternalFilesRepository.getFile(mItemRealEstate.get(position).getImage().get(0));
         Log.d(TAG, "onBindViewHolder: " + image);
         Glide.with(mActivity)
                 .load(image)
