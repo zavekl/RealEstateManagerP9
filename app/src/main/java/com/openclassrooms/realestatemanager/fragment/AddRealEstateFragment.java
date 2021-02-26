@@ -39,11 +39,12 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
-import static com.openclassrooms.realestatemanager.Constants.REQUEST_CODE;
 import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate2;
 
 public class AddRealEstateFragment extends Fragment {
     private static final String TAG = "AddRealEstateFragment";
+
+    private static final int REQUEST_CODE = 101;
 
     private AddRealEstateViewModel mViewModel;
 
@@ -256,7 +257,7 @@ public class AddRealEstateFragment extends Fragment {
             if (fragment != null) {
                 Log.d(TAG, "onProgressUpdate: " + values[0]);
                 double percentage = values[0];
-                fragment.mProgressBar.setProgress((int)percentage);
+                fragment.mProgressBar.setProgress((int) percentage);
             }
         }
 

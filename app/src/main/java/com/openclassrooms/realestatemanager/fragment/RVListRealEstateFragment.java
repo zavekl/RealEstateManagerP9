@@ -40,8 +40,6 @@ public class RVListRealEstateFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        RVListRealEstateViewModel mViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())).
-//                get(RVListRealEstateViewModel.class);
         RVListRealEstateViewModel mViewModel = new ViewModelProvider(this).get(RVListRealEstateViewModel.class);
 
         mViewModel.getAllRealEstate().observe((LifecycleOwner) requireContext(), new Observer<List<RealEstate>>() {

@@ -35,7 +35,7 @@ public class RealEstate {
     @ColumnInfo(name = "buy")
     private boolean mBuy;
     @ColumnInfo(name = "image")
-    private List<String> mImage;
+    private List<String> mListPathImage;
     @ColumnInfo(name = "incoming_date")
     private String mIncomingDate;
     @ColumnInfo(name = "date_sale")
@@ -44,7 +44,7 @@ public class RealEstate {
     private String mRealEstateAgent;
 
     public RealEstate(String mType, int mPrice, String mSurface, int mPieceNumber, int mBedroomNumber, int mBathroomNumber,
-                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, List<String> mImage, String mIncomingDate,
+                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, List<String> ListPathImage, String mIncomingDate,
                       String mDateOfSale, String mRealEstateAgent) {
         this.mType = mType;
         this.mPrice = mPrice;
@@ -56,7 +56,7 @@ public class RealEstate {
         this.mAddress = mAddress;
         this.mPointOfInterest = mPointOfInterest;
         this.mBuy = mBuy;
-        this.mImage = mImage;
+        this.mListPathImage = ListPathImage;
         this.mIncomingDate = mIncomingDate;
         this.mDateOfSale = mDateOfSale;
         this.mRealEstateAgent = mRealEstateAgent;
@@ -159,11 +159,11 @@ public class RealEstate {
     }
 
     public List<String> getImage() {
-        return mImage;
+        return mListPathImage;
     }
 
     public void setImage(List<String> image) {
-        this.mImage = image;
+        this.mListPathImage = image;
     }
 
     public int getBedroomNumber() {

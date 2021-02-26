@@ -63,8 +63,6 @@ public class AddGridViewAdapter extends BaseAdapter {
                     .load(mImageList.get(position))
                     .centerCrop()
                     .into(imageView);
-            //TODO mieux d'utiliser ce qu'on a deja?
-//            imageView.setImageBitmap(mImageList.get(position));
         }
         return convertView;
     }
