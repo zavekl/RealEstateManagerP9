@@ -228,6 +228,18 @@
                 android:background="@color/colorSecondary"
                 app:layout_constraintTop_toBottomOf="@id/til_add_location3" />
 
+            <TextView
+                android:id="@+id/tv_title_informations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/informations"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_add2" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_add_surface"
                 android:layout_width="0dp"
@@ -238,7 +250,7 @@
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toStartOf="@id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_add2">
+                app:layout_constraintTop_toBottomOf="@id/tv_title_informations">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ti_surface"
@@ -260,7 +272,7 @@
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideline"
-                app:layout_constraintTop_toBottomOf="@id/view_add2">
+                app:layout_constraintTop_toBottomOf="@id/tv_title_informations">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ti_room"

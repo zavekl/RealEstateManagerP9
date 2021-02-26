@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.Constants;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.adapter.DescriptionAdapter;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActivityViewModel;
 
@@ -25,7 +26,7 @@ public class DescriptionRealEstateFragment extends Fragment {
 
     private DescriptionRealEstateActivityViewModel mViewModel;
 
-    private ImageView mImage;
+    private RecyclerView mRecyclerView;
     private TextView mDescription;
     private TextView mLocation1, mLocation2, mLocation3;
     private TextView mSurface, mNumberRoom, mNumberBedroom, mNumberBathroom;
@@ -39,7 +40,7 @@ public class DescriptionRealEstateFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.description_fragment, container, false);
 
-        mImage = view.findViewById(R.id.iv_description);
+        mRecyclerView = view.findViewById(R.id.rv_description);
 
         mDescription = view.findViewById(R.id.tv_description);
 
@@ -59,6 +60,8 @@ public class DescriptionRealEstateFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
+        final DescriptionAdapter adapter = new DescriptionAdapter(requireActivity());
+        mRecyclerView.setAdapter(adapter);
 
         long id = getArguments().getLong(Constants.BUNDLE_ID);
         Log.d(TAG, "onActivityCreated: id = " + id);
@@ -68,7 +71,7 @@ public class DescriptionRealEstateFragment extends Fragment {
                 @Override
                 public void onChanged(RealEstate realEstate) {
                     //TODO Point d'intéret à faire
-                    mImage.setImageBitmap(mViewModel.getBitmap(realEstate.getImage().get(0)));
+                    adapter.setItems(realEstate.getListPathImage());
 
                     mDescription.setText(realEstate.getDescription());
 
@@ -86,5 +89,4 @@ public class DescriptionRealEstateFragment extends Fragment {
             Log.d(TAG, "onActivityCreated: getArguments() = null");
         }
     }
-
 }

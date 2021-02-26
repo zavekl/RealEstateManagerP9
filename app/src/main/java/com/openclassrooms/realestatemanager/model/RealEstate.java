@@ -44,7 +44,7 @@ public class RealEstate {
     private String mRealEstateAgent;
 
     public RealEstate(String mType, int mPrice, String mSurface, int mPieceNumber, int mBedroomNumber, int mBathroomNumber,
-                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, List<String> ListPathImage, String mIncomingDate,
+                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, List<String> mListPathImage, String mIncomingDate,
                       String mDateOfSale, String mRealEstateAgent) {
         this.mType = mType;
         this.mPrice = mPrice;
@@ -56,7 +56,7 @@ public class RealEstate {
         this.mAddress = mAddress;
         this.mPointOfInterest = mPointOfInterest;
         this.mBuy = mBuy;
-        this.mListPathImage = ListPathImage;
+        this.mListPathImage = mListPathImage;
         this.mIncomingDate = mIncomingDate;
         this.mDateOfSale = mDateOfSale;
         this.mRealEstateAgent = mRealEstateAgent;
@@ -158,11 +158,11 @@ public class RealEstate {
         this.id = id;
     }
 
-    public List<String> getImage() {
+    public List<String> getListPathImage() {
         return mListPathImage;
     }
 
-    public void setImage(List<String> image) {
+    public void setListPathImage(List<String> image) {
         this.mListPathImage = image;
     }
 
