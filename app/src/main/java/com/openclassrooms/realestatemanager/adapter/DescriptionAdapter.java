@@ -24,7 +24,7 @@ import java.util.List;
 public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.ViewHolder> {
     private List<String> mListImagePath = new ArrayList<>();
 
-    private Activity mActivity;
+    private final Activity mActivity;
 
     private final InternalFilesRepository mInternalFilesRepository;
 

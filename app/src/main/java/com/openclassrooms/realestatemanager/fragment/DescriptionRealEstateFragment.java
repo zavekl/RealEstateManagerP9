@@ -24,8 +24,6 @@ import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActiv
 public class DescriptionRealEstateFragment extends Fragment {
     private static final String TAG = "DescRealEstateFragment";
 
-    private DescriptionRealEstateActivityViewModel mViewModel;
-
     private RecyclerView mRecyclerView;
     private TextView mDescription;
     private TextView mLocation1, mLocation2, mLocation3;
@@ -59,7 +57,7 @@ public class DescriptionRealEstateFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
+        DescriptionRealEstateActivityViewModel mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
         final DescriptionAdapter adapter = new DescriptionAdapter(requireActivity());
         mRecyclerView.setAdapter(adapter);
 
