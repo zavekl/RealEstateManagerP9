@@ -38,7 +38,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
+public class MapFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = "MapFragment";
 
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -67,37 +67,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
         //Display the map immediately
         mMapView.onResume();
 
-        //Set callback
-        mMapView.getMapAsync(this);
-
         //Permissions
         askPermissions();
 
-        return view;
-    }
+        //FAB on click listener
+        setOnClickFAB();
 
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-//        mFab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                boolean locationGranted = EasyPermissions.hasPermissions(requireContext(), permissions);
-//                if (!locationGranted) {
-//                    Log.d(TAG, "onClick: location denied : " + locationGranted);
-//                    askPermissions();
-//                } else {
-//                    Log.d(TAG, "onClick: location granted");
-//                }
-//            }
-//        });
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(MapFragmentViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     //Create callback to get the location
@@ -108,7 +90,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
                 super.onLocationResult(locationResult);
                 mLatLng = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                 Log.d(TAG, "onLocationResult: Lat Lng = " + mLatLng);
-//                mViewModel.setLatlng(mLatLng);
+                //TODO Use latlgn here
 
                 if (!mIsCenter) {
                     Log.d(TAG, "onLocationResult: center camera");
@@ -118,7 +100,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
 
                     setMarkerOnCLick();
                 }
-                setOnClickFAB();
             }
         };
     }
@@ -180,6 +161,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
                 mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
 
+                //TODO Set style
 //                try {
 //                    // Customise the styling of the base map using a JSON object defined
 //                    // in a raw resource file.
@@ -212,25 +194,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
 
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume: ");
         super.onResume();
-        //TODO CHECK SI PERM ACCORDE AVANT
         mMapView.onResume();
-        //Check if a map is saved or not to load it
-        setupMapIfNeeded();
 
-        //Start location update
-        createLocationCallback();
-        mViewModel.startLocationUpdates(mLocationCallback);
+        if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
+            //Check if a map is saved or not to load it
+            setupMapIfNeeded();
+
+            //Start location update
+            createLocationCallback();
+            mViewModel.startLocationUpdates(mLocationCallback);
+        }
     }
 
     @Override
     public void onPause() {
+        Log.d(TAG, "onPause: ");
         super.onPause();
-        MapStateManager mMapStateManager = new MapStateManager(requireContext());
-        mMapStateManager.saveMapState(mGoogleMap);
-
+        if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
+            MapStateManager mMapStateManager = new MapStateManager(requireContext());
+            mMapStateManager.saveMapState(mGoogleMap);
+            mViewModel.stopLocationUpdates(mLocationCallback);
+        }
         mMapView.onPause();
-        mViewModel.stopLocationUpdates(mLocationCallback);
         mIsCenter = false;
     }
 
