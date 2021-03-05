@@ -69,7 +69,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
         holder.mPrice.setText(String.valueOf(mItemRealEstate.get(position).getPrice()));
 
         //Image
-        Bitmap image = mInternalFilesRepository.getFile(mItemRealEstate.get(position).getImage().get(0));
+        Bitmap image = mInternalFilesRepository.getFile(mItemRealEstate.get(position).getListPathImage().get(0));
         Log.d(TAG, "onBindViewHolder: " + image);
         Glide.with(mActivity)
                 .load(image)
