@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -14,44 +15,60 @@ import java.util.Objects;
  * Created by NIATEL Brice on 11/02/2021.
  */
 public class TextInputUtils {
+    private static final String TAG = "TextInputUtils";
+
     private final AutoCompleteTextView mType;
 
     private final TextInputEditText mTIPrice;
     private final TextInputEditText mTIDescription;
-    private final TextInputEditText mTINumberAndStreet;
-    private final TextInputEditText mTIPostalNumber;
-    private final TextInputEditText mTITown;
     private final TextInputEditText mTISurface;
     private final TextInputEditText mTIRoom;
     private final TextInputEditText mTIBedroom;
     private final TextInputEditText mTIBathroom;
+    private final TextInputEditText mTIAddress;
 
     private final Context mContext;
 
     public TextInputUtils(AutoCompleteTextView mType, TextInputEditText mTIPrice, TextInputEditText mTIDescription,
-                          TextInputEditText mTINumberAndStreet, TextInputEditText mTIPostalNumber, TextInputEditText mTITown,
                           TextInputEditText mTISurface, TextInputEditText mTIRoom, TextInputEditText mTIBedroom, TextInputEditText
-                                  mTIBathroom, Context mContext) {
+                                  mTIBathroom, TextInputEditText mTIAddress, Context mContext) {
         this.mType = mType;
         this.mTIPrice = mTIPrice;
         this.mTIDescription = mTIDescription;
-        this.mTINumberAndStreet = mTINumberAndStreet;
-        this.mTIPostalNumber = mTIPostalNumber;
-        this.mTITown = mTITown;
         this.mTISurface = mTISurface;
         this.mTIRoom = mTIRoom;
         this.mTIBedroom = mTIBedroom;
         this.mTIBathroom = mTIBathroom;
+        this.mTIAddress = mTIAddress;
+
         this.mContext = mContext;
     }
 
     public boolean validateAllParameters() {
-        return validateType() & validatePrice() & validateDescription() & validateNumberAndStreet() & validatePostalNumber() &
-                validateTown() & validateSurface() & validateRoom() & validateBedroom() & validateBathroom();
+        return validateType() & validatePrice() & validateDescription() & validateSurface() & validateRoom() & validateBedroom() & validateBathroom() & validateAddress();
     }
 
     public List<String> getItems() {
         return Arrays.asList("House", "Castle", "Mansion", "Duplex", "Apartment");
+    }
+
+    private boolean validateAddress() {
+        String text = Objects.requireNonNull(mTIAddress.getText().toString());
+        Log.d(TAG, "validateAddress: " + mTIAddress.getText().toString());
+        if (text.isEmpty()) {
+            Log.d(TAG, "validateAddress: empty");
+            mTIAddress.setError(mContext.getString(R.string.field_empty));
+            return false;
+        }
+        if (!Utils.validateAddress(text)) {
+            Log.d(TAG, "validateAddress: incorrect address");
+            mTIAddress.setError(mContext.getString(R.string.incorrect_address));
+            return false;
+        } else {
+            Log.d(TAG, "validateAddress: good");
+            mTIAddress.setError(null);
+            return true;
+        }
     }
 
     private boolean validateType() {
@@ -83,39 +100,6 @@ public class TextInputUtils {
             return false;
         } else {
             mTIDescription.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateNumberAndStreet() {
-        String text = Objects.requireNonNull(mTINumberAndStreet.getText().toString().trim());
-        if (text.isEmpty()) {
-            mTINumberAndStreet.setError(mContext.getString(R.string.field_empty));
-            return false;
-        } else {
-            mTINumberAndStreet.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validatePostalNumber() {
-        String text = Objects.requireNonNull(mTIPostalNumber.getText().toString().trim());
-        if (text.isEmpty()) {
-            mTIPostalNumber.setError(mContext.getString(R.string.field_empty));
-            return false;
-        } else {
-            mTIPostalNumber.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateTown() {
-        String text = Objects.requireNonNull(mTITown.getText().toString().trim());
-        if (text.isEmpty()) {
-            mTITown.setError(mContext.getString(R.string.field_empty));
-            return false;
-        } else {
-            mTITown.setError(null);
             return true;
         }
     }
