@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/add_scrollview"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D3D3D3">
@@ -32,7 +32,6 @@
                 tools:progress="40" />
 
             <GridView
-                android:scrollbars="none"
                 android:id="@+id/gridview_add"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
@@ -41,6 +40,7 @@
                 android:horizontalSpacing="0dp"
                 android:numColumns="3"
                 android:padding="20dp"
+                android:scrollbars="none"
                 android:verticalSpacing="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -156,64 +156,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_add" />
 
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_add_location1"
+                android:id="@+id/til_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_location">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ti_location1"
+                    android:id="@+id/ti_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/number_and_street"
-                    android:inputType="textMultiLine"
-                    android:maxLines="2"
-                    android:textSize="12sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_add_location2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                app:errorEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/til_add_location1">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ti_location2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/postal_code"
+                    android:hint="@string/address"
                     android:inputType="number"
-                    android:singleLine="true"
-                    android:textSize="12sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_add_location3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                app:errorEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/til_add_location2">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ti_location3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/town"
-                    android:inputType="text"
                     android:singleLine="true"
                     android:textSize="12sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -226,7 +184,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="50dp"
                 android:background="@color/colorSecondary"
-                app:layout_constraintTop_toBottomOf="@id/til_add_location3" />
+                app:layout_constraintTop_toBottomOf="@id/til_address" />
 
             <TextView
                 android:id="@+id/tv_title_informations"
