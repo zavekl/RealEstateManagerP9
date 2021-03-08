@@ -51,6 +51,7 @@ dependencies {
 
     //Google map API
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     //EASYPERMISSIONS
     implementation 'pub.devrel:easypermissions:3.0.0'

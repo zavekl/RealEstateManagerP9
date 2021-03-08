@@ -14,15 +14,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.openclassrooms.realestatemanager.viewmodel.MapFragmentViewModel;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.model.MapStateManager;
 import com.openclassrooms.realestatemanager.utils.Utils;
+import com.openclassrooms.realestatemanager.viewmodel.MapFragmentViewModel;
 
 import java.util.List;
 
@@ -30,7 +38,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
+public class MapFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = "MapFragment";
 
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -38,6 +46,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
 
     private MapFragmentViewModel mViewModel;
     private MapView mMapView;
+    private GoogleMap mGoogleMap;
+
+    private LocationCallback mLocationCallback;
+    private LatLng mLatLng;
+    private Boolean mIsCenter = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -54,18 +67,54 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
         //Display the map immediately
         mMapView.onResume();
 
-        //Set callback
-        mMapView.getMapAsync(this);
-
         //Permissions
         askPermissions();
+
+        //FAB on click listener
+        setOnClickFAB();
 
         return view;
     }
 
-    @SuppressLint("MissingPermission")
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(MapFragmentViewModel.class);
+    }
+
+    //Create callback to get the location
+    private void createLocationCallback() {
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                mLatLng = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                Log.d(TAG, "onLocationResult: Lat Lng = " + mLatLng);
+                //TODO Use latlgn here
+
+                if (!mIsCenter) {
+                    Log.d(TAG, "onLocationResult: center camera");
+                    setCameraPosition();
+                    //Set this boolean to true in the order not to center the map on the user's position a second time
+                    mIsCenter = true;
+
+                    setMarkerOnCLick();
+                }
+            }
+        };
+    }
+
+    //Set the camera to the user's position
+    private void setCameraPosition() {
+        if (mLatLng != null) {
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(mLatLng).zoom(16).build();
+            mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            Log.d(TAG, "setCameraPosition: done");
+        }
+    }
+
+    //Center on latlng on the map when the user click on the FAB
+    private void setOnClickFAB() {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,16 +124,107 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
                     askPermissions();
                 } else {
                     Log.d(TAG, "onClick: location granted");
+                    setCameraPosition();
+                }
+            }
+        });
+    }
+
+    //When the user click on icon that will start the description of the restaurant
+    private void setMarkerOnCLick() {
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+//                Intent intent = new Intent(requireContext(), DescriptionRestaurantActivity.class);
+//                intent.putExtra("id", (String) marker.getTag());
+//                startActivityForResult(intent, 10); //TODO Add result activity to set again the request location
+                return false;
+            }
+        });
+    }
+
+    //If map was saved before, load it
+    private void setupMapIfNeeded() {
+        Log.d(TAG, "setupMapIfNeeded: start");
+        try {
+            MapsInitializer.initialize(requireContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void onMapReady(GoogleMap mMap) {
+                mGoogleMap = mMap;
+                mGoogleMap.setMyLocationEnabled(true);
+                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
+
+                //TODO Set style
+//                try {
+//                    // Customise the styling of the base map using a JSON object defined
+//                    // in a raw resource file.
+//                    boolean success = mGoogleMap.setMapStyle(
+//                            MapStyleOptions.loadRawResourceStyle(
+//                                    requireContext(), R.raw.style_json));
+//
+//                    if (!success) {
+//                        Log.e("TAG", "Style parsing failed.");
+//                    }
+//                } catch (Resources.NotFoundException e) {
+//                    Log.e("TAG", "Can't find style. Error: ", e);
+//                }
+
+                MapStateManager mMapStateManager = new MapStateManager(requireContext());
+                CameraPosition mPosition = mMapStateManager.getSavedCameraPosition();
+
+                //Clear the icons at each start of map
+                mGoogleMap.clear();
+                Log.d(TAG, "onMapReady: map saved");
+                if (mPosition != null) {
+                    Log.d(TAG, "onMapReady: in if : set camera position");
+                    CameraUpdate update = CameraUpdateFactory.newCameraPosition(mPosition);
+                    mGoogleMap.moveCamera(update);
+                    mGoogleMap.setMapType(mMapStateManager.getSavedMapType());
                 }
             }
         });
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider((ViewModelStoreOwner) this, new ViewModelProvider.NewInstanceFactory()).get(MapFragmentViewModel.class);
-        // TODO: Use the ViewModel
+    public void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+        mMapView.onResume();
+
+        if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
+            //Check if a map is saved or not to load it
+            setupMapIfNeeded();
+
+            //Start location update
+            createLocationCallback();
+            mViewModel.startLocationUpdates(mLocationCallback);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+        if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
+            MapStateManager mMapStateManager = new MapStateManager(requireContext());
+            mMapStateManager.saveMapState(mGoogleMap);
+            mViewModel.stopLocationUpdates(mLocationCallback);
+        }
+        mMapView.onPause();
+        mIsCenter = false;
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
     }
 
     @AfterPermissionGranted(123)
@@ -142,23 +282,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, EasyPer
             Toast.makeText(requireContext(), (Utils.getEmojiByUnicode(0x26A0)) + requireContext().getResources().getString(R.string.permissions_toast_denied) +
                     (Utils.getEmojiByUnicode(0x26A0)), Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mMapView.onLowMemory();
     }
 }
