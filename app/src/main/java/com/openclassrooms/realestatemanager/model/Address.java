@@ -4,32 +4,24 @@ package com.openclassrooms.realestatemanager.model;
  * Created by NIATEL Brice on 28/01/2021.
  */
 public class Address {
-    private String mNumber;
-    private String mStreet;
     private String mPostalCode;
     private String mTown;
+    private String mNumberStreet;
+    private String mLat;
+    private String mLng;
 
-    public Address(String mNumber, String mStreet, String mPostalCode, String mTown) {
-        this.mNumber = mNumber;
-        this.mStreet = mStreet;
-        this.mPostalCode = mPostalCode;
-        this.mTown = mTown;
+    public Address(String numberStreet, String postalCode, String town, String lat, String lng) {
+        this.mNumberStreet = numberStreet;
+        this.mPostalCode = postalCode;
+        this.mTown = town;
+        this.mLat = lat;
+        this.mLng = lng;
     }
 
-    public String getNumber() {
-        return mNumber;
-    }
-
-    public void setNumber(String mNumber) {
-        this.mNumber = mNumber;
-    }
-
-    public String getStreet() {
-        return mStreet;
-    }
-
-    public void setStreet(String mStreet) {
-        this.mStreet = mStreet;
+    public Address(String numberStreet, String postalCode, String town) {
+        this.mNumberStreet = numberStreet;
+        this.mPostalCode = postalCode;
+        this.mTown = town;
     }
 
     public String getPostalCode() {
@@ -47,4 +39,40 @@ public class Address {
     public void setTown(String mTown) {
         this.mTown = mTown;
     }
+
+    public String getNumberStreet() {
+        return mNumberStreet;
+    }
+
+    public void setNumberStreet(String mNumberStreet) {
+        this.mNumberStreet = mNumberStreet;
+    }
+
+    public String getLat() {
+        return mLat;
+    }
+
+    public void setLat(String mLat) {
+        this.mLat = mLat;
+    }
+
+    public String getLng() {
+        return mLng;
+    }
+
+    public void setLng(String mLng) {
+        this.mLng = mLng;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "mPostalCode='" + mPostalCode + '\'' +
+                ", mTown='" + mTown + '\'' +
+                ", mNumberStreet='" + mNumberStreet + '\'' +
+                ", mLat=" + mLat +
+                ", mLng=" + mLng +
+                '}';
+    }
 }
+

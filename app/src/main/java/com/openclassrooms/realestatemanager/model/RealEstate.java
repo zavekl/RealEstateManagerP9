@@ -11,7 +11,6 @@ import java.util.List;
  */
 @Entity(tableName = "realestate")
 public class RealEstate {
-    //TODO avec la classe address pour généraliser?
     @PrimaryKey(autoGenerate = true)
     private long id;
     @ColumnInfo(name = "type")

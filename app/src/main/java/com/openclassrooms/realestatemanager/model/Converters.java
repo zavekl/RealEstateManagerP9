@@ -15,28 +15,29 @@ import java.util.List;
 //Permit to use complex object in room
 public class Converters {
     @TypeConverter
-    public String AddressToString(Address address) {
+    public String addressToString(Address address) {
         List<String> list = new ArrayList<>();
-        list.add(address.getNumber());
-        list.add(address.getStreet());
+        list.add(address.getNumberStreet());
         list.add(address.getPostalCode());
         list.add(address.getTown());
+        list.add(address.getLat());
+        list.add(address.getLng());
         return TextUtils.join(",", list);
     }
 
     @TypeConverter
-    public Address StringToAdress(String s) {
+    public Address stringToAddress(String s) {
         List<String> list = Arrays.asList(TextUtils.split(s, ","));
-        return new Address(list.get(0), list.get(1), list.get(2), list.get(3));
+        return new Address(list.get(0), list.get(1), list.get(2), list.get(3), list.get(4));
     }
 
     @TypeConverter
-    public String ListImageToString(List<String> list) {
+    public String listImageToString(List<String> list) {
         return TextUtils.join(",", list);
     }
 
     @TypeConverter
-    public List<String> StringToListImage(String s) {
+    public List<String> stringToListImage(String s) {
         return Arrays.asList(TextUtils.split(s, ","));
     }
 }

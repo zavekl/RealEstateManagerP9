@@ -61,7 +61,7 @@ public class DescriptionRealEstateFragment extends Fragment {
         final DescriptionAdapter adapter = new DescriptionAdapter(requireActivity());
         mRecyclerView.setAdapter(adapter);
 
-        long id = getArguments().getLong(Constants.BUNDLE_ID);
+        long id = requireArguments().getLong(Constants.BUNDLE_ID);
         Log.d(TAG, "onActivityCreated: id = " + id);
 
         if (getArguments() != null) {
@@ -73,9 +73,10 @@ public class DescriptionRealEstateFragment extends Fragment {
 
                     mDescription.setText(realEstate.getDescription());
 
-                    mLocation1.setText(new StringBuilder(realEstate.getAddress().getNumber() + " " + realEstate.getAddress().getStreet()));
-                    mLocation2.setText(realEstate.getAddress().getPostalCode());
-                    mLocation3.setText(realEstate.getAddress().getTown());
+                    mLocation1.setText(realEstate.getAddress().getNumberStreet().trim());
+                    mLocation2.setText(realEstate.getAddress().getPostalCode().trim());
+                    mLocation3.setText(realEstate.getAddress().getTown().trim());
+                    Log.d(TAG, "onChanged: latlng : " + realEstate.getAddress().getLat() + "/" + realEstate.getAddress().getLng());
 
                     mSurface.setText(new StringBuilder(realEstate.getSurface() + " m2"));
                     mNumberRoom.setText(String.valueOf(realEstate.getPieceNumber()));
