@@ -11,6 +11,8 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by <NIATEL BRICE> on <01/05/2020>.
  */
@@ -29,7 +31,8 @@ public class MapRepository {
     public void startLocationUpdates(LocationCallback locationCallback) {
         fusedLocationProviderClient.requestLocationUpdates(createLocationRequest(), locationCallback, Looper.getMainLooper());
     }
-    public void stopLocationUpdates(LocationCallback locationCallback){
+
+    public void stopLocationUpdates(LocationCallback locationCallback) {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
@@ -44,7 +47,7 @@ public class MapRepository {
 
     @SuppressLint("MissingPermission")
     public void requestGPSUpdate(LocationListener locationListener) {
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000000, 1000000, locationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TimeUnit.MINUTES.toMillis(2), 50, locationListener);
     }
 
 }
