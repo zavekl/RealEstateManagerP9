@@ -16,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,13 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.activity.MainActivity;
@@ -35,6 +43,7 @@ import com.openclassrooms.realestatemanager.viewmodel.AddRealEstateViewModel;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +54,7 @@ public class AddRealEstateFragment extends Fragment {
     private static final String TAG = "AddRealEstateFragment";
 
     private static final int REQUEST_CODE = 101;
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 1;
 
     private AddRealEstateViewModel mViewModel;
 
@@ -54,12 +64,14 @@ public class AddRealEstateFragment extends Fragment {
     private final List<Bitmap> mListBitmap = new ArrayList<>();
     private final List<String> mListBitmapNameFile = new ArrayList<>();
 
+    private LatLng mLatLng;
+
     private NestedScrollView mNestedScrollView;
 
     private AutoCompleteTextView mTIType;
 
-    private TextInputEditText mTIDescription, mTIPrice, mTINumberAndStreet, mTIPostalNumber;
-    private TextInputEditText mTITown, mTISurface, mTIRoom, mTIBedroom, mTIBathroom;
+    private TextInputEditText mTIDescription, mTIPrice, mTIAddress;
+    private TextInputEditText mTISurface, mTIRoom, mTIBedroom, mTIBathroom;
 
     private Button mButtonCreate;
 
@@ -80,9 +92,9 @@ public class AddRealEstateFragment extends Fragment {
 
         mTIPrice = view.findViewById(R.id.ti_price);
         mTIDescription = view.findViewById(R.id.ti_description);
-        mTINumberAndStreet = view.findViewById(R.id.ti_location1);
-        mTIPostalNumber = view.findViewById(R.id.ti_location2);
-        mTITown = view.findViewById(R.id.ti_location3);
+
+        mTIAddress = view.findViewById(R.id.ti_address);
+
         mTISurface = view.findViewById(R.id.ti_surface);
         mTIRoom = view.findViewById(R.id.ti_room);
         mTIBedroom = view.findViewById(R.id.ti_bedroom);
@@ -104,9 +116,8 @@ public class AddRealEstateFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(AddRealEstateViewModel.class);
 
         //Create TextInputUtils
-        mViewModel.createTextInputUtils(mTIType, mTIPrice, mTIDescription,
-                mTINumberAndStreet, mTIPostalNumber, mTITown, mTISurface, mTIRoom, mTIBedroom, mTIBathroom,
-                requireContext());
+        mViewModel.createTextInputUtils(mTIType, mTIPrice, mTIDescription, mTISurface, mTIRoom,
+                mTIBedroom, mTIBathroom, mTIAddress, requireContext());
 
         //Create the add image
         mListBitmap.add(Utils.getBitmap(R.drawable.ic_add_circle_outline_black_24dp, requireContext()));
@@ -115,9 +126,17 @@ public class AddRealEstateFragment extends Fragment {
         mAddGridViewAdapter = new AddGridViewAdapter(mListBitmap, requireContext());
         mGridView.setAdapter(mAddGridViewAdapter);
 
+        //OnClick on grid view item
         onClickGridViewItem();
+
+        //OnClick on create button
         onClickCreateButton();
+
+        //Set the list of string in dropdowntextinput
         setDropDownTextInput();
+
+        //Create autocomplete text for address
+        createAutoCompleteAddress();
     }
 
     //Start intent to choose image in internal storage of device
@@ -149,7 +168,7 @@ public class AddRealEstateFragment extends Fragment {
         });
     }
 
-    //Get the photo of intent
+    //Get the photo of intent or address
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -169,6 +188,15 @@ public class AddRealEstateFragment extends Fragment {
                 Log.e(TAG, "onActivityResult: ", e);
             }
         }
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            mTIAddress.setText(place.getAddress());
+            mLatLng = place.getLatLng();
+
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR && data != null) {
+            Status status = Autocomplete.getStatusFromIntent(data);
+            Log.e(TAG, status.getStatusMessage());
+        }
     }
 
     //Set text to choose in drop down text input
@@ -182,28 +210,63 @@ public class AddRealEstateFragment extends Fragment {
         mButtonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: " + mViewModel.validateTextInput());
-                if (mViewModel.validateTextInput()) {
-                    Log.d(TAG, "onClick: create RealEstate");
-                    //TODO ADDRESS ON UI
-                    Address address = new Address(mTINumberAndStreet.getText().toString(), mTINumberAndStreet.getText().toString(),
-                            mTIPostalNumber.getText().toString(), mTITown.getText().toString());
-
-                    RealEstate realEstate = new RealEstate(mTIType.getText().toString(), Integer.parseInt(mTIPrice.getText().toString()), mTISurface.getText().toString(),
-                            Integer.parseInt(mTIRoom.getText().toString()), Integer.parseInt(mTIBedroom.getText().toString()),
-                            Integer.parseInt(mTIBathroom.getText().toString()), mTIDescription.getText().toString(), address, "A FAIRE",
-                            false, mListBitmapNameFile, getTodayDate2(), "A FAIRE", "AGENT 1");
-
-                    mViewModel.insert(realEstate);
-
-                    //TODO DIALOG FRAGMENT HERE WITH PROGRESS BAR
-                    new AddImageFileTask(AddRealEstateFragment.this).execute();
-
-                    mNestedScrollView.fullScroll(View.FOCUS_UP);
-
+                Address address = Utils.stringToAddress(Objects.requireNonNull(mTIAddress.getText()).toString());
+                if (address != null) {
+                    address.setLat(String.valueOf(mLatLng.latitude));
+                    address.setLng(String.valueOf(mLatLng.longitude));
                 } else {
-                    Log.d(TAG, "onClick: can't create");
+                    Log.d(TAG, "onClick: incorrect address format");
                 }
+
+                if (mListBitmapNameFile.isEmpty()) {
+                    Toast.makeText(requireContext(), "Chose at minimal one picture please.", Toast.LENGTH_LONG).show();
+                }
+                if (mViewModel.validateTextInput()) {
+                    if (mListBitmapNameFile.isEmpty()) {
+                        Toast.makeText(requireContext(), "Chose at minimal one picture please.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Log.d(TAG, "onClick: create RealEstate");
+                        RealEstate realEstate = new RealEstate(mTIType.getText().toString(), Integer.parseInt(mTIPrice.getText().toString()), mTISurface.getText().toString(),
+                                Integer.parseInt(mTIRoom.getText().toString()), Integer.parseInt(mTIBedroom.getText().toString()),
+                                Integer.parseInt(mTIBathroom.getText().toString()), mTIDescription.getText().toString(), address, "A FAIRE",
+                                false, mListBitmapNameFile, getTodayDate2(), "A FAIRE", "AGENT 1");
+
+                        mViewModel.insert(realEstate);
+
+                        new AddImageFileTask(AddRealEstateFragment.this).execute();
+
+                        mNestedScrollView.fullScroll(View.FOCUS_UP);
+                    }
+                } else {
+                    Log.d(TAG, "onClick: can't create invalid text input");
+                }
+            }
+        });
+    }
+
+    //Create intent which permit to write and select an autocomplete address
+    private void createAutoCompleteAddress() {
+        if (!Places.isInitialized()) {
+            //TODO suppr key
+            Places.initialize(requireContext().getApplicationContext(), "AIzaSyAca9g8d5Zsg65NzlXcjGlIhup3ZP9Irv8");
+        }
+        // Specify the types of place data to return.
+        final List<Place.Field> fields = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG);
+        final Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .build(requireContext());
+        // Start the autocomplete intent.
+        mTIAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+                }
+            }
+        });
+        mTIAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
     }

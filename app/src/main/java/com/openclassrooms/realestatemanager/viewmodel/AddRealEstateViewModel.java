@@ -30,11 +30,9 @@ public class AddRealEstateViewModel extends AndroidViewModel {
     }
 
     public void createTextInputUtils(AutoCompleteTextView autoCompleteTextView, TextInputEditText price, TextInputEditText description,
-                                     TextInputEditText numberAndStreet, TextInputEditText postalNumber, TextInputEditText town,
                                      TextInputEditText surface, TextInputEditText room, TextInputEditText bedroom, TextInputEditText
-                                             bathroom, Context context) {
-        mTextInputUtils = new TextInputUtils(autoCompleteTextView, price, description, numberAndStreet, postalNumber,
-                town, surface, room, bedroom, bathroom, context);
+                                             bathroom,TextInputEditText address, Context context) {
+        mTextInputUtils = new TextInputUtils(autoCompleteTextView, price, description, surface, room, bedroom, bathroom, address, context);
     }
 
     public boolean validateTextInput() {
