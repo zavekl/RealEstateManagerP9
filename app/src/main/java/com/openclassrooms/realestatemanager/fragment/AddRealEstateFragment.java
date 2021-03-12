@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.common.api.Status;
@@ -37,6 +38,7 @@ import com.openclassrooms.realestatemanager.activity.MainActivity;
 import com.openclassrooms.realestatemanager.adapter.AddGridViewAdapter;
 import com.openclassrooms.realestatemanager.model.Address;
 import com.openclassrooms.realestatemanager.model.RealEstate;
+import com.openclassrooms.realestatemanager.model.projo.NearByPlaceResults;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodel.AddRealEstateViewModel;
 
@@ -72,6 +74,8 @@ public class AddRealEstateFragment extends Fragment {
 
     private TextInputEditText mTIDescription, mTIPrice, mTIAddress;
     private TextInputEditText mTISurface, mTIRoom, mTIBedroom, mTIBathroom;
+
+    private int mNumberOfPOI;
 
     private Button mButtonCreate;
 
@@ -192,6 +196,15 @@ public class AddRealEstateFragment extends Fragment {
             Place place = Autocomplete.getPlaceFromIntent(data);
             mTIAddress.setText(place.getAddress());
             mLatLng = place.getLatLng();
+            mViewModel.getPOIAroundUser(String.valueOf(mLatLng.latitude), String.valueOf(mLatLng.longitude))
+                    .observe(this, new Observer<NearByPlaceResults>() {
+                        @Override
+                        public void onChanged(NearByPlaceResults nearByPlaceResults) {
+                            Log.d(TAG, "onChanged: result : " + nearByPlaceResults.getResults().toString());
+                            mNumberOfPOI = nearByPlaceResults.getResults().size();
+                            Log.d(TAG, "onChanged: number of POI = " + mNumberOfPOI);
+                        }
+                    });
 
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR && data != null) {
             Status status = Autocomplete.getStatusFromIntent(data);
@@ -228,7 +241,7 @@ public class AddRealEstateFragment extends Fragment {
                         Log.d(TAG, "onClick: create RealEstate");
                         RealEstate realEstate = new RealEstate(mTIType.getText().toString(), Integer.parseInt(mTIPrice.getText().toString()), mTISurface.getText().toString(),
                                 Integer.parseInt(mTIRoom.getText().toString()), Integer.parseInt(mTIBedroom.getText().toString()),
-                                Integer.parseInt(mTIBathroom.getText().toString()), mTIDescription.getText().toString(), address, "A FAIRE",
+                                Integer.parseInt(mTIBathroom.getText().toString()), mTIDescription.getText().toString(), address, String.valueOf(mNumberOfPOI),
                                 false, mListBitmapNameFile, getTodayDate2(), "A FAIRE", "AGENT 1");
 
                         mViewModel.insert(realEstate);

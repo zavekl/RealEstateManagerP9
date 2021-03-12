@@ -26,7 +26,7 @@ public class DescriptionRealEstateFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private TextView mDescription;
-    private TextView mLocation1, mLocation2, mLocation3;
+    private TextView mLocation1, mLocation2, mLocation3,mNumberPoi;
     private TextView mSurface, mNumberRoom, mNumberBedroom, mNumberBathroom;
 
     public static DescriptionRealEstateFragment newInstance() {
@@ -50,6 +50,7 @@ public class DescriptionRealEstateFragment extends Fragment {
         mNumberRoom = view.findViewById(R.id.tv_room);
         mNumberBedroom = view.findViewById(R.id.tv_bedroom);
         mNumberBathroom = view.findViewById(R.id.tv_bathroom);
+        mNumberPoi=view.findViewById(R.id.tv_poi);
 
         return view;
     }
@@ -82,6 +83,8 @@ public class DescriptionRealEstateFragment extends Fragment {
                     mNumberRoom.setText(String.valueOf(realEstate.getPieceNumber()));
                     mNumberBedroom.setText(String.valueOf(realEstate.getBedroomNumber()));
                     mNumberBathroom.setText(String.valueOf(realEstate.getBathroomNumber()));
+                    mNumberPoi.setText(String.valueOf(realEstate.getPointOfInterest()));
+
                 }
             });
         } else {

@@ -209,6 +209,25 @@
                 app:layout_constraintStart_toStartOf="@id/iv_bathroom"
                 app:layout_constraintTop_toBottomOf="@id/iv_bathroom"
                 tool:text="2" />
+
+            <ImageView
+                android:id="@+id/iv_poi"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/ic_place_black_18dp"
+                app:layout_constraintEnd_toStartOf="@id/tv_bathroom"
+                app:layout_constraintStart_toEndOf="@id/tv_bedroom"
+                app:layout_constraintTop_toBottomOf="@id/tv_bathroom" />
+
+            <TextView
+                android:id="@+id/tv_poi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/tv_bathroom"
+                app:layout_constraintStart_toEndOf="@id/tv_bedroom"
+                app:layout_constraintTop_toBottomOf="@id/iv_poi"
+                tool:text="20" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.core.widget.NestedScrollView>
