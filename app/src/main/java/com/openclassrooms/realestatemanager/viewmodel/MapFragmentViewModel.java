@@ -17,14 +17,14 @@ import java.util.List;
 
 public class MapFragmentViewModel extends AndroidViewModel {
     private final MapRepository mMapRepository;
-    private final LiveData<List<RealEstate>> mAllRealestates;
+    private final LiveData<List<RealEstate>> mAllRealestateAddress;
 
 
     public MapFragmentViewModel(@NonNull Application application) {
         super(application);
         mMapRepository = ((MyApplication) application).getContainerDependencies().getMapRepository();
         RealEstateRepository realEstateRepository = ((MyApplication) application).getContainerDependencies().getRealEstateRepository();
-        mAllRealestates = realEstateRepository.getAllRealEstate();
+        mAllRealestateAddress = realEstateRepository.getAllRealEstate();
     }
 
     public void startLocationUpdates(LocationCallback locationCallback) {
@@ -40,6 +40,6 @@ public class MapFragmentViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<RealEstate>> getAllRealEstate() {
-        return mAllRealestates;
+        return mAllRealestateAddress;
     }
 }
