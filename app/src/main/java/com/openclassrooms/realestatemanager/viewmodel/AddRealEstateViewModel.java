@@ -7,12 +7,15 @@ import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.model.RealEstate;
+import com.openclassrooms.realestatemanager.model.projo.NearByPlaceResults;
 import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
 import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
+import com.openclassrooms.realestatemanager.repository.RetrofitRepository;
 import com.openclassrooms.realestatemanager.utils.TextInputUtils;
 
 import java.util.List;
@@ -22,19 +25,19 @@ public class AddRealEstateViewModel extends AndroidViewModel {
 
     private final RealEstateRepository mRealEstateRepository;
     private final InternalFilesRepository mIternalFilesRepository;
+    private final RetrofitRepository mRetrofitRepository;
 
     public AddRealEstateViewModel(@NonNull Application application) {
         super(application);
         mRealEstateRepository = ((MyApplication) application).getContainerDependencies().getRealEstateRepository();
+        mRetrofitRepository = ((MyApplication) application).getContainerDependencies().getRetrofitRepository();
         mIternalFilesRepository = new InternalFilesRepository(application);
     }
 
     public void createTextInputUtils(AutoCompleteTextView autoCompleteTextView, TextInputEditText price, TextInputEditText description,
-                                     TextInputEditText numberAndStreet, TextInputEditText postalNumber, TextInputEditText town,
                                      TextInputEditText surface, TextInputEditText room, TextInputEditText bedroom, TextInputEditText
-                                             bathroom, Context context) {
-        mTextInputUtils = new TextInputUtils(autoCompleteTextView, price, description, numberAndStreet, postalNumber,
-                town, surface, room, bedroom, bathroom, context);
+                                             bathroom, TextInputEditText address, Context context) {
+        mTextInputUtils = new TextInputUtils(autoCompleteTextView, price, description, surface, room, bedroom, bathroom, address, context);
     }
 
     public boolean validateTextInput() {
@@ -51,5 +54,9 @@ public class AddRealEstateViewModel extends AndroidViewModel {
 
     public void setImageInInternalMemory(String name, Bitmap bitmap) {
         mIternalFilesRepository.setFile(name, bitmap);
+    }
+
+    public LiveData<NearByPlaceResults> getPOIAroundUser(String lat, String lng) {
+        return mRetrofitRepository.getPOIAroundUser(lat + "," + lng);
     }
 }

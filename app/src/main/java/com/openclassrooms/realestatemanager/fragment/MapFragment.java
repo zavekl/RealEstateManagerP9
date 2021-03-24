@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.LocationCallback;
@@ -25,13 +27,17 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.model.MapStateManager;
+import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodel.MapFragmentViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -51,6 +57,8 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     private LocationCallback mLocationCallback;
     private LatLng mLatLng;
     private Boolean mIsCenter = false;
+
+    List<RealEstate> mListRealEstate = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -86,11 +94,10 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     private void createLocationCallback() {
         mLocationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
+            public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 mLatLng = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                 Log.d(TAG, "onLocationResult: Lat Lng = " + mLatLng);
-                //TODO Use latlgn here
 
                 if (!mIsCenter) {
                     Log.d(TAG, "onLocationResult: center camera");
@@ -98,11 +105,41 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
                     //Set this boolean to true in the order not to center the map on the user's position a second time
                     mIsCenter = true;
 
+                    //When the user click on marker
                     setMarkerOnCLick();
                 }
             }
         };
     }
+
+    private void addRealEstateMarker() {
+        mViewModel.getAllRealEstate().observe(this, new Observer<List<RealEstate>>() {
+            @Override
+            public void onChanged(List<RealEstate> realEstate) {
+                if (mListRealEstate.isEmpty()) {
+                    Log.d(TAG, "onChanged: empty");
+                    mListRealEstate = realEstate;
+                    for (RealEstate realEstate2 : mListRealEstate) {
+                        Log.d(TAG, "onChanged: RealEstate " + realEstate2.getId());
+                        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(realEstate2.getAddress().getLat()), Double.parseDouble(realEstate2.getAddress().getLng()))).
+                                title(realEstate2.getType())).setTag(realEstate2.getId());
+                    }
+                } else {
+                    Log.d(TAG, "onChanged: not empty");
+                    for (RealEstate r1 : realEstate) {
+                        if (!mListRealEstate.contains(r1)) {
+                            mListRealEstate.add(r1);
+                            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(r1.getAddress().getLat()), Double.parseDouble(r1.getAddress().getLng())))
+                                    .title(r1.getType())).setTag(r1.getId());
+                        } else {
+                            Log.d(TAG, "onChanged: RealEstate already displayed on map");
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
     //Set the camera to the user's position
     private void setCameraPosition() {
@@ -161,26 +198,25 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
                 mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
 
-                //TODO Set style
-//                try {
-//                    // Customise the styling of the base map using a JSON object defined
-//                    // in a raw resource file.
-//                    boolean success = mGoogleMap.setMapStyle(
-//                            MapStyleOptions.loadRawResourceStyle(
-//                                    requireContext(), R.raw.style_json));
-//
-//                    if (!success) {
-//                        Log.e("TAG", "Style parsing failed.");
-//                    }
-//                } catch (Resources.NotFoundException e) {
-//                    Log.e("TAG", "Can't find style. Error: ", e);
-//                }
+                try {
+                    // Customise the styling of the base map using a JSON object defined
+                    // in a raw resource file.
+                    boolean success = mGoogleMap.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(
+                                    requireContext(), R.raw.style_map));
+
+                    if (!success) {
+                        Log.e("TAG", "Style parsing failed.");
+                    }
+                } catch (Resources.NotFoundException e) {
+                    Log.e("TAG", "Can't find style. Error: ", e);
+                }
 
                 MapStateManager mMapStateManager = new MapStateManager(requireContext());
                 CameraPosition mPosition = mMapStateManager.getSavedCameraPosition();
 
-                //Clear the icons at each start of map
-                mGoogleMap.clear();
+                //Add marker on map
+                addRealEstateMarker();
                 Log.d(TAG, "onMapReady: map saved");
                 if (mPosition != null) {
                     Log.d(TAG, "onMapReady: in if : set camera position");
@@ -239,7 +275,8 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d(TAG, "onRequestPermissionsResult: start");
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);

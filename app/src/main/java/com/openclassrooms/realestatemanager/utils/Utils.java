@@ -7,14 +7,19 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
 import com.openclassrooms.realestatemanager.BuildConfig;
+import com.openclassrooms.realestatemanager.model.Address;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -24,6 +29,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class Utils {
+    private static final String TAG = "Utils";
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
@@ -81,6 +87,7 @@ public class Utils {
         return new String(Character.toChars(unicode));
     }
 
+    //Check if is the first run of the app
     public static Boolean checkFirstRun(Context context) {
         boolean result = false;
         final String PREFS_NAME = "MyPrefsFile";
@@ -104,7 +111,6 @@ public class Utils {
             result = true;
 
         } else if (currentVersionCode > savedVersionCode) {
-            // TODO Faut il recreer les fichiers lors d'une upgrade?
             result = false;
 
         }
@@ -113,6 +119,7 @@ public class Utils {
         return result;
     }
 
+    //Get Bitmap from drawable
     public static Bitmap getBitmap(int drawableRes, Context context) {
         Drawable drawable = ContextCompat.getDrawable(context, drawableRes);
         Canvas canvas = new Canvas();
@@ -124,4 +131,21 @@ public class Utils {
         return bitmap;
     }
 
+    public static boolean validateAddress(String s) {
+        List<String> list = Arrays.asList(TextUtils.split(s, ","));
+        Log.d(TAG, "validateAddress: " + list.size());
+        return list.size() == 3;
+    }
+
+    public static Address stringToAddress(String s) {
+        List<String> list = Arrays.asList(TextUtils.split(s, ","));
+        Log.d(TAG, "stringToAdress: " + s);
+        Log.d(TAG, "stringToAdress: " + list.toString());
+
+        if (list.size() == 3) {
+            return new Address(list.get(0), list.get(1), list.get(2));
+        } else {
+            return null;
+        }
+    }
 }

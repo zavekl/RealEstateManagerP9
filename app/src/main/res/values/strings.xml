@@ -30,9 +30,12 @@
     <string name="create">CREATE</string>
 
     <string name="field_empty">Field can\'t be empty</string>
+    <string name="incorrect_address">Address incorrect</string>
+
     <string name="image_view">image_view</string>
 
     <string name="image_intent">Select image</string>
     <string name="informations">INFORMATIONS</string>
+    <string name="address">ADDRESS</string>
 
 </resources>
