@@ -5,6 +5,7 @@ package com.openclassrooms.realestatemanager.model;
  */
 public class Criteria {
 
+    private String mText;
     private String mType;
     private String mMinPrice;
     private String mMaxPrice;
@@ -83,6 +84,13 @@ public class Criteria {
         this.mPoi = mPoi;
     }
 
+    public String getText() {
+        return mText;
+    }
+
+    public void setText(String mText) {
+        this.mText = mText;
+    }
     @Override
     public String toString() {
         return "Criteria{" +
