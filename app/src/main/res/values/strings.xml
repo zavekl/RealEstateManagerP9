@@ -47,7 +47,7 @@
     <string name="informations">INFORMATIONS</string>
     <string name="address">ADDRESS</string>
 
-    <string name="tv_your_research">Your research</string>
+    <string name="tv_your_research">Your research (min 3 chars)</string>
     <string name="b_confirm">CONFIRM</string>
 
 </resources>
