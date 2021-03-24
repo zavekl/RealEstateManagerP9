@@ -26,7 +26,7 @@ public class DescriptionRealEstateFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private TextView mDescription;
-    private TextView mLocation1, mLocation2, mLocation3,mNumberPoi;
+    private TextView mLocation1, mLocation2, mLocation3, mNumberPoi;
     private TextView mSurface, mNumberRoom, mNumberBedroom, mNumberBathroom;
 
     public static DescriptionRealEstateFragment newInstance() {
@@ -50,7 +50,7 @@ public class DescriptionRealEstateFragment extends Fragment {
         mNumberRoom = view.findViewById(R.id.tv_room);
         mNumberBedroom = view.findViewById(R.id.tv_bedroom);
         mNumberBathroom = view.findViewById(R.id.tv_bathroom);
-        mNumberPoi=view.findViewById(R.id.tv_poi);
+        mNumberPoi = view.findViewById(R.id.tv_poi);
 
         return view;
     }
@@ -62,10 +62,10 @@ public class DescriptionRealEstateFragment extends Fragment {
         final DescriptionAdapter adapter = new DescriptionAdapter(requireActivity());
         mRecyclerView.setAdapter(adapter);
 
-        long id = requireArguments().getLong(Constants.BUNDLE_ID);
-        Log.d(TAG, "onActivityCreated: id = " + id);
-
         if (getArguments() != null) {
+            long id = requireArguments().getLong(Constants.BUNDLE_ID);
+            Log.d(TAG, "onActivityCreated: id = " + id);
+            
             mViewModel.getRealestateById(id).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
                 @Override
                 public void onChanged(RealEstate realEstate) {

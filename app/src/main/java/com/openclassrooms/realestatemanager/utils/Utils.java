@@ -77,7 +77,7 @@ public class Utils {
     }
 
     //New method
-    public static Boolean isInternetAvailabl2(Context context) {
+    public static Boolean isInternetAvailable2(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
@@ -87,7 +87,7 @@ public class Utils {
         return new String(Character.toChars(unicode));
     }
 
-    //Check if is the first rur of the app
+    //Check if is the first run of the app
     public static Boolean checkFirstRun(Context context) {
         boolean result = false;
         final String PREFS_NAME = "MyPrefsFile";

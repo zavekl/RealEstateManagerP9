@@ -31,7 +31,6 @@ public class RetrofitRepository {
             "cafe,casinohair_care,home_goods_store,library,meal_delivery,meal_takeaway,movie_theater" +
             ",museum,park,pharmacy,primary_school,post_office,school,secondary_school,supermarket," +
             "tourist_attraction,university,zoo";
-//    private static final String TYPESEARCH = "restaurant";
 
     private final ApiGoogleMapRetrofit mApiService;
 
