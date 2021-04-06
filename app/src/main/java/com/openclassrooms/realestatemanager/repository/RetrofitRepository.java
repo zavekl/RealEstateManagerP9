@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitRepository {
     private static final String TAG = "RetrofitRepository";
 
-    private static final int RADIUS = 1000;
+    private static final int RADIUS = 500;
     private static final boolean SENSOR = true;
     private static final String TYPESEARCH = "restaurant,amusement_park,aquarium,art_gallery,bar," +
             "cafe,casinohair_care,home_goods_store,library,meal_delivery,meal_takeaway,movie_theater" +
