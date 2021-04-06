@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.model;
 
+import java.io.Serializable;
+
 /**
  * Created by NIATEL Brice on 17/03/2021.
  */
-public class Criteria {
+public class Criteria implements Serializable {
 
     private String mText;
     private String mType;

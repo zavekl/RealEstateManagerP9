@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
@@ -21,6 +23,7 @@ import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.model.Criteria;
+import com.openclassrooms.realestatemanager.utils.CriteriaReceiver;
 import com.openclassrooms.realestatemanager.viewmodel.CriteriaViewModel;
 
 import java.util.ArrayList;
@@ -58,6 +61,7 @@ public class CriteriaFragment extends Fragment {
         return new CriteriaFragment();
     }
 
+    //TODO mettre + à la fin des nombres
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -95,9 +99,16 @@ public class CriteriaFragment extends Fragment {
         mButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO set les criteres dans les fragments map + rv via Repo qui stoque les données, le fragment qui fait un get + if null --> rien
+                MutableLiveData<Boolean> booleanLiveData = new MutableLiveData<>();
+                booleanLiveData.setValue(true);
                 Log.d(TAG, "onClick: " + getCriteria().toString());
                 mViewModel.setCriteriaRepo(getCriteria());
+
+                //Send broadcast with the criteria object
+                Intent intent = new Intent();
+                intent.setAction(CriteriaReceiver.APPLY_CRITERIA);
+                intent.putExtra("Criteria", getCriteria());
+                requireContext().sendBroadcast(intent);
             }
         });
     }
