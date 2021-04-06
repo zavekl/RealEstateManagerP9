@@ -1,17 +1,18 @@
 package com.openclassrooms.realestatemanager.activity;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -21,22 +22,28 @@ import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.fragment.AddRealEstateFragment;
 import com.openclassrooms.realestatemanager.fragment.CriteriaFragment;
 import com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment;
+import com.openclassrooms.realestatemanager.model.Criteria;
+import com.openclassrooms.realestatemanager.utils.CriteriaReceiver;
+import com.openclassrooms.realestatemanager.utils.ToolbarReceiver;
+import com.openclassrooms.realestatemanager.viewmodel.MainActivityViewModel;
 
 import java.util.Objects;
 
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CriteriaReceiver.ICustomListener {
     private static final String TAG = "MainActivity";
 
     private static ViewPager mViewPager;
     private static TabLayout mTabLayout;
 
-    private TextView mResearchText;
-    private ImageView mResearchButton;
+    private ImageButton mResearchButton;
+    private ImageButton mStateResearchButton;
     private FragmentContainerView mFragmentCV;
 
-    private Toolbar mToolbar;
+    private MainActivityViewModel mViewModel;
+
+    private CriteriaReceiver mReceiverCriteria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +54,28 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.view_pager);
         mTabLayout = findViewById(R.id.tab_layout);
 
+        //ViewModel
+        mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
         //Toolbar
-        mToolbar = findViewById(R.id.toolbar);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mResearchText = findViewById(R.id.tv_research);
-        mResearchButton = findViewById(R.id.iv_arrow);
+        mResearchButton = findViewById(R.id.biv_criteria);
+        mStateResearchButton = findViewById(R.id.biv_state_criteria);
         mFragmentCV = findViewById(R.id.research_container);
 
+        //ViewPager
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(viewPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        //Set photo
         ((MyApplication) getApplication()).getContainerDependencies().getInternalFilesRepository().savePhotoInApp();
 
         //Set listener on search toolbar
-        setCLickOnMenuToolbar();
+        setOnClickMenuToolbar();
+        setOnCLickResetCriteria();
     }
 
     @Override
@@ -80,9 +94,9 @@ public class MainActivity extends AppCompatActivity {
             revealViewPager();
         }
 
-        if (mResearchText.getVisibility() == View.VISIBLE) {
-            hideResearchTextview();
-        } else if (!(fragment instanceof DescriptionRealEstateFragment) & !(fragment instanceof AddRealEstateFragment)) {
+        if (mFragmentCV.getVisibility() == View.VISIBLE) {
+            hideSearchFragment();
+        } else if (!(fragment instanceof DescriptionRealEstateFragment) & !(fragment instanceof AddRealEstateFragment) && mFragmentCV.getVisibility() == View.INVISIBLE) {
             Log.d(TAG, "onBackPressed: MainActivity is visible");
             super.onBackPressed();
         }
@@ -100,17 +114,8 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setVisibility(View.VISIBLE);
     }
 
-    //Hide view pager
-    private void hideResearchTextview() {
-        mResearchText.setVisibility(View.GONE);
-        mToolbar.setVisibility(View.VISIBLE);
-    }
-
-    //Display view pager
-    private void revealResearchTextview() {
-        mResearchText.setVisibility(View.VISIBLE);
-        mToolbar.setVisibility(View.INVISIBLE);
-        mResearchText.bringToFront();
+    private void hideSearchFragment() {
+        mFragmentCV.setVisibility(View.INVISIBLE);
     }
 
     //Create search menu in toolbar
@@ -121,27 +126,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Set listener on search toolbar to reveal the edit text if clicked
-    private void setCLickOnMenuToolbar() {
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.search_restaurant) {
-                    switch (mViewPager.getCurrentItem()) {
-                        case 0: {
-                            Log.d(TAG, "onMenuItemClick: fragment : MapFragment");
-                            revealResearchTextview();
-                            break;
-                        }
-                        case 1: {
-                            Log.d(TAG, "onMenuItemClick: fragment : RVListRealEstateFragment");
-                            revealResearchTextview();
-                            break;
-                        }
-                    }
-                }
-                return true;
-            }
-        });
+    private void setOnClickMenuToolbar() {
+        mResearchButton.bringToFront();
+        mStateResearchButton.bringToFront();
+        mStateResearchButton.setVisibility(View.INVISIBLE);
+
         mResearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +150,58 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //Change visibility of mStateResearchButton when there is criteria selected or not
+    @Override
+    public void applyCriteria(Criteria criteria) {
+        Log.d(TAG, "applyCriteria: ");
+        if (mViewModel.isCriteria()) {
+            Log.d(TAG, "applyCriteria: in if");
+            mStateResearchButton.setVisibility(View.VISIBLE);
+        } else {
+            mStateResearchButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
+    //Initialize receivers for broadcast
+    private void initReceiver() {
+        Log.d(TAG, "initReceiver: start");
+        mReceiverCriteria = new CriteriaReceiver();
+        mReceiverCriteria.setCallback(this);
+        IntentFilter intentFilter1 = new IntentFilter();
+        intentFilter1.addAction(CriteriaReceiver.APPLY_CRITERIA);
+        registerReceiver(mReceiverCriteria, intentFilter1);
+        Log.d(TAG, "initReceiver: end");
+    }
+
+    //Send broadcast when button is clicked
+    private void setOnCLickResetCriteria() {
+        mStateResearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: setOnCLickResetCriteria");
+                //Send broadcast with the criteria object
+                Intent intent = new Intent();
+                intent.setAction(ToolbarReceiver.APPLY_RESET_CRITERIA);
+                sendBroadcast(intent);
+
+                mStateResearchButton.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiverCriteria);
     }
 }
 
