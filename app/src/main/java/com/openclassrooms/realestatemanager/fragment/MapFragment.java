@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.openclassrooms.realestatemanager.Constants;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.model.MapStateManager;
 import com.openclassrooms.realestatemanager.model.RealEstate;
@@ -172,9 +173,19 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-//                Intent intent = new Intent(requireContext(), DescriptionRestaurantActivity.class);
-//                intent.putExtra("id", (String) marker.getTag());
-//                startActivityForResult(intent, 10); //TODO Add result activity to set again the request location
+                DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
+
+                Bundle bundle = new Bundle();
+
+                if (marker.getTag() != null) {
+                    bundle.putLong(Constants.BUNDLE_ID, Long.parseLong(marker.getTag().toString()));
+                }
+
+                fragment.setArguments(bundle);
+
+                getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
+                        .add(R.id.description_fragment, fragment, null)
+                        .commit();
                 return false;
             }
         });
