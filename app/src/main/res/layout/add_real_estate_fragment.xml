@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
-                android:text="@string/description"
+                android:text="@string/tv_description"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +128,7 @@
                     android:id="@+id/ti_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/description"
+                    android:hint="@string/tv_description"
                     android:inputType="textMultiLine"
                     android:maxLines="6"
                     android:textSize="12sp" />
@@ -199,7 +199,7 @@
                 app:layout_constraintTop_toBottomOf="@id/view_add2" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_add_surface"
+                android:id="@+id/til_price_criteria"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -214,7 +214,7 @@
                     android:id="@+id/ti_surface"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/surface"
+                    android:hint="@string/tv_surface"
                     android:inputType="number"
                     android:singleLine="true"
                     android:textSize="12sp" />
@@ -253,7 +253,7 @@
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toStartOf="@id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_add_surface">
+                app:layout_constraintTop_toBottomOf="@id/til_price_criteria">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ti_bedroom"

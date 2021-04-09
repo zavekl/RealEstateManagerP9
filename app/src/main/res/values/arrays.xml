@@ -1,0 +1,13 @@
+<resources>
+    <array name="initial_slider_price_values">
+        <item>0</item>
+        <item>500000</item>
+    </array>
+    <array name="initial_slider_surface_values">
+        <item>0</item>
+        <item>500</item>
+    </array>
+    <array name="initial_slider_room_values">
+        <item>0</item>
+    </array>
+</resources>

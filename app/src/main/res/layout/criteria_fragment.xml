@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="6dp"
+    android:layout_marginEnd="6dp"
+    android:background="@drawable/fragment_borders"
+    android:fillViewport="true"
+    tools:context=".fragment.CriteriaFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/b_confirm">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_criteria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.50" />
+
+            <TextView
+                android:id="@+id/tv_type_criteria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/tv_type_lowercase"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_type_criteria"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_type_criteria"
+                app:layout_constraintTop_toBottomOf="@id/tv_type_criteria">
+
+                <AutoCompleteTextView
+                    android:id="@+id/ti_type_criteria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tv_type"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_price_criteria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/tv_price_lowercase"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_type_criteria"
+                app:layout_constraintTop_toBottomOf="@id/til_type_criteria" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_price_criteria1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="7dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_criteria"
+                app:layout_constraintStart_toStartOf="@id/tv_price_criteria"
+                app:layout_constraintTop_toBottomOf="@id/tv_price_criteria">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ti_price_criteria1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tv_price_min"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_price_criteria2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideline_criteria"
+                app:layout_constraintTop_toBottomOf="@id/tv_price_criteria">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ti_price_criteria2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tv_price_max"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/range_slide_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:stepSize="10000"
+                android:valueFrom="0.0"
+                android:valueTo="500000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/til_price_criteria1"
+                app:layout_constraintTop_toBottomOf="@id/til_price_criteria1"
+                app:thumbColor="@color/colorSecondary"
+                app:trackColor="@color/colorSecondaryVariant"
+                app:values="@array/initial_slider_price_values" />
+
+            <TextView
+                android:id="@+id/tv_surface_criteria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/tv_surface_lowercase"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_type_criteria"
+                app:layout_constraintTop_toBottomOf="@id/range_slide_price" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_surface_criteria1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="7dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_criteria"
+                app:layout_constraintStart_toStartOf="@id/tv_price_criteria"
+                app:layout_constraintTop_toBottomOf="@id/tv_surface_criteria">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ti_surface_criteria1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tv_surface_min"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_surface_criteria2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideline_criteria"
+                app:layout_constraintTop_toBottomOf="@id/tv_surface_criteria">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ti_surface_criteria2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tv_surface_max"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/range_slider_surface"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:stepSize="10"
+                android:valueFrom="0.0"
+                android:valueTo="500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/til_price_criteria1"
+                app:layout_constraintTop_toBottomOf="@id/til_surface_criteria1"
+                app:thumbColor="@color/colorSecondary"
+                app:trackColor="@color/colorSecondaryVariant"
+                app:values="@array/initial_slider_surface_values" />
+
+            <TextView
+                android:id="@+id/tv_available_criteria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/tv_available_lowercase"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_type_criteria"
+                app:layout_constraintTop_toBottomOf="@id/range_slider_surface" />
+
+            <CheckBox
+                android:id="@+id/checkbox_criteria"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="15dp"
+                android:checked="true"
+                app:buttonTint="@color/colorSecondary"
+                app:layout_constraintEnd_toEndOf="@id/tv_available_criteria"
+                app:layout_constraintStart_toStartOf="@id/tv_type_criteria"
+                app:layout_constraintTop_toBottomOf="@id/tv_available_criteria" />
+
+            <TextView
+                android:id="@+id/tv_room_criteria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/tv_room_number_lowercase"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/guideline_criteria"
+                app:layout_constraintTop_toBottomOf="@id/range_slider_surface" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_room_criteria"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline_criteria"
+                app:layout_constraintTop_toBottomOf="@id/tv_room_criteria">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ti_room_criteria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tv_room_number"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_poi_criteria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/tv_poi_number_lowercase"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_type_criteria"
+                app:layout_constraintTop_toBottomOf="@id/til_room_criteria" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_poi_criteria"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_price_criteria"
+                app:layout_constraintTop_toBottomOf="@id/tv_poi_criteria">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ti_poi_criteria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tv_poi_number"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/slider_poi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="5dp"
+                android:stepSize="1"
+                android:valueFrom="0.0"
+                android:valueTo="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/til_price_criteria1"
+                app:layout_constraintTop_toBottomOf="@id/til_poi_criteria"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:thumbColor="@color/colorSecondary"
+                app:trackColor="@color/colorSecondaryVariant"
+                app:values="@array/initial_slider_surface_values" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/b_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/b_confirm"
+        android:textColor="@color/colorPrimary"
+        app:backgroundTint="@color/colorSecondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/white"
+        app:strokeWidth="2dp"
+        app:tint="@color/colorPrimary" />
+</androidx.constraintlayout.widget.ConstraintLayout>

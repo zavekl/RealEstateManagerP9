@@ -8,14 +8,24 @@
     <string name="permissions_denied">We need permissions for the map.</string>
     <string name="insufficient_memory">The memory of your device is insufficient. Please make space.</string>
 
-    <string name="description">DESCRIPTION</string>
     <string name="location">LOCATION</string>
     <string name="tv_creation_title">CREATE NEW REAL ESTATE</string>
     <string name="tv_type">TYPE</string>
+    <string name="tv_type_lowercase">Type</string>
     <string name="tv_description">DESCRIPTION</string>
     <string name="tv_price">PRICE</string>
+    <string name="tv_price_min">MINIMAL PRICE</string>
+    <string name="tv_price_max">MAXIMAL PRICE</string>
+    <string name="tv_price_lowercase">Price</string>
     <string name="tv_surface">SURFACE</string>
+    <string name="tv_surface_min">MINIMAL SURFACE</string>
+    <string name="tv_surface_max">MAXIMAL SURFACE</string>
+    <string name="tv_surface_lowercase">Surface</string>
+    <string name="tv_available_lowercase">Available</string>
     <string name="tv_room_number">ROOM NUMBER</string>
+    <string name="tv_room_number_lowercase">Room</string>
+    <string name="tv_poi_number_lowercase">Proximity to point of interest</string>
+    <string name="tv_poi_number">POINT OF INTEREST</string>
     <string name="tv_bedroom_number">BEDROOM NUMBER</string>
     <string name="tv_bathroom_number">BATHROOM NUMBER</string>
     <string name="tv_address">ADDRESS</string>
@@ -23,7 +33,6 @@
     <string name="number_and_street">NUMBER AND STREET</string>
     <string name="postal_code">POSTAL CODE</string>
     <string name="town">TOWN</string>
-    <string name="surface">SURFACE</string>
     <string name="room">ROOM</string>
     <string name="bedroom">BEDROOM</string>
     <string name="bathroom">BATHROOM</string>
@@ -37,5 +46,8 @@
     <string name="image_intent">Select image</string>
     <string name="informations">INFORMATIONS</string>
     <string name="address">ADDRESS</string>
+
+    <string name="tv_your_research">Your research (min 3 chars)</string>
+    <string name="b_confirm">CONFIRM</string>
 
 </resources>

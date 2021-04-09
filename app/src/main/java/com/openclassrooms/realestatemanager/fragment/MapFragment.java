@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,8 +33,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.model.Criteria;
 import com.openclassrooms.realestatemanager.model.MapStateManager;
 import com.openclassrooms.realestatemanager.model.RealEstate;
+import com.openclassrooms.realestatemanager.utils.CriteriaReceiver;
+import com.openclassrooms.realestatemanager.utils.ToolbarReceiver;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodel.MapFragmentViewModel;
 
@@ -44,15 +48,20 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MapFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
+public class MapFragment extends Fragment implements EasyPermissions.PermissionCallbacks, CriteriaReceiver.ICustomListener, ToolbarReceiver.ICustomListener {
     private static final String TAG = "MapFragment";
 
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
     private FloatingActionButton mFab;
 
     private MapFragmentViewModel mViewModel;
+
     private MapView mMapView;
     private GoogleMap mGoogleMap;
+
+    private CriteriaReceiver mReceiverCriteria;
+    private ToolbarReceiver mReceiverToolbar;
 
     private LocationCallback mLocationCallback;
     private LatLng mLatLng;
@@ -97,7 +106,6 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 mLatLng = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                Log.d(TAG, "onLocationResult: Lat Lng = " + mLatLng);
 
                 if (!mIsCenter) {
                     Log.d(TAG, "onLocationResult: center camera");
@@ -115,29 +123,30 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     private void addRealEstateMarker() {
         mViewModel.getAllRealEstate().observe(this, new Observer<List<RealEstate>>() {
             @Override
-            public void onChanged(List<RealEstate> realEstate) {
-                if (mListRealEstate.isEmpty()) {
-                    Log.d(TAG, "onChanged: empty");
-                    mListRealEstate = realEstate;
-                    for (RealEstate realEstate2 : mListRealEstate) {
-                        Log.d(TAG, "onChanged: RealEstate " + realEstate2.getId());
-                        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(realEstate2.getAddress().getLat()), Double.parseDouble(realEstate2.getAddress().getLng()))).
-                                title(realEstate2.getType())).setTag(realEstate2.getId());
-                    }
-                } else {
-                    Log.d(TAG, "onChanged: not empty");
-                    for (RealEstate r1 : realEstate) {
-                        if (!mListRealEstate.contains(r1)) {
-                            mListRealEstate.add(r1);
-                            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(r1.getAddress().getLat()), Double.parseDouble(r1.getAddress().getLng())))
-                                    .title(r1.getType())).setTag(r1.getId());
-                        } else {
-                            Log.d(TAG, "onChanged: RealEstate already displayed on map");
-                        }
-                    }
-                }
+            public void onChanged(List<RealEstate> realEstatesList) {
+                Log.d(TAG, "onChanged: addRealEstateMarker");
+
+                mListRealEstate.clear();
+                mListRealEstate.addAll(realEstatesList);
+
+                //Set the list for criteria repo
+                mViewModel.setRealEstateList(mListRealEstate);
+
+                setMarker(realEstatesList);
             }
         });
+
+
+        Log.d(TAG, "addRealEstateMarker: end");
+    }
+
+    private void setMarker(List<RealEstate> l) {
+        Log.d(TAG, "setMarker: ");
+        mGoogleMap.clear();
+        for (RealEstate realEstate : l) {
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(realEstate.getAddress().getLat()), Double.parseDouble(realEstate.getAddress().getLng()))).
+                    title(realEstate.getType())).setTag(realEstate.getId());
+        }
     }
 
 
@@ -228,11 +237,50 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
         });
     }
 
+    //Method triggered when confirm button is clicked then it filter the realestate list
+    @Override
+    public void applyCriteria(Criteria criteria) {
+        Log.d(TAG, "applyCriteria: " + mViewModel.filterRealEstates(criteria).size());
+        if (mViewModel.isCriteria()) {
+            Log.d(TAG, "applyCriteria: filtered");
+            setMarker(mViewModel.filterRealEstates(criteria));
+        } else {
+            Log.d(TAG, "applyCriteria: empty filter get backup and set it");
+            setMarker(mViewModel.getRealEstatesBackUp());
+        }
+    }
+
+    //Method triggered when confirm button is clicked then it delete the filter
+    @Override
+    public void applyResetCriteria() {
+        setMarker(mViewModel.getRealEstatesBackUp());
+    }
+
+    //Initialize receiver for broadcast
+    private void initReceiver() {
+        Log.d(TAG, "initReceiver: start CriteriaReceiver");
+        mReceiverCriteria = new CriteriaReceiver();
+        mReceiverCriteria.setCallback(this);
+        IntentFilter intentFilter1 = new IntentFilter();
+        intentFilter1.addAction(CriteriaReceiver.APPLY_CRITERIA);
+        requireContext().registerReceiver(mReceiverCriteria, intentFilter1);
+
+        Log.d(TAG, "initReceiver: ToolbarReceiver");
+        mReceiverToolbar = new ToolbarReceiver();
+        mReceiverToolbar.setCallback(this);
+        IntentFilter intentFilter2 = new IntentFilter();
+        intentFilter2.addAction(ToolbarReceiver.APPLY_RESET_CRITERIA);
+        requireContext().registerReceiver(mReceiverToolbar, intentFilter2);
+
+        Log.d(TAG, "initReceiver: end");
+    }
+
     @Override
     public void onResume() {
         Log.d(TAG, "onResume: ");
         super.onResume();
         mMapView.onResume();
+        initReceiver();
 
         if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
             //Check if a map is saved or not to load it
@@ -253,8 +301,12 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
             mMapStateManager.saveMapState(mGoogleMap);
             mViewModel.stopLocationUpdates(mLocationCallback);
         }
+
         mMapView.onPause();
         mIsCenter = false;
+
+        requireContext().unregisterReceiver(mReceiverCriteria);
+        requireContext().unregisterReceiver(mReceiverToolbar);
     }
 
     @Override
