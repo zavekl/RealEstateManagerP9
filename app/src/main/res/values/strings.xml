@@ -50,4 +50,7 @@
     <string name="tv_your_research">Your research (min 3 chars)</string>
     <string name="b_confirm">CONFIRM</string>
 
+    <string name="notification_text">Add of Real Estate is successful</string>
+
+
 </resources>

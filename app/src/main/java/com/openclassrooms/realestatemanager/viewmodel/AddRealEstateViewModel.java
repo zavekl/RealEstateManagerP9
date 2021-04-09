@@ -14,6 +14,7 @@ import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.model.projo.NearByPlaceResults;
 import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
+import com.openclassrooms.realestatemanager.repository.NotificationRepo;
 import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
 import com.openclassrooms.realestatemanager.repository.RetrofitRepository;
 import com.openclassrooms.realestatemanager.utils.TextInputUtils;
@@ -26,12 +27,14 @@ public class AddRealEstateViewModel extends AndroidViewModel {
     private final RealEstateRepository mRealEstateRepository;
     private final InternalFilesRepository mIternalFilesRepository;
     private final RetrofitRepository mRetrofitRepository;
+    private final NotificationRepo mNotificationRepo;
 
     public AddRealEstateViewModel(@NonNull Application application) {
         super(application);
         mRealEstateRepository = ((MyApplication) application).getContainerDependencies().getRealEstateRepository();
         mRetrofitRepository = ((MyApplication) application).getContainerDependencies().getRetrofitRepository();
         mIternalFilesRepository = new InternalFilesRepository(application);
+        mNotificationRepo = ((MyApplication) application).getContainerDependencies().getNotificationRepo();
     }
 
     public void createTextInputUtils(AutoCompleteTextView autoCompleteTextView, TextInputEditText price, TextInputEditText description,
@@ -58,5 +61,9 @@ public class AddRealEstateViewModel extends AndroidViewModel {
 
     public LiveData<NearByPlaceResults> getPOIAroundUser(String lat, String lng) {
         return mRetrofitRepository.getPOIAroundUser(lat + "," + lng);
+    }
+
+    public void sendNotification() {
+        mNotificationRepo.sendNotification();
     }
 }

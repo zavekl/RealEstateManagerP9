@@ -349,6 +349,9 @@ public class AddRealEstateFragment extends Fragment {
                         .commit();
 
                 MainActivity.revealViewPager();
+
+                //Send notification
+                fragment.mViewModel.sendNotification();
             }
         }
     }
