@@ -258,8 +258,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
 
     //Initialize receiver for broadcast
     private void initReceiver() {
-        Log.d(TAG, "initReceiver: start");
-        Log.d(TAG, "initReceiver: CriteriaReceiver");
+        Log.d(TAG, "initReceiver: start CriteriaReceiver");
         mReceiverCriteria = new CriteriaReceiver();
         mReceiverCriteria.setCallback(this);
         IntentFilter intentFilter1 = new IntentFilter();

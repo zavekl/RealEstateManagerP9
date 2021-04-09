@@ -61,7 +61,6 @@ public class CriteriaFragment extends Fragment {
         return new CriteriaFragment();
     }
 
-    //TODO mettre + à la fin des nombres
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -208,21 +207,15 @@ public class CriteriaFragment extends Fragment {
                 if (mTIPriceMin.getText() != null) {
                     mTIPriceMin.setText(String.valueOf(getTextInputResultRounded(mTIPriceMin.getText().toString(), ROUND_MINIMAL, PRICE)));
 
-                    try {
                         Log.d(TAG, "onClick: " + mTIPriceMin.getText().toString().trim());
                         if (Integer.parseInt(mTIPriceMin.getText().toString().trim()) <= MAX_PRICE) {
-                            Log.d(TAG, "onClick: TEST 1");
                             mRSPrice.setValues(new ArrayList<>(Arrays.asList(Float.valueOf(mTIPriceMin.getText().toString()), maxPrice[0])));
                         } else {
-                            Log.d(TAG, "onClick: TEST 2");
                             displayToast(MAX_PRICE);
                             mRSPrice.setValues(new ArrayList<>(Arrays.asList((float) MAX_PRICE, (float) MAX_PRICE)));
 
                             mTIPriceMin.setText(String.valueOf(MAX_PRICE));
                         }
-                    } catch (NumberFormatException e) {
-                        Log.e(TAG, "onClick: ", e);
-                    }
 
                     mTIPriceMax.setText(String.valueOf(Math.round(maxPrice[0])));
                 }
