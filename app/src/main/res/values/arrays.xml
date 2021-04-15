@@ -10,4 +10,10 @@
     <array name="initial_slider_room_values">
         <item>0</item>
     </array>
+    <array name="slider_years_values">
+        <item>2</item>
+    </array>
+    <array name="slider_rate_values">
+        <item>0.05</item>
+    </array>
 </resources>
