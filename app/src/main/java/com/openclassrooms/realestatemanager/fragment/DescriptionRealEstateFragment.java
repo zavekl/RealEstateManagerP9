@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.Constants;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.activity.MainActivity;
 import com.openclassrooms.realestatemanager.adapter.DescriptionAdapter;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActivityViewModel;
@@ -24,10 +26,14 @@ import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActiv
 public class DescriptionRealEstateFragment extends Fragment {
     private static final String TAG = "DescRealEstateFragment";
 
+    private int mPrice;
+
     private RecyclerView mRecyclerView;
     private TextView mDescription;
     private TextView mLocation1, mLocation2, mLocation3, mNumberPoi;
     private TextView mSurface, mNumberRoom, mNumberBedroom, mNumberBathroom;
+
+    private ImageButton mSimulatorButton;
 
     public static DescriptionRealEstateFragment newInstance() {
         return new DescriptionRealEstateFragment();
@@ -52,6 +58,8 @@ public class DescriptionRealEstateFragment extends Fragment {
         mNumberBathroom = view.findViewById(R.id.tv_bathroom);
         mNumberPoi = view.findViewById(R.id.tv_poi);
 
+        mSimulatorButton = view.findViewById(R.id.simulator);
+
         return view;
     }
 
@@ -59,17 +67,19 @@ public class DescriptionRealEstateFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         DescriptionRealEstateActivityViewModel mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
+
         final DescriptionAdapter adapter = new DescriptionAdapter(requireActivity());
         mRecyclerView.setAdapter(adapter);
 
         if (getArguments() != null) {
             long id = requireArguments().getLong(Constants.BUNDLE_ID);
             Log.d(TAG, "onActivityCreated: id = " + id);
-            
+
             mViewModel.getRealestateById(id).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
                 @Override
                 public void onChanged(RealEstate realEstate) {
-                    //TODO Point d'intéret à faire
+                    mPrice = realEstate.getPrice();
+
                     adapter.setItems(realEstate.getListPathImage());
 
                     mDescription.setText(realEstate.getDescription());
@@ -90,5 +100,27 @@ public class DescriptionRealEstateFragment extends Fragment {
         } else {
             Log.d(TAG, "onActivityCreated: getArguments() = null");
         }
+
+        setOnClickSimulatorButton();
+    }
+
+    private void setOnClickSimulatorButton() {
+        mSimulatorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: simulator button");
+                Fragment fragment = SimulatorRealEstateLoanFragment.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constants.BUNDLE_ID2, mPrice);
+
+                fragment.setArguments(bundle);
+
+                getParentFragmentManager().beginTransaction()
+                        .add(R.id.description_fragment, fragment)
+                        .commit();
+
+                MainActivity.displaySearchFragment();
+            }
+        });
     }
 }
