@@ -57,10 +57,8 @@ public class CriteriaRepo {
             filterBySurface(mCriteria.getMinSurface(), mCriteria.getMaxSurface());
         }
 
-        if (mCriteria.getAvailable() != null) {
-            Log.d(TAG, "filterAllParameters: getAvailable");
-            filterByAvailablility(mCriteria.getAvailable());
-        }
+        Log.d(TAG, "filterAllParameters: getAvailable" + mCriteria.getAvailable());
+        filterByAvailablility(mCriteria.getAvailable());
 
         if (!mCriteria.getRoomNumber().equals("")) {
             Log.d(TAG, "filterAllParameters: getRoomNumber");
@@ -132,6 +130,8 @@ public class CriteriaRepo {
             }
         }
 
+        //TODO ERREUR ICI NE PREND PAS EN COMPTE LE BOOLEAN
+        Log.d(TAG, "filterByAvailablility: " + filteredList.size());
         clearList(filteredList);
     }
 

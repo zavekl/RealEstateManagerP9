@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -7,20 +9,14 @@ import java.io.Serializable;
  */
 public class Criteria implements Serializable {
 
-    private String mText;
     private String mType;
     private String mMinPrice;
     private String mMaxPrice;
     private String mMinSurface;
     private String mMaxSurface;
-
-    private Boolean mAvailable;
-
+    private boolean mAvailable;
     private String mRoomNumber;
     private String mPoi;
-
-    public Criteria() {
-    }
 
     public String getType() {
         return mType;
@@ -62,11 +58,11 @@ public class Criteria implements Serializable {
         this.mMaxSurface = mMaxSurface;
     }
 
-    public Boolean getAvailable() {
+    public boolean getAvailable() {
         return mAvailable;
     }
 
-    public void setAvailable(Boolean mAvailable) {
+    public void setAvailable(boolean mAvailable) {
         this.mAvailable = mAvailable;
     }
 
@@ -86,13 +82,7 @@ public class Criteria implements Serializable {
         this.mPoi = mPoi;
     }
 
-    public String getText() {
-        return mText;
-    }
-
-    public void setText(String mText) {
-        this.mText = mText;
-    }
+    @NonNull
     @Override
     public String toString() {
         return "Criteria{" +

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.openclassrooms.realestatemanager.di.MyApplication;
+import com.openclassrooms.realestatemanager.repository.ApplicationPreferencesRepo;
 import com.openclassrooms.realestatemanager.repository.CriteriaRepo;
 
 /**
@@ -14,13 +15,19 @@ import com.openclassrooms.realestatemanager.repository.CriteriaRepo;
 public class MainActivityViewModel extends AndroidViewModel {
 
     private final CriteriaRepo mCriteriaRepo;
+    private final ApplicationPreferencesRepo mApplicationPreferencesRepo;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
         mCriteriaRepo = ((MyApplication) application).getContainerDependencies().getCriteriaRepo();
+        mApplicationPreferencesRepo = ((MyApplication) application).getContainerDependencies().getApplicationPreferencesRepo();
     }
 
     public boolean isCriteria() {
         return mCriteriaRepo.isCriteria();
+    }
+
+    public void deleteSharedPref(){
+        mApplicationPreferencesRepo.deleteSharedPrefsCriteria();
     }
 }
