@@ -51,6 +51,7 @@
     <string name="b_confirm">CONFIRM</string>
 
     <string name="notification_text">Add of Real Estate is successful</string>
+    <string name="tv_item_sold">SOLD</string>
 
 
 </resources>
