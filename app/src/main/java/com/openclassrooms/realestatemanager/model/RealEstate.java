@@ -32,7 +32,7 @@ public class RealEstate {
     @ColumnInfo(name = "pointofinterest")
     private String mPointOfInterest;
     @ColumnInfo(name = "buy")
-    private boolean mBuy;
+    private boolean mAvailability;
     @ColumnInfo(name = "image")
     private List<String> mListPathImage;
     @ColumnInfo(name = "incoming_date")
@@ -43,7 +43,7 @@ public class RealEstate {
     private String mRealEstateAgent;
 
     public RealEstate(String mType, int mPrice, String mSurface, int mPieceNumber, int mBedroomNumber, int mBathroomNumber,
-                      String mDescription, Address mAddress, String mPointOfInterest, boolean mBuy, List<String> mListPathImage, String mIncomingDate,
+                      String mDescription, Address mAddress, String mPointOfInterest, boolean mAvailability, List<String> mListPathImage, String mIncomingDate,
                       String mDateOfSale, String mRealEstateAgent) {
         this.mType = mType;
         this.mPrice = mPrice;
@@ -54,7 +54,7 @@ public class RealEstate {
         this.mDescription = mDescription;
         this.mAddress = mAddress;
         this.mPointOfInterest = mPointOfInterest;
-        this.mBuy = mBuy;
+        this.mAvailability = mAvailability;
         this.mListPathImage = mListPathImage;
         this.mIncomingDate = mIncomingDate;
         this.mDateOfSale = mDateOfSale;
@@ -117,12 +117,12 @@ public class RealEstate {
         this.mPointOfInterest = pointOfInterest;
     }
 
-    public boolean isBuy() {
-        return mBuy;
+    public boolean isAvailability() {
+        return mAvailability;
     }
 
-    public void setBuy(boolean buy) {
-        this.mBuy = buy;
+    public void setAvailability(boolean buy) {
+        this.mAvailability = buy;
     }
 
     public String getIncomingDate() {
