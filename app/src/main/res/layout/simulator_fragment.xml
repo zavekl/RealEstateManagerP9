@@ -31,6 +31,38 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_title_price_simulator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/tie_money_contribution"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_simulator" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="27dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_price_simulator">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ti_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tie_money_contribution"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
                 android:id="@+id/tv_title_years_simulator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +71,7 @@
                 android:text="@string/tie_number_of_years"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_title_simulator" />
+                app:layout_constraintTop_toBottomOf="@id/til_price" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_years"
@@ -193,11 +225,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="27dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginBottom="7dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/tv_result_borders"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_result3_simulator"
                 tools:text="123165414546546456" />
 

@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ public class SimulatorRealEstateLoanFragment extends Fragment {
 
     private SimulatorRealEstateLoanViewModel mViewModel;
 
+    private TextInputEditText mMoneyContribution;
     private TextInputEditText mNumberYears;
     private TextInputEditText mNumberRate;
 
@@ -49,6 +52,7 @@ public class SimulatorRealEstateLoanFragment extends Fragment {
         mRateSlider = view.findViewById(R.id.slider_rate);
         mRateSlider.setStepSize(0.04999999f); //Fix step size bug +-0.01 of 0.05
 
+        mMoneyContribution = view.findViewById(R.id.ti_price);
         mNumberYears = view.findViewById(R.id.ti_years);
         mNumberRate = view.findViewById(R.id.ti_rate);
 
@@ -82,7 +86,7 @@ public class SimulatorRealEstateLoanFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
-                Log.d(TAG, "linkSlider: price : " + slider.getValue());
+                Log.d(TAG, "linkSlider: years : " + slider.getValue());
                 mNumberYears.setText(String.valueOf((int) slider.getValue()));
                 calculateResults();
             }
@@ -105,22 +109,72 @@ public class SimulatorRealEstateLoanFragment extends Fragment {
 
     //Link edit text with slider
     private void linkEditText() {
-        mNumberYears.setOnClickListener(new View.OnClickListener() {
+        mNumberYears.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                if (mNumberYears.getText() != null) {
-                    mYearsSlider.setValue(Float.parseFloat(mNumberYears.getText().toString()));
-                    calculateResults();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d(TAG, "afterTextChanged: ");
+                if (mNumberYears.getText() != null && s.length() >= 1) {
+                    if (Float.parseFloat(s.toString()) < 30.0f) {
+                        Log.d(TAG, "afterTextChanged: mNumberYears");
+                        mYearsSlider.setValue(Float.parseFloat(s.toString()));
+                        calculateResults();
+                    }
                 }
             }
         });
 
-        mNumberRate.setOnClickListener(new View.OnClickListener() {
+        mNumberRate.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                if (mNumberRate.getText() != null) {
-                    mRateSlider.setValue(Float.parseFloat(mNumberRate.getText().toString()));
-                    calculateResults();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mNumberRate.getText() != null && s.length() >= 1) {
+                    if (Float.parseFloat(s.toString()) < 5.0f) {
+                        mRateSlider.setValue(Float.parseFloat(s.toString()));
+                        calculateResults();
+                    }
+                }
+            }
+        });
+
+        mMoneyContribution.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMoneyContribution.getText() != null && s.length() >= 1) {
+                    if (Integer.parseInt(mPrice) > Integer.parseInt(s.toString())) {
+                        mPrice = String.valueOf(Integer.parseInt(mPrice) - Integer.parseInt(s.toString()));
+                        calculateResults();
+                    } else {
+                        mMoneyContribution.setError(getString(R.string.tie_money_contribution_error));
+                    }
                 }
             }
         });

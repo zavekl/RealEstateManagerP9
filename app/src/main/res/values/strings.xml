@@ -57,5 +57,8 @@
 
     <string name="notification_text">Add of Real Estate is successful</string>
 
+    <string name="tie_money_contribution">MONEY CONTRIBUTION</string>
+    <string name="tie_money_contribution_error">Contribution cost more than real estate</string>
+
 
 </resources>
