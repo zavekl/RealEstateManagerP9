@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
@@ -28,6 +27,7 @@ import com.openclassrooms.realestatemanager.viewmodel.CriteriaViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class CriteriaFragment extends Fragment {
@@ -91,6 +91,53 @@ public class CriteriaFragment extends Fragment {
         linkSlider();
         linkEditText();
         setDropDownTextInput();
+        setCriteriaSharedPref();
+    }
+
+    private void setCriteriaSharedPref() {
+        Criteria criteria = mViewModel.getSharedPref();
+
+        List<Float> listPrice = new ArrayList<>();
+        List<Float> listSurface = new ArrayList<>();
+
+        if (criteria.getType() != null) {
+            Log.d(TAG, "setCriteriaSharedPref: getType");
+            mTIType.setText(criteria.getType());
+        }
+        if (criteria.getMinPrice() != null) {
+            Log.d(TAG, "setCriteriaSharedPref: getMinPrice");
+            mTIPriceMin.setText(criteria.getMinPrice());
+            listPrice.add(Float.valueOf(mTIPriceMin.getText().toString()));
+        }
+        if (criteria.getMaxPrice() != null) {
+            Log.d(TAG, "setCriteriaSharedPref: getMaxPrice");
+            mTIPriceMax.setText(criteria.getMaxPrice());
+            listPrice.add(Float.valueOf(mTIPriceMax.getText().toString()));
+            mRSPrice.setValues(listPrice);
+        }
+        if (criteria.getMinSurface() != null) {
+            Log.d(TAG, "setCriteriaSharedPref: getMinSurface");
+            mTISurfaceMin.setText(criteria.getMinSurface());
+            listSurface.add(Float.valueOf(mTISurfaceMin.getText().toString()));
+        }
+        if (criteria.getMaxSurface() != null) {
+            Log.d(TAG, "setCriteriaSharedPref: getMaxSurface");
+            mTISurfaceMax.setText(criteria.getMaxSurface());
+            listSurface.add(Float.valueOf(mTISurfaceMax.getText().toString()));
+            mRSSurface.setValues(listSurface);
+        }
+        Log.d(TAG, "setCriteriaSharedPref: getAvailable");
+        mCheckBox.setChecked(criteria.getAvailable());
+
+        if (criteria.getRoomNumber() != null) {
+            Log.d(TAG, "setCriteriaSharedPref: getRoomNumber");
+            mTIRoom.setText(criteria.getRoomNumber());
+        }
+        if (criteria.getPoi() != null) {
+            Log.d(TAG, "setCriteriaSharedPref: getPoi");
+            mTIPoi.setText(criteria.getPoi());
+            mSPoi.setValue(Float.parseFloat(mTIPoi.getText().toString()));
+        }
     }
 
     //Get the criteria which the user select and apply it when he confirm
@@ -98,16 +145,19 @@ public class CriteriaFragment extends Fragment {
         mButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MutableLiveData<Boolean> booleanLiveData = new MutableLiveData<>();
-                booleanLiveData.setValue(true);
+                Criteria criteria = getCriteria();
                 Log.d(TAG, "onClick: " + getCriteria().toString());
-                mViewModel.setCriteriaRepo(getCriteria());
+
+                mViewModel.setCriteria(criteria);
 
                 //Send broadcast with the criteria object
                 Intent intent = new Intent();
                 intent.setAction(CriteriaReceiver.APPLY_CRITERIA);
                 intent.putExtra("Criteria", getCriteria());
                 requireContext().sendBroadcast(intent);
+
+                //Save into shared pref
+                mViewModel.saveSharedPrefCriteria(criteria);
             }
         });
     }
@@ -207,15 +257,15 @@ public class CriteriaFragment extends Fragment {
                 if (mTIPriceMin.getText() != null) {
                     mTIPriceMin.setText(String.valueOf(getTextInputResultRounded(mTIPriceMin.getText().toString(), ROUND_MINIMAL, PRICE)));
 
-                        Log.d(TAG, "onClick: " + mTIPriceMin.getText().toString().trim());
-                        if (Integer.parseInt(mTIPriceMin.getText().toString().trim()) <= MAX_PRICE) {
-                            mRSPrice.setValues(new ArrayList<>(Arrays.asList(Float.valueOf(mTIPriceMin.getText().toString()), maxPrice[0])));
-                        } else {
-                            displayToast(MAX_PRICE);
-                            mRSPrice.setValues(new ArrayList<>(Arrays.asList((float) MAX_PRICE, (float) MAX_PRICE)));
+                    Log.d(TAG, "onClick: " + mTIPriceMin.getText().toString().trim());
+                    if (Integer.parseInt(mTIPriceMin.getText().toString().trim()) <= MAX_PRICE) {
+                        mRSPrice.setValues(new ArrayList<>(Arrays.asList(Float.valueOf(mTIPriceMin.getText().toString()), maxPrice[0])));
+                    } else {
+                        displayToast(MAX_PRICE);
+                        mRSPrice.setValues(new ArrayList<>(Arrays.asList((float) MAX_PRICE, (float) MAX_PRICE)));
 
-                            mTIPriceMin.setText(String.valueOf(MAX_PRICE));
-                        }
+                        mTIPriceMin.setText(String.valueOf(MAX_PRICE));
+                    }
 
                     mTIPriceMax.setText(String.valueOf(Math.round(maxPrice[0])));
                 }

@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.di;
 
 import android.content.Context;
 
+import com.openclassrooms.realestatemanager.repository.ApplicationPreferencesRepo;
 import com.openclassrooms.realestatemanager.repository.CriteriaRepo;
 import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
 import com.openclassrooms.realestatemanager.repository.MapRepository;
@@ -20,6 +21,7 @@ public class ContainerDependencies {
     private final RetrofitRepository mRetrofitRepository;
     private final CriteriaRepo mCriteriaRepo;
     private final NotificationRepo mNotificationRepo;
+    private final ApplicationPreferencesRepo mApplicationPreferencesRepo;
 
     ContainerDependencies(Context context) {
         mRealEstateRepository = new RealEstateRepository(context);
@@ -28,6 +30,7 @@ public class ContainerDependencies {
         mRetrofitRepository = new RetrofitRepository();
         mCriteriaRepo = new CriteriaRepo();
         mNotificationRepo = new NotificationRepo(context);
+        mApplicationPreferencesRepo = new ApplicationPreferencesRepo(context);
     }
 
     public RealEstateRepository getRealEstateRepository() {
@@ -52,5 +55,9 @@ public class ContainerDependencies {
 
     public NotificationRepo getNotificationRepo() {
         return mNotificationRepo;
+    }
+
+    public ApplicationPreferencesRepo getApplicationPreferencesRepo() {
+        return mApplicationPreferencesRepo;
     }
 }

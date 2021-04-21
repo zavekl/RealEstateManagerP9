@@ -25,7 +25,7 @@ public class CriteriaRepo {
         if (mCriteria != null) {
             if (!mCriteria.getType().equals("") || !mCriteria.getMinPrice().equals("") || !mCriteria.getMaxPrice().equals("") ||
                     !mCriteria.getMinSurface().equals("") || !mCriteria.getMaxSurface().equals("") || !mCriteria.getAvailable() ||
-                    !mCriteria.getRoomNumber().equals("") || !mCriteria.getPoi().equals("")) {
+                    mCriteria.getAvailable() || !mCriteria.getRoomNumber().equals("") || !mCriteria.getPoi().equals("")) {
                 Log.d(TAG, "isCriteria: true");
                 return true;
             } else {
@@ -57,10 +57,8 @@ public class CriteriaRepo {
             filterBySurface(mCriteria.getMinSurface(), mCriteria.getMaxSurface());
         }
 
-        if (mCriteria.getAvailable() != null) {
-            Log.d(TAG, "filterAllParameters: getAvailable");
-            filterByAvailablility(mCriteria.getAvailable());
-        }
+        Log.d(TAG, "filterAllParameters: getAvailable : " + mCriteria.getAvailable());
+        filterByAvailablility(mCriteria.getAvailable());
 
         if (!mCriteria.getRoomNumber().equals("")) {
             Log.d(TAG, "filterAllParameters: getRoomNumber");
@@ -72,15 +70,8 @@ public class CriteriaRepo {
             filterByPoiNumber(Integer.parseInt(mCriteria.getPoi()));
         }
 
-        Log.d(TAG, "filterAllParameters: list filtered : " + mRealEstatesList.size());
-
-        if (mRealEstatesList.size() > 0) {
-            Log.d(TAG, "filterAllParameters: apply criteria");
-            return mRealEstatesList;
-        } else {
-            Log.d(TAG, "filterAllParameters: return list backup");
-            return mRealEstatesListBackUp;
-        }
+        Log.d(TAG, "filterAllParameters: apply criteria " + mRealEstatesList.size());
+        return mRealEstatesList;
     }
 
     //Filter by type
@@ -127,7 +118,7 @@ public class CriteriaRepo {
     public void filterByAvailablility(boolean param) {
         List<RealEstate> filteredList = new ArrayList<>();
         for (RealEstate realEstate : mRealEstatesList) {
-            if (realEstate.isBuy() == param) {
+            if (realEstate.isAvailability() == param) {
                 filteredList.add(realEstate);
             }
         }
@@ -161,8 +152,13 @@ public class CriteriaRepo {
 
     private void clearList(List<RealEstate> filteredList) {
         if (filteredList.size() > 0) {
+            Log.d(TAG, "clearList: if");
             mRealEstatesList.clear();
             mRealEstatesList.addAll(filteredList);
+            filteredList.clear();
+        } else {
+            Log.d(TAG, "clearList: else");
+            mRealEstatesList.clear();
             filteredList.clear();
         }
     }

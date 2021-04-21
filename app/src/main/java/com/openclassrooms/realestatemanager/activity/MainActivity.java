@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
             Log.d(TAG, "applyCriteria: in if");
             mStateResearchButton.setVisibility(View.VISIBLE);
         } else {
+            mViewModel.deleteSharedPref();
             mStateResearchButton.setVisibility(View.INVISIBLE);
         }
     }
@@ -188,6 +189,9 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
                 sendBroadcast(intent);
 
                 mStateResearchButton.setVisibility(View.INVISIBLE);
+
+                //Delete shared pref
+                mViewModel.deleteSharedPref();
             }
         });
     }
@@ -202,6 +206,12 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mReceiverCriteria);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mViewModel.deleteSharedPref();
     }
 }
 
