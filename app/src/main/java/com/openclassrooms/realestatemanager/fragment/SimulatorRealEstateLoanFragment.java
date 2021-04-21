@@ -16,13 +16,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
-import com.openclassrooms.realestatemanager.Constants;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.viewmodel.SimulatorRealEstateLoanViewModel;
+
+import static com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment.BUNDLE_PRICE_SIMULATOR;
 
 public class SimulatorRealEstateLoanFragment extends Fragment {
 
     private static final String TAG = "SimulatorFragment";
+
 
     private SimulatorRealEstateLoanViewModel mViewModel;
 
@@ -73,7 +75,7 @@ public class SimulatorRealEstateLoanFragment extends Fragment {
         //Get the price which was shared with the fragment
         if (getArguments() != null) {
             Log.d(TAG, "onActivityCreated: get price");
-            mPrice = String.valueOf(requireArguments().getInt(Constants.BUNDLE_ID2));
+            mPrice = String.valueOf(requireArguments().getInt(BUNDLE_PRICE_SIMULATOR));
         }
     }
 
@@ -189,12 +191,15 @@ public class SimulatorRealEstateLoanFragment extends Fragment {
                 mViewModel.setInterestRate(mNumberRate.getText().toString());
 
                 //Calculate results
-                StringBuilder s1 = new StringBuilder("  " + mViewModel.calculateRealEstateLoan() + "€  ");
+                StringBuilder s1 = new StringBuilder(getString(R.string.simple_space) + mViewModel.calculateRealEstateLoan()
+                        + getString(R.string.dollar) + getString(R.string.simple_space));
                 StringBuilder s2;
                 if (mViewModel.calculateCostOfCredit() > 0) {
-                    s2 = new StringBuilder("  " + mViewModel.calculateCostOfCredit() + "€  ");
+                    s2 = new StringBuilder(getString(R.string.simple_space) + mViewModel.calculateCostOfCredit()
+                            + getString(R.string.dollar) + getString(R.string.simple_space));
                 } else {
-                    s2 = new StringBuilder("  0€ ");
+                    s2 = new StringBuilder(getString(R.string.simple_space) + getString(R.string.zero)
+                            + getString(R.string.dollar) + getString(R.string.simple_space));
                 }
 
                 mResultMonth.setText(s1);

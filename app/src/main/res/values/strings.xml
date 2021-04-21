@@ -60,5 +60,9 @@
     <string name="tie_money_contribution">MONEY CONTRIBUTION</string>
     <string name="tie_money_contribution_error">Contribution cost more than real estate</string>
 
+    <string name="simple_space">\u0020</string>
+    <string name="dollar">$</string>
+    <string name="zero">0</string>
+    <string name="m2">m2</string>
 
 </resources>

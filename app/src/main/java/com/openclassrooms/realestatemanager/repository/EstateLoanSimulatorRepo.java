@@ -30,14 +30,14 @@ public class EstateLoanSimulatorRepo {
     }
 
     public void setRealEstatePrice(String realEstatePrice) {
-        this.mRealEstatePrice = realEstatePrice;
+        mRealEstatePrice = realEstatePrice;
     }
 
     public void setInterestRate(String interestRate) {
-        this.mInterestRate = interestRate;
+        mInterestRate = interestRate;
     }
 
     public void setTimeCreditYear(String timeCreditYear) {
-        this.mTimeCreditYear = timeCreditYear;
+        mTimeCreditYear = timeCreditYear;
     }
 }

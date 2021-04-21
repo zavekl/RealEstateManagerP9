@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.openclassrooms.realestatemanager.Constants;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.activity.MainActivity;
 import com.openclassrooms.realestatemanager.di.MyApplication;
@@ -31,6 +30,8 @@ import java.util.List;
  */
 public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstateRVAdapter.ViewHolder> {
     private static final String TAG = "ListRERVAdapter";
+    public static final String BUNDLE_ID_DESCRIPTION = "BUNDLE_ID";
+
 
     @NonNull
     private List<RealEstate> mItemRealEstate = new ArrayList<>();
@@ -83,7 +84,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
                 DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
 
                 Bundle bundle = new Bundle();
-                bundle.putLong(Constants.BUNDLE_ID, mItemRealEstate.get(position).getId());
+                bundle.putLong(BUNDLE_ID_DESCRIPTION, mItemRealEstate.get(position).getId());
 
                 fragment.setArguments(bundle);
 

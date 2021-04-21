@@ -16,22 +16,25 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.openclassrooms.realestatemanager.Constants;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.activity.MainActivity;
 import com.openclassrooms.realestatemanager.adapter.DescriptionAdapter;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActivityViewModel;
 
+import static com.openclassrooms.realestatemanager.adapter.ListRealEstateRVAdapter.BUNDLE_ID_DESCRIPTION;
+
 public class DescriptionRealEstateFragment extends Fragment {
     private static final String TAG = "DescRealEstateFragment";
+    public static final String BUNDLE_PRICE_SIMULATOR = "BUNDLE_PRICE";
+
 
     private int mPrice;
 
     private RecyclerView mRecyclerView;
     private TextView mDescription;
     private TextView mLocation1, mLocation2, mLocation3, mNumberPoi;
-    private TextView mSurface, mNumberRoom, mNumberBedroom, mNumberBathroom;
+    private TextView mSurface, mNumberRoom, mNumberBedroom, mNumberBathroom, mTVPrice;
 
     private ImageButton mSimulatorButton;
 
@@ -57,6 +60,7 @@ public class DescriptionRealEstateFragment extends Fragment {
         mNumberBedroom = view.findViewById(R.id.tv_bedroom);
         mNumberBathroom = view.findViewById(R.id.tv_bathroom);
         mNumberPoi = view.findViewById(R.id.tv_poi);
+        mTVPrice = view.findViewById(R.id.tv_price);
 
         mSimulatorButton = view.findViewById(R.id.simulator);
 
@@ -72,7 +76,7 @@ public class DescriptionRealEstateFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
 
         if (getArguments() != null) {
-            long id = requireArguments().getLong(Constants.BUNDLE_ID);
+            long id = requireArguments().getLong(BUNDLE_ID_DESCRIPTION);
             Log.d(TAG, "onActivityCreated: id = " + id);
 
             mViewModel.getRealestateById(id).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
@@ -89,7 +93,8 @@ public class DescriptionRealEstateFragment extends Fragment {
                     mLocation3.setText(realEstate.getAddress().getTown().trim());
                     Log.d(TAG, "onChanged: latlng : " + realEstate.getAddress().getLat() + "/" + realEstate.getAddress().getLng());
 
-                    mSurface.setText(new StringBuilder(realEstate.getSurface() + " m2"));
+                    mSurface.setText(new StringBuilder(realEstate.getSurface() + getString(R.string.simple_space) + getString(R.string.m2)));
+                    mTVPrice.setText(new StringBuilder(realEstate.getPrice() + getString(R.string.simple_space) + getString(R.string.dollar)));
                     mNumberRoom.setText(String.valueOf(realEstate.getPieceNumber()));
                     mNumberBedroom.setText(String.valueOf(realEstate.getBedroomNumber()));
                     mNumberBathroom.setText(String.valueOf(realEstate.getBathroomNumber()));
@@ -111,7 +116,7 @@ public class DescriptionRealEstateFragment extends Fragment {
                 Log.d(TAG, "onClick: simulator button");
                 Fragment fragment = SimulatorRealEstateLoanFragment.newInstance();
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constants.BUNDLE_ID2, mPrice);
+                bundle.putInt(BUNDLE_PRICE_SIMULATOR, mPrice);
 
                 fragment.setArguments(bundle);
 
