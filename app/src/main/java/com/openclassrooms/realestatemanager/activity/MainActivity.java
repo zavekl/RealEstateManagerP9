@@ -209,8 +209,8 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         mViewModel.deleteSharedPref();
     }
 }
