@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.fragment.AddRealEstateFragment;
 import com.openclassrooms.realestatemanager.fragment.CriteriaFragment;
 import com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment;
+import com.openclassrooms.realestatemanager.fragment.SimulatorRealEstateLoanFragment;
 import com.openclassrooms.realestatemanager.model.Criteria;
 import com.openclassrooms.realestatemanager.utils.CriteriaReceiver;
 import com.openclassrooms.realestatemanager.utils.ToolbarReceiver;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
 
     private ImageButton mResearchButton;
     private ImageButton mStateResearchButton;
-    private FragmentContainerView mFragmentCV;
+    private static FragmentContainerView mFragmentCV;
 
     private MainActivityViewModel mViewModel;
 
@@ -94,6 +95,11 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
             revealViewPager();
         }
 
+        if (fragment instanceof SimulatorRealEstateLoanFragment) {
+            Log.d(TAG, "onBackPressed: SimulatorRealEstateLoanFragment fragment is visible");
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+
         if (mFragmentCV.getVisibility() == View.VISIBLE) {
             hideSearchFragment();
         } else if (!(fragment instanceof DescriptionRealEstateFragment) & !(fragment instanceof AddRealEstateFragment) && mFragmentCV.getVisibility() == View.INVISIBLE) {
@@ -116,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
 
     private void hideSearchFragment() {
         mFragmentCV.setVisibility(View.INVISIBLE);
+    }
+
+    public static void displaySearchFragment() {
+        mFragmentCV.setVisibility(View.VISIBLE);
+        mFragmentCV.bringToFront();
     }
 
     //Create search menu in toolbar

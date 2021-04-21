@@ -32,7 +32,6 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.openclassrooms.realestatemanager.Constants;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.model.Criteria;
 import com.openclassrooms.realestatemanager.model.MapStateManager;
@@ -48,6 +47,8 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
+
+import static com.openclassrooms.realestatemanager.adapter.ListRealEstateRVAdapter.BUNDLE_ID_DESCRIPTION;
 
 public class MapFragment extends Fragment implements EasyPermissions.PermissionCallbacks, CriteriaReceiver.ICustomListener, ToolbarReceiver.ICustomListener {
     private static final String TAG = "MapFragment";
@@ -187,7 +188,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
                 Bundle bundle = new Bundle();
 
                 if (marker.getTag() != null) {
-                    bundle.putLong(Constants.BUNDLE_ID, Long.parseLong(marker.getTag().toString()));
+                    bundle.putLong(BUNDLE_ID_DESCRIPTION, Long.parseLong(marker.getTag().toString()));
                 }
 
                 fragment.setArguments(bundle);

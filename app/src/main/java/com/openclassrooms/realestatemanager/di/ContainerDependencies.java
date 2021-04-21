@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.openclassrooms.realestatemanager.repository.ApplicationPreferencesRepo;
 import com.openclassrooms.realestatemanager.repository.CriteriaRepo;
+import com.openclassrooms.realestatemanager.repository.EstateLoanSimulatorRepo;
 import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
 import com.openclassrooms.realestatemanager.repository.MapRepository;
 import com.openclassrooms.realestatemanager.repository.NotificationRepo;
@@ -22,6 +23,7 @@ public class ContainerDependencies {
     private final CriteriaRepo mCriteriaRepo;
     private final NotificationRepo mNotificationRepo;
     private final ApplicationPreferencesRepo mApplicationPreferencesRepo;
+    private final EstateLoanSimulatorRepo mEstateLoanSimulatorRepo;
 
     ContainerDependencies(Context context) {
         mRealEstateRepository = new RealEstateRepository(context);
@@ -31,6 +33,7 @@ public class ContainerDependencies {
         mCriteriaRepo = new CriteriaRepo();
         mNotificationRepo = new NotificationRepo(context);
         mApplicationPreferencesRepo = new ApplicationPreferencesRepo(context);
+        mEstateLoanSimulatorRepo = new EstateLoanSimulatorRepo();
     }
 
     public RealEstateRepository getRealEstateRepository() {
@@ -59,5 +62,9 @@ public class ContainerDependencies {
 
     public ApplicationPreferencesRepo getApplicationPreferencesRepo() {
         return mApplicationPreferencesRepo;
+    }
+
+    public EstateLoanSimulatorRepo getEstateLoanSimulatorRepo() {
+        return mEstateLoanSimulatorRepo;
     }
 }

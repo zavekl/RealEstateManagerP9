@@ -49,8 +49,20 @@
 
     <string name="tv_your_research">Your research (min 3 chars)</string>
     <string name="b_confirm">CONFIRM</string>
+    <string name="credit_simulator">CREDIT SIMULATOR</string>
+    <string name="tie_number_of_years">NUMBER OF YEARS</string>
+    <string name="tie_number_of_percentage">NUMBER OF PERCENTAGE</string>
+    <string name="monthly_payment">MONTHLY PAYMENT</string>
+    <string name="cost_of_credit">COST OF CREDIT</string>
 
     <string name="notification_text">Add of Real Estate is successful</string>
 
+    <string name="tie_money_contribution">MONEY CONTRIBUTION</string>
+    <string name="tie_money_contribution_error">Contribution cost more than real estate</string>
+
+    <string name="simple_space">\u0020</string>
+    <string name="dollar">$</string>
+    <string name="zero">0</string>
+    <string name="m2">m2</string>
 
 </resources>
