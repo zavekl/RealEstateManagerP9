@@ -77,7 +77,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
                 .centerCrop()
                 .into(holder.mImageView);
 
-        if(!mItemRealEstate.get(position).isBuy()){
+        if(!mItemRealEstate.get(position).isAvailability()){
             holder.mTextView.bringToFront();
         }
 

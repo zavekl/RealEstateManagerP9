@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.adapter.DescriptionAdapter;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActivityViewModel;
 
+import static com.openclassrooms.realestatemanager.activity.MainActivity.hideCriteriaButton;
 import static com.openclassrooms.realestatemanager.adapter.ListRealEstateRVAdapter.BUNDLE_ID_DESCRIPTION;
 
 public class DescriptionRealEstateFragment extends Fragment {
@@ -70,7 +71,10 @@ public class DescriptionRealEstateFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         DescriptionRealEstateActivityViewModel mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
+
+        hideCriteriaButton();
 
         final DescriptionAdapter adapter = new DescriptionAdapter(requireActivity());
         mRecyclerView.setAdapter(adapter);

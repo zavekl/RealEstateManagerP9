@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.viewmodel.SimulatorRealEstateLoanViewModel;
 
+import static com.openclassrooms.realestatemanager.activity.MainActivity.hideCriteriaButton;
 import static com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment.BUNDLE_PRICE_SIMULATOR;
 
 public class SimulatorRealEstateLoanFragment extends Fragment {
@@ -68,6 +69,8 @@ public class SimulatorRealEstateLoanFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(SimulatorRealEstateLoanViewModel.class);
+
+        hideCriteriaButton();
 
         linkSlider();
         linkEditText();

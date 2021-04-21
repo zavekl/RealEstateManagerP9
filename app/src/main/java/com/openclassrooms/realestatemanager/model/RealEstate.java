@@ -31,7 +31,7 @@ public class RealEstate {
     private Address mAddress;
     @ColumnInfo(name = "pointofinterest")
     private String mPointOfInterest;
-    @ColumnInfo(name = "buy")
+    @ColumnInfo(name = "availability")
     private boolean mAvailability;
     @ColumnInfo(name = "image")
     private List<String> mListPathImage;

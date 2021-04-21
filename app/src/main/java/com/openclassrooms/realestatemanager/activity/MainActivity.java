@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
     private static ViewPager mViewPager;
     private static TabLayout mTabLayout;
 
-    private ImageButton mResearchButton;
+    private static ImageButton mResearchButton;
     private ImageButton mStateResearchButton;
     private static FragmentContainerView mFragmentCV;
 
@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
             Log.d(TAG, "onBackPressed: Description fragment is visible");
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             revealViewPager();
+            displayCriteriaButton();
         }
 
         if (fragment instanceof AddRealEstateFragment) {
@@ -122,6 +123,14 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
 
     private void hideSearchFragment() {
         mFragmentCV.setVisibility(View.INVISIBLE);
+    }
+
+    public static void hideCriteriaButton(){
+        mResearchButton.setVisibility(View.GONE);
+    }
+
+    public static void displayCriteriaButton(){
+        mResearchButton.setVisibility(View.VISIBLE);
     }
 
     public static void displaySearchFragment() {
