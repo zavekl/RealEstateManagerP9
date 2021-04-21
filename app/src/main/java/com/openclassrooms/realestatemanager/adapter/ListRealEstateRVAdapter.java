@@ -77,6 +77,11 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
                 .centerCrop()
                 .into(holder.mImageView);
 
+        if(!mItemRealEstate.get(position).isBuy()){
+            holder.mTextView.bringToFront();
+        }
+
+
         //On click of image start DescriptionActivity
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +96,8 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
                 mRvListRealEstateFragment.getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
                         .add(R.id.description_fragment, fragment, null)
                         .commit();
+
+
 
                 MainActivity.hideViewPager();
             }
@@ -113,6 +120,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
         final TextView mTown;
         final TextView mPrice;
         final ImageView mImageView;
+        final TextView mTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,6 +128,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
             mTown = itemView.findViewById(R.id.rv_tv_item_town);
             mPrice = itemView.findViewById(R.id.rv_tv_item_price);
             mImageView = itemView.findViewById(R.id.rv_iv_photo);
+            mTextView = itemView.findViewById(R.id.tv_item_description);
         }
     }
 }
