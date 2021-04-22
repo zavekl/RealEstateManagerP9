@@ -242,7 +242,7 @@ public class AddRealEstateFragment extends Fragment {
                         RealEstate realEstate = new RealEstate(mTIType.getText().toString(), Integer.parseInt(mTIPrice.getText().toString()), mTISurface.getText().toString(),
                                 Integer.parseInt(mTIRoom.getText().toString()), Integer.parseInt(mTIBedroom.getText().toString()),
                                 Integer.parseInt(mTIBathroom.getText().toString()), mTIDescription.getText().toString(), address, String.valueOf(mNumberOfPOI),
-                                false, mListBitmapNameFile, getTodayDate2(), "A FAIRE", "AGENT 1");
+                                true, mListBitmapNameFile, getTodayDate2(), "A FAIRE", "AGENT 1");
 
                         mViewModel.insert(realEstate);
 
