@@ -1,10 +1,13 @@
 package com.openclassrooms.realestatemanager.fragment;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -145,10 +148,30 @@ public class AddRealEstateFragment extends Fragment {
 
     //Start intent to choose image in internal storage of device
     private void pickImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, requireContext().getResources().getString(R.string.image_intent)), REQUEST_CODE);
+        //Camera
+        final List<Intent> cameraIntents = new ArrayList<>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = requireContext().getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            cameraIntents.add(intent);
+        }
+
+        //Library
+        Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Image Source");
+
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+        startActivityForResult(Intent.createChooser(chooserIntent, requireContext().getResources().getString(R.string.image_intent)), REQUEST_CODE);
     }
 
     //Click on itemView to add image in device with pickImage() method
@@ -177,12 +200,16 @@ public class AddRealEstateFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            //Get the image by uri and transform it in bitmap
-            Uri uri = data.getData();
             try {
-                Bitmap mBitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), uri);
-                //Set grid view item
-                mAddGridViewAdapter.addItem(mBitmap);    //Or create another adapter with the data
+                //Get the image by uri and transform it in bitmap
+                if (data.getData() != null) {
+                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), data.getData());
+                    mAddGridViewAdapter.addItem(mBitmap);
+                } else {
+                    mAddGridViewAdapter.addItem((Bitmap) data.getExtras().get("data"));
+                }
+
+                //Or create another adapter with the data
                 mGridView.setAdapter(mAddGridViewAdapter);
 
                 //Get unique ID of file to save in memory
