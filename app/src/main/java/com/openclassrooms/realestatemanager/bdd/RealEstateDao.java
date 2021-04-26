@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.bdd;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -30,4 +32,7 @@ public interface RealEstateDao {
 
     @Query("SELECT * FROM realEstate WHERE id=:id")
     LiveData<RealEstate> getRealEstateById(long id);
+
+    @Query("SELECT * FROM realEstate WHERE id=:id")
+    Cursor getRealEstateByIdCursor(long id);
 }
