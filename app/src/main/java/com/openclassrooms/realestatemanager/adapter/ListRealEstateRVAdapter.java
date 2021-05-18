@@ -20,6 +20,7 @@ import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment;
 import com.openclassrooms.realestatemanager.fragment.RVListRealEstateFragment;
 import com.openclassrooms.realestatemanager.model.RealEstate;
+import com.openclassrooms.realestatemanager.repository.ApplicationPreferencesRepo;
 import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
 
 import java.util.ArrayList;
@@ -41,12 +42,14 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
     private final InternalFilesRepository mInternalFilesRepository;
 
     private final RVListRealEstateFragment mRvListRealEstateFragment;
+    private final ApplicationPreferencesRepo mApplicationPreferencesRepo;
 
     public ListRealEstateRVAdapter(Activity mActivity, RVListRealEstateFragment rvListRealEstateFragment) {
         Log.d(TAG, "ListRealEstateRVAdapter: ");
         this.mActivity = mActivity;
         mRvListRealEstateFragment = rvListRealEstateFragment;
         mInternalFilesRepository = ((MyApplication) mActivity.getApplicationContext()).getContainerDependencies().getInternalFilesRepository();
+        mApplicationPreferencesRepo = ((MyApplication) mActivity.getApplicationContext()).getContainerDependencies().getApplicationPreferencesRepo();
     }
 
     @NonNull
@@ -54,12 +57,30 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
     public ListRealEstateRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.rv_item_real_estate, parent, false);
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: item : " + position);
+        if (position == 0 && MainActivity.mTabletMode) {
+            Log.d(TAG, "onBindViewHolder: tablet mode for description activity");
+            mApplicationPreferencesRepo.setSharedPrefsFirstItemDescription(String.valueOf(mItemRealEstate.get(position).getId()));
+            if (MainActivity.mTabletMode) {
+                DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
+
+                Bundle bundle = new Bundle();
+                bundle.putLong(BUNDLE_ID_DESCRIPTION, mItemRealEstate.get(position).getId());
+
+                fragment.setArguments(bundle);
+
+                mRvListRealEstateFragment.getParentFragmentManager().beginTransaction()
+                        .replace(R.id.description_fragment, fragment, String.valueOf(mItemRealEstate.get(position).getId()))
+                        .commit();
+            }
+        }
+
         //Type of real estate
         holder.mType.setText(mItemRealEstate.get(position).getType());
 
@@ -77,8 +98,10 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
                 .centerCrop()
                 .into(holder.mImageView);
 
-        if(!mItemRealEstate.get(position).isAvailability()){
+        if (!mItemRealEstate.get(position).isAvailability()) {
             holder.mTextView.bringToFront();
+        } else {
+            holder.mTextView.setVisibility(View.INVISIBLE);
         }
 
 
@@ -86,6 +109,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.displayDescriptionFragment();
                 DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
 
                 Bundle bundle = new Bundle();
@@ -93,13 +117,14 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
 
                 fragment.setArguments(bundle);
 
-                mRvListRealEstateFragment.getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
-                        .add(R.id.description_fragment, fragment, null)
+                mRvListRealEstateFragment.getParentFragmentManager().beginTransaction()
+                        .replace(R.id.description_fragment, fragment, String.valueOf(mItemRealEstate.get(position).getId()))
                         .commit();
 
-
-
-                MainActivity.hideViewPager();
+                if (!MainActivity.mTabletMode) {
+                    Log.d(TAG, "onClick: phone mode");
+                    MainActivity.hideViewPager();
+                }
             }
         });
     }

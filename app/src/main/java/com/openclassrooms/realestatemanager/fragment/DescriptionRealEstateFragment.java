@@ -74,7 +74,9 @@ public class DescriptionRealEstateFragment extends Fragment {
 
         DescriptionRealEstateActivityViewModel mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
 
-        hideCriteriaButton();
+        if (!MainActivity.mTabletMode) {
+            hideCriteriaButton();
+        }
 
         final DescriptionAdapter adapter = new DescriptionAdapter(requireActivity());
         mRecyclerView.setAdapter(adapter);
@@ -93,7 +95,7 @@ public class DescriptionRealEstateFragment extends Fragment {
                     mDescription.setText(realEstate.getDescription());
 
                     mLocation1.setText(realEstate.getAddress().getNumberStreet().trim());
-                    mLocation2.setText(realEstate.getAddress().getPostalCode().trim());
+                    mLocation2.setText(new StringBuilder(realEstate.getAddress().getDistrict().trim() + ", " + realEstate.getAddress().getPostalCode().trim()));
                     mLocation3.setText(realEstate.getAddress().getTown().trim());
                     Log.d(TAG, "onChanged: latlng : " + realEstate.getAddress().getLat() + "/" + realEstate.getAddress().getLng());
 

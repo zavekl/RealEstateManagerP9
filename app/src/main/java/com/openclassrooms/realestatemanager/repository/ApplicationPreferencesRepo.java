@@ -12,6 +12,7 @@ import com.openclassrooms.realestatemanager.model.Criteria;
 public class ApplicationPreferencesRepo {
     private static final String TAG = "ApplicationPreferences";
     private static final String PREF_CRITERIA = "CRITERIA_ID";
+    private static final String PREF_DESCRIPTION = "DESCRIPTION_ID";
 
     private final Context mContext;
 
@@ -82,4 +83,15 @@ public class ApplicationPreferencesRepo {
         Log.d(TAG, "getSharedPrefsCriteria: " + criteria.toString());
         return criteria;
     }
+
+    public String getSharedPrefsFirstItemDescription() {
+        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
+        return sharedPref.getString("first_item_description", null);
+    }
+
+    public void setSharedPrefsFirstItemDescription(String s) {
+        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
+        sharedPref.edit().putString("first_item_description", s).apply();
+    }
+
 }

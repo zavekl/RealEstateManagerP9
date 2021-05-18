@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,9 +31,12 @@ import com.openclassrooms.realestatemanager.viewmodel.MainActivityViewModel;
 import java.util.Objects;
 
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
+import static com.openclassrooms.realestatemanager.adapter.ListRealEstateRVAdapter.BUNDLE_ID_DESCRIPTION;
 
 public class MainActivity extends AppCompatActivity implements CriteriaReceiver.ICustomListener {
     private static final String TAG = "MainActivity";
+
+    private static ConstraintLayout mConstraintLayout;
 
     private static ViewPager mViewPager;
     private static TabLayout mTabLayout;
@@ -40,10 +44,16 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
     private static ImageButton mResearchButton;
     private ImageButton mStateResearchButton;
     private static FragmentContainerView mFragmentCV;
+    private static FragmentContainerView mFragmentDescription;
 
     private MainActivityViewModel mViewModel;
 
     private CriteriaReceiver mReceiverCriteria;
+
+    public static boolean mTabletMode = false;
+    public static boolean mMapView = true;
+
+    private final int MAP_VIEWPAGER = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         mViewPager = findViewById(R.id.view_pager);
         mTabLayout = findViewById(R.id.tab_layout);
 
+        mConstraintLayout = findViewById(R.id.view_pager_constraint_layout);
+
         //ViewModel
         mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
@@ -62,7 +74,10 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         setSupportActionBar(mToolbar);
         mResearchButton = findViewById(R.id.biv_criteria);
         mStateResearchButton = findViewById(R.id.biv_state_criteria);
+
+        //Fragment Container
         mFragmentCV = findViewById(R.id.research_container);
+        mFragmentDescription = findViewById(R.id.description_fragment);
 
         //ViewPager
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -73,48 +88,110 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         //Set listener on search toolbar
         setOnClickMenuToolbar();
         setOnCLickResetCriteria();
+
+        hideDescriptionFragment();
     }
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.description_fragment);
+        Fragment fragmentID = getSupportFragmentManager().findFragmentById(R.id.description_fragment);
 
-        if (fragment instanceof DescriptionRealEstateFragment) {
+        if (fragmentID instanceof DescriptionRealEstateFragment) {
             Log.d(TAG, "onBackPressed: Description fragment is visible");
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-            revealViewPager();
-            displayCriteriaButton();
+
+            if (mTabletMode && !mMapView) {
+                if (mFragmentCV.getVisibility() != View.VISIBLE) {
+                    Log.d(TAG, "onBackPressed: Description fragment : TABLET MODE");
+                    if (mViewModel.getSharedPrefItemDescription() != null) {
+                        long Id = Long.parseLong(mViewModel.getSharedPrefItemDescription());
+                        if (!String.valueOf(Id).equals(fragmentID.getTag())) {
+                            Log.d(TAG, "onBackPressed: Description fragment : replace desc fragment by first item");
+                            DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(BUNDLE_ID_DESCRIPTION, Id);
+
+                            fragment.setArguments(bundle);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.description_fragment, fragment, String.valueOf(Id))
+                                    .commit();
+                        } else {
+                            Log.d(TAG, "onBackPressed: Description fragment : Already first item displayed then back on map view");
+                            mViewPager.setCurrentItem(MAP_VIEWPAGER);
+                            tabletModeMap();
+                        }
+                    }
+                }
+            } else {
+                Log.d(TAG, "onBackPressed:");
+                getSupportFragmentManager().beginTransaction().remove(fragmentID).commit();
+                hideDescriptionFragment();
+                displayViewPager();
+                displayCriteriaButton();
+            }
         }
 
-        if (fragment instanceof AddRealEstateFragment) {
+        if (fragmentID instanceof AddRealEstateFragment) {
             Log.d(TAG, "onBackPressed: AddRealEstate fragment is visible");
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-            revealViewPager();
+            getSupportFragmentManager().beginTransaction().remove(fragmentID).commit();
+            if(!mTabletMode){
+                hideDescriptionFragment();
+            }
+            displayViewPager();
         }
 
-        if (fragment instanceof SimulatorRealEstateLoanFragment) {
+        if (fragmentID instanceof SimulatorRealEstateLoanFragment) {
             Log.d(TAG, "onBackPressed: SimulatorRealEstateLoanFragment fragment is visible");
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            getSupportFragmentManager().beginTransaction().remove(fragmentID).commit();
         }
+
 
         if (mFragmentCV.getVisibility() == View.VISIBLE) {
+            Log.d(TAG, "onBackPressed: criteria fragment set invisible");
             hideSearchFragment();
-        } else if (!(fragment instanceof DescriptionRealEstateFragment) & !(fragment instanceof AddRealEstateFragment) && mFragmentCV.getVisibility() == View.INVISIBLE) {
+        } else if (!(fragmentID instanceof DescriptionRealEstateFragment) & !(fragmentID instanceof AddRealEstateFragment) && mFragmentCV.getVisibility() == View.INVISIBLE) {
             Log.d(TAG, "onBackPressed: MainActivity is visible");
             super.onBackPressed();
         }
     }
 
-    //Hide view pager
+    //Manage screen of tablet mod
+    private void manageTabletMod() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d(TAG, "onPageSelected: " + position);
+                switch (position) {
+                    case 0:
+                    default:
+                        Log.d(TAG, "onPageScrolled: MAP");
+                        hideDescriptionFragment();
+                        tabletModeMap();
+                        mMapView = true;
+                        break;
+                    case 1:
+                        Log.d(TAG, "onPageScrolled: RV");
+                        tabletModeRV();
+                        mMapView = false;
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    //Hide
     public static void hideViewPager() {
         mTabLayout.setVisibility(View.INVISIBLE);
         mViewPager.setVisibility(View.INVISIBLE);
-    }
-
-    //Display view pager
-    public static void revealViewPager() {
-        mTabLayout.setVisibility(View.VISIBLE);
-        mViewPager.setVisibility(View.VISIBLE);
     }
 
     private void hideSearchFragment() {
@@ -125,8 +202,24 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         mResearchButton.setVisibility(View.GONE);
     }
 
+    private static void hideDescriptionFragment() {
+        Log.d(TAG, "hideDescriptionFragment: ");
+        mFragmentDescription.setVisibility(View.GONE);
+    }
+
+    //Display
+    public static void displayViewPager() {
+        mTabLayout.setVisibility(View.VISIBLE);
+        mViewPager.setVisibility(View.VISIBLE);
+    }
+
     public static void displayCriteriaButton() {
         mResearchButton.setVisibility(View.VISIBLE);
+    }
+
+    public static void displayDescriptionFragment() {
+        Log.d(TAG, "displayDescriptionFragment: ");
+        mFragmentDescription.setVisibility(View.VISIBLE);
     }
 
     public static void displaySearchFragment() {
@@ -139,6 +232,28 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    //Display full screen map if tablet mode
+    private void tabletModeMap() {
+        if (mTabletMode) {
+            Log.d(TAG, "tabletModeMap: ");
+            final ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mConstraintLayout.getLayoutParams();
+            layoutParams.endToEnd = ConstraintLayout.LayoutParams.END;
+            mConstraintLayout.setLayoutParams(layoutParams);
+            hideDescriptionFragment();
+        }
+    }
+
+    //Display half screen RV if tablet mode
+    private void tabletModeRV() {
+        if (mTabletMode) {
+            Log.d(TAG, "tabletModeRV: ");
+            final ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mConstraintLayout.getLayoutParams();
+            layoutParams.endToEnd = R.id.guideline_main;
+            mConstraintLayout.setLayoutParams(layoutParams);
+            displayDescriptionFragment();
+        }
     }
 
     //Set listener on search toolbar to reveal the edit text if clicked
@@ -176,21 +291,19 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
             Log.d(TAG, "applyCriteria: in if");
             mStateResearchButton.setVisibility(View.VISIBLE);
         } else {
-            mViewModel.deleteSharedPref();
+            mViewModel.deleteSharedPrefCriteria();
             mStateResearchButton.setVisibility(View.INVISIBLE);
         }
     }
-
 
     //Initialize receivers for broadcast
     private void initReceiver() {
         Log.d(TAG, "initReceiver: start");
         mReceiverCriteria = new CriteriaReceiver();
         mReceiverCriteria.setCallback(this);
-        IntentFilter intentFilter1 = new IntentFilter();
-        intentFilter1.addAction(CriteriaReceiver.APPLY_CRITERIA);
-        registerReceiver(mReceiverCriteria, intentFilter1);
-        Log.d(TAG, "initReceiver: end");
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(CriteriaReceiver.APPLY_CRITERIA);
+        registerReceiver(mReceiverCriteria, intentFilter);
     }
 
     //Send broadcast when button is clicked
@@ -207,27 +320,41 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
                 mStateResearchButton.setVisibility(View.INVISIBLE);
 
                 //Delete shared pref
-                mViewModel.deleteSharedPref();
+                mViewModel.deleteSharedPrefCriteria();
             }
         });
     }
 
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume: ");
         super.onResume();
+        //If screen > 900 then tablet mod
+        if (getResources().getConfiguration().screenWidthDp > 900) {
+            Log.d(TAG, "onCreate: tablet mod");
+            mTabletMode = true;
+            tabletModeMap();
+            hideDescriptionFragment();
+            manageTabletMod();
+        } else {
+            mTabletMode = false;
+        }
+
         initReceiver();
     }
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause: ");
         super.onPause();
         unregisterReceiver(mReceiverCriteria);
     }
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
         super.onDestroy();
-        mViewModel.deleteSharedPref();
+        mViewModel.deleteSharedPrefCriteria();
     }
 }
 

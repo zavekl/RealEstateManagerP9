@@ -27,7 +27,12 @@ public class MainActivityViewModel extends AndroidViewModel {
         return mCriteriaRepo.isCriteria();
     }
 
-    public void deleteSharedPref(){
+    public void deleteSharedPrefCriteria() {
         mApplicationPreferencesRepo.deleteSharedPrefsCriteria();
+
+    }
+
+    public String getSharedPrefItemDescription() {
+        return mApplicationPreferencesRepo.getSharedPrefsFirstItemDescription();
     }
 }

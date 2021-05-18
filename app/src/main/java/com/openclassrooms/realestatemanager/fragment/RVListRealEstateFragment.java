@@ -69,7 +69,6 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         mRecyclerView.setAdapter(mAdapter);
 
         onScrollRecyclerView(mRecyclerView);
-
         onClickFAB();
     }
 
@@ -78,11 +77,15 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.displayDescriptionFragment();
                 Fragment fragment = AddRealEstateFragment.newInstance();
-                getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
+                getParentFragmentManager().beginTransaction()
                         .add(R.id.description_fragment, fragment, null)
                         .commit();
-                MainActivity.hideViewPager();
+                if (!MainActivity.mTabletMode) {
+                    Log.d(TAG, "onClick: phone mode");
+                    MainActivity.hideViewPager();
+                }
             }
         });
     }
