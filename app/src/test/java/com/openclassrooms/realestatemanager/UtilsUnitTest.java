@@ -5,6 +5,7 @@ import com.openclassrooms.realestatemanager.utils.Utils;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 
 public class UtilsUnitTest {
@@ -49,29 +49,9 @@ public class UtilsUnitTest {
     }
 
     @Test
-    public void getTodayDate2True() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        Date NOW = sdf.parse("2015-05-23 00:00:00");
-        whenNew(Date.class).withNoArguments().thenReturn(NOW);
-//        final Date date = Mockito.mock(Date.class);
-//        Mockito.when(date.getTime()).thenReturn(new Date().getTime());
-//
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss.SSS");
-//        String expected = dateFormat.format(date.getTime());
-
-        assertEquals(NOW, Utils.getTodayDate2());
-    }
-
-    @Test
-    public void getTodayDate2False() {
-        final Date date = Mockito.mock(Date.class);
-        Mockito.when(date.getTime()).thenReturn(new Date().getTime());
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss");
-        String expected = dateFormat.format(date.getTime());
-
-        assertNotEquals(expected, Utils.getTodayDate2());
+    public void getTodayDate2True() {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss.SSS");
+        assertTrue("Invalid format returned", isValidDate(format, Utils.getTodayDate2()));
     }
 
     @Test
@@ -88,13 +68,22 @@ public class UtilsUnitTest {
 
     @Test
     public void validateAddressTrue() {
-        String s = "1 rue des fleur, Paris, France";
+        String s = "76 New York Ave, Halesite, NY 11743, USA"; //\w{1,}\,\s\w{1,}\,\s\w{1,} FR
         assertTrue(Utils.validateAddress(s));
     }
 
     @Test
     public void validateAddressFalse() {
-        String s = "1 rue des fleur, Paris";
+        String s = "1 rue des fleur, Paris";//\d\w{1,5}(\s\D{1,}){1,}\,(\s\D{1,}){1,}\,\s\w{1,}\s{0,1}\d{0,5}\,\s\D{1,}
         assertFalse(Utils.validateAddress(s));
+    }
+
+    private boolean isValidDate(SimpleDateFormat format, String s) {
+        try {
+            format.parse(s);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }
