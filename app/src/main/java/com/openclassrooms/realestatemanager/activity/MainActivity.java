@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         if (fragmentID instanceof AddRealEstateFragment) {
             Log.d(TAG, "onBackPressed: AddRealEstate fragment is visible");
             getSupportFragmentManager().beginTransaction().remove(fragmentID).commit();
-            if(!mTabletMode){
+            if (!mTabletMode) {
                 hideDescriptionFragment();
             }
             displayViewPager();
@@ -156,16 +156,21 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
 
     //Manage screen of tablet mod
     private void manageTabletMod() {
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
                 Log.d(TAG, "onPageSelected: " + position);
                 switch (position) {
                     case 0:
                     default:
                         Log.d(TAG, "onPageScrolled: MAP");
-                        hideDescriptionFragment();
                         tabletModeMap();
+                        mViewPager.setCurrentItem(MAP_VIEWPAGER);
                         mMapView = true;
                         break;
                     case 1:
@@ -177,15 +182,12 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
             }
 
             @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        };
+        mViewPager.addOnPageChangeListener(pageChangeListener);
+        pageChangeListener.onPageSelected(MAP_VIEWPAGER);
     }
 
     //Hide
@@ -333,9 +335,13 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         if (getResources().getConfiguration().screenWidthDp > 900) {
             Log.d(TAG, "onCreate: tablet mod");
             mTabletMode = true;
-            tabletModeMap();
             hideDescriptionFragment();
             manageTabletMod();
+            if (mViewPager.getCurrentItem() == 1) {
+                tabletModeRV();
+            } else {
+                tabletModeMap();
+            }
         } else {
             mTabletMode = false;
         }
