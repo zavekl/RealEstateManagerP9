@@ -13,6 +13,7 @@ public class ApplicationPreferencesRepo {
     private static final String TAG = "ApplicationPreferences";
     private static final String PREF_CRITERIA = "CRITERIA_ID";
     private static final String PREF_DESCRIPTION = "DESCRIPTION_ID";
+    private static final String PREF_PHOTO_INTENT = "PHOTO_INTENT_ID";
 
     private final Context mContext;
 
@@ -94,4 +95,22 @@ public class ApplicationPreferencesRepo {
         sharedPref.edit().putString("first_item_description", s).apply();
     }
 
+
+    public boolean getSharedPrefsPhotoIntent() {
+        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
+        return sharedPref.getBoolean("photo_intent", false);
+    }
+
+    public void setSharedPrefsPhotoIntent() {
+        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
+        sharedPref.edit().putBoolean("photo_intent", true).apply();
+    }
+
+    public void deleteSharedPrefsPhotoIntent() {
+        Log.d(TAG, "deleteSharedPrefsCriteria: ");
+        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.clear().apply();
+    }
 }

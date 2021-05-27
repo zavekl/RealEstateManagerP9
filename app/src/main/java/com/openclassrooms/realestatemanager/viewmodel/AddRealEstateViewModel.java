@@ -13,6 +13,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.model.projo.NearByPlaceResults;
+import com.openclassrooms.realestatemanager.repository.ApplicationPreferencesRepo;
 import com.openclassrooms.realestatemanager.repository.InternalFilesRepository;
 import com.openclassrooms.realestatemanager.repository.NotificationRepo;
 import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
@@ -28,6 +29,7 @@ public class AddRealEstateViewModel extends AndroidViewModel {
     private final InternalFilesRepository mIternalFilesRepository;
     private final RetrofitRepository mRetrofitRepository;
     private final NotificationRepo mNotificationRepo;
+    private final ApplicationPreferencesRepo mApplicationPreferencesRepo;
 
     public AddRealEstateViewModel(@NonNull Application application) {
         super(application);
@@ -35,6 +37,7 @@ public class AddRealEstateViewModel extends AndroidViewModel {
         mRetrofitRepository = ((MyApplication) application).getContainerDependencies().getRetrofitRepository();
         mIternalFilesRepository = new InternalFilesRepository(application);
         mNotificationRepo = ((MyApplication) application).getContainerDependencies().getNotificationRepo();
+        mApplicationPreferencesRepo = ((MyApplication) application).getContainerDependencies().getApplicationPreferencesRepo();
     }
 
     public void createTextInputUtils(AutoCompleteTextView autoCompleteTextView, TextInputEditText price, TextInputEditText description,
@@ -65,5 +68,9 @@ public class AddRealEstateViewModel extends AndroidViewModel {
 
     public void sendNotification() {
         mNotificationRepo.sendNotification();
+    }
+
+    public void setSharedPrefIntentPhoto() {
+        mApplicationPreferencesRepo.setSharedPrefsPhotoIntent();
     }
 }

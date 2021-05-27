@@ -67,7 +67,8 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
         if (position == 0 && MainActivity.mTabletMode) {
             Log.d(TAG, "onBindViewHolder: tablet mode for description activity");
             mApplicationPreferencesRepo.setSharedPrefsFirstItemDescription(String.valueOf(mItemRealEstate.get(position).getId()));
-            if (MainActivity.mTabletMode) {
+            if (MainActivity.mTabletMode && !mApplicationPreferencesRepo.getSharedPrefsPhotoIntent()) {
+                Log.d(TAG, "onBindViewHolder: set first item toto" + mApplicationPreferencesRepo.getSharedPrefsPhotoIntent());
                 DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
 
                 Bundle bundle = new Bundle();
@@ -79,6 +80,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
                         .replace(R.id.description_fragment, fragment, String.valueOf(mItemRealEstate.get(position).getId()))
                         .commit();
             }
+            mApplicationPreferencesRepo.deleteSharedPrefsPhotoIntent();
         }
 
         //Type of real estate

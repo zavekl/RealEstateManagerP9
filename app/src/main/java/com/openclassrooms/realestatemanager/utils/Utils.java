@@ -140,7 +140,7 @@ public class Utils {
     }
 
     public static boolean validateAddress(String s) {
-        Pattern p = Pattern.compile("\\d\\w{1,5 }(\\s\\D+)+,(\\s\\D+)+,\\s\\w+\\s?\\d{0,5},\\s\\D+");
+        Pattern p = Pattern.compile("\\d\\w{1,5}(\\s\\D+)+,(\\s\\D+)+,\\s\\w+\\s?\\d{0,5},\\s\\D+");
         Matcher matcher = p.matcher(s);
         return matcher.find();
     }

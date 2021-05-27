@@ -342,6 +342,15 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
             } else {
                 tabletModeMap();
             }
+            if (mViewModel.getSharedPrefIntentPhoto()) {
+                Log.d(TAG, "onResume: back of photo intent toto");
+                tabletModeRV();
+                mViewPager.setCurrentItem(1);
+                Log.d(TAG, "onResume: toto 2 toto");
+               // mViewModel.deleteSharedPrefIntentPhoto();
+                Log.d(TAG, "onResume: deleted toto");
+
+            }
         } else {
             mTabletMode = false;
         }

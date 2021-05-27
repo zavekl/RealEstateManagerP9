@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.fragment;
 
 import android.content.ComponentName;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -148,6 +149,8 @@ public class AddRealEstateFragment extends Fragment {
 
     //Start intent to choose image in internal storage of device
     private void pickImage() {
+        Log.d(TAG, "pickImage: set shared pref on true for intent photo");
+        mViewModel.setSharedPrefIntentPhoto();
         //Camera
         final List<Intent> cameraIntents = new ArrayList<>();
         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -313,6 +316,7 @@ public class AddRealEstateFragment extends Fragment {
     }
 
     //Asynktask which permit to make progress bar and to don't block the main thread
+    @SuppressLint("StaticFieldLeak")
     private class AddImageFileTask extends AsyncTask<Void, Double, Void> {
         private final WeakReference<AddRealEstateFragment> mAddRealEstateFragment;
 
