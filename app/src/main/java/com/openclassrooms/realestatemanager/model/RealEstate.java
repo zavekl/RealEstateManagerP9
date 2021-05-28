@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.model;
+ package com.openclassrooms.realestatemanager.model;
 
 import android.content.ContentValues;
 

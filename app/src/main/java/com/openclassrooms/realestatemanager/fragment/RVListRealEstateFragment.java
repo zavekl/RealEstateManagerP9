@@ -199,7 +199,7 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
             final RVListRealEstateFragment activity = activityReference.get();
             if (activity != null) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(10);
                     activity.requireActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -213,5 +213,4 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
             return null;
         }
     }
-
 }

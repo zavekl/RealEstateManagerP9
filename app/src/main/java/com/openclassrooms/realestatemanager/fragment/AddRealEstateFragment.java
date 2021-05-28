@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.fragment;
 
 import android.content.ComponentName;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -303,6 +302,7 @@ public class AddRealEstateFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
+                    mViewModel.setSharedPrefIntentPhoto();
                     startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
                 }
             }
@@ -310,13 +310,13 @@ public class AddRealEstateFragment extends Fragment {
         mTIAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mViewModel.setSharedPrefIntentPhoto();
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
     }
 
     //Asynktask which permit to make progress bar and to don't block the main thread
-    @SuppressLint("StaticFieldLeak")
     private class AddImageFileTask extends AsyncTask<Void, Double, Void> {
         private final WeakReference<AddRealEstateFragment> mAddRealEstateFragment;
 
@@ -376,9 +376,7 @@ public class AddRealEstateFragment extends Fragment {
             if (fragment != null) {
                 fragment.mProgressBar.setVisibility(View.INVISIBLE);
 
-                fragment.requireActivity().getSupportFragmentManager().beginTransaction()
-                        .remove(AddRealEstateFragment.this)
-                        .commit();
+                fragment.getActivity().onBackPressed();
 
                 MainActivity.displayViewPager();
 
