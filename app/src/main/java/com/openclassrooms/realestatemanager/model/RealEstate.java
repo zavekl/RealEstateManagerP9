@@ -1,8 +1,12 @@
 package com.openclassrooms.realestatemanager.model;
 
+import android.content.ContentValues;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.List;
 
@@ -59,6 +63,9 @@ public class RealEstate {
         this.mIncomingDate = mIncomingDate;
         this.mDateOfSale = mDateOfSale;
         this.mRealEstateAgent = mRealEstateAgent;
+    }
+
+    public RealEstate() {
     }
 
     public String getType() {
@@ -179,5 +186,35 @@ public class RealEstate {
 
     public void setBathroomNumber(int mBathroomNumber) {
         this.mBathroomNumber = mBathroomNumber;
+    }
+
+    //Convert Values to RealEstate object
+    public static RealEstate fromContentValues(ContentValues values) {
+        final RealEstate realEstate = new RealEstate();
+        if (values.containsKey("type")) realEstate.setType(values.getAsString("type"));
+        if (values.containsKey("price")) realEstate.setPrice(values.getAsInteger("price"));
+        if (values.containsKey("surface")) realEstate.setSurface(values.getAsString("surface"));
+        if (values.containsKey("piece_number"))
+            realEstate.setPieceNumber(values.getAsInteger("piece_number"));
+        if (values.containsKey("bedroom_number"))
+            realEstate.setBedroomNumber(values.getAsInteger("bedroom_number"));
+        if (values.containsKey("bathroom_number"))
+            realEstate.setBathroomNumber(values.getAsInteger("bathroom_number"));
+        if (values.containsKey("description"))
+            realEstate.setDescription(values.getAsString("description"));
+        if (values.containsKey("address"))
+            realEstate.setAddress(Converters.stringToAddress(values.getAsString("address")));
+        if (values.containsKey("pointofinterest"))
+            realEstate.setPointOfInterest(values.getAsString("pointofinterest"));
+        if (values.containsKey("availability"))
+            realEstate.setAvailability(values.getAsBoolean("availability"));
+        if (values.containsKey("image"))
+            realEstate.setListPathImage(Utils.stringToPhotoList(values.getAsString("image")));
+        if (values.containsKey("incoming_date"))
+            realEstate.setIncomingDate(values.getAsString("incoming_date"));
+        if (values.containsKey("date_sale"))
+            realEstate.setDateOfSale(values.getAsString("date_sale"));
+        if (values.containsKey("agent")) realEstate.setRealEstateAgent(values.getAsString("agent"));
+        return realEstate;
     }
 }

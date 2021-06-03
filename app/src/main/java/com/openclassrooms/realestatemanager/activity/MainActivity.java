@@ -18,7 +18,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter;
-import com.openclassrooms.realestatemanager.di.MyApplication;
 import com.openclassrooms.realestatemanager.fragment.AddRealEstateFragment;
 import com.openclassrooms.realestatemanager.fragment.CriteriaFragment;
 import com.openclassrooms.realestatemanager.fragment.DescriptionRealEstateFragment;
@@ -71,9 +70,6 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        //Set photo
-        ((MyApplication) getApplication()).getContainerDependencies().getInternalFilesRepository().savePhotoInApp();
-
         //Set listener on search toolbar
         setOnClickMenuToolbar();
         setOnCLickResetCriteria();
@@ -125,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         mFragmentCV.setVisibility(View.INVISIBLE);
     }
 
-    public static void hideCriteriaButton(){
+    public static void hideCriteriaButton() {
         mResearchButton.setVisibility(View.GONE);
     }
 
-    public static void displayCriteriaButton(){
+    public static void displayCriteriaButton() {
         mResearchButton.setVisibility(View.VISIBLE);
     }
 

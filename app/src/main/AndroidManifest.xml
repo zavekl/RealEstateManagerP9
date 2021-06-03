@@ -33,6 +33,11 @@
         <receiver
             android:name=".fragment.RVListRealEstateFragment"
             tools:ignore="Instantiatable" />
+
+        <provider
+            android:name=".bdd.RealEstateProvider"
+            android:authorities="com.openclassrooms.realestatemanager.bdd"
+            android:exported="true"/>
     </application>
 
 </manifest>

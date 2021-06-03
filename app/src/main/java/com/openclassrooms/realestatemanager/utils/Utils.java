@@ -148,4 +148,15 @@ public class Utils {
             return null;
         }
     }
+
+    //Convert list of image to string with delimiter
+    public String photoListToString(List<String> list) {
+        return TextUtils.join(",", list);
+    }
+
+    //Convert string with delimiter to list of image
+    public static List<String> stringToPhotoList(String s) {
+        return Arrays.asList(TextUtils.split(s, ","));
+
+    }
 }
