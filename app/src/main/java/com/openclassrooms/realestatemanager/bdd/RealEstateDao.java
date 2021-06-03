@@ -19,7 +19,7 @@ import java.util.List;
 @Dao
 public interface RealEstateDao {
     @Insert
-    void insertRealEstate(RealEstate realEstate);
+    long insertRealEstate(RealEstate realEstate);
 
     @Update
     void updateRealEstate(RealEstate realEstate);
@@ -30,9 +30,9 @@ public interface RealEstateDao {
     @Query("SELECT * FROM realEstate")
     LiveData<List<RealEstate>> getAllRealEstate();
 
-    @Query("SELECT * FROM realEstate WHERE id=:id")
-    LiveData<RealEstate> getRealEstateById(long id);
+    @Query("SELECT * FROM realEstate")
+    Cursor getAllRealEstateReadOnly();
 
     @Query("SELECT * FROM realEstate WHERE id=:id")
-    Cursor getRealEstateByIdCursor(long id);
+    LiveData<RealEstate> getRealEstateById(long id);
 }

@@ -26,7 +26,7 @@ public class Converters {
     }
 
     @TypeConverter
-    public Address stringToAddress(String s) {
+    public static Address stringToAddress(String s) {
         List<String> list = Arrays.asList(TextUtils.split(s, ","));
         return new Address(list.get(0), list.get(1), list.get(2), list.get(3), list.get(4));
     }

@@ -27,12 +27,9 @@ public class RealEstateProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         if (getContext() != null) {
-            long userId = ContentUris.parseId(uri);
-            final Cursor cursor = RealEstateDatabase.getInstance(getContext()).realEstateDao().getRealEstateByIdCursor(userId);
-            cursor.setNotificationUri(getContext().getContentResolver(), uri);
-            return cursor;
+            return RealEstateDatabase.getInstance(getContext()).realEstateDao().getAllRealEstateReadOnly();
         } else {
-            throw new IllegalArgumentException("Failed to query row for uri " + uri);
+            throw new IllegalArgumentException("Failed to query the table : " + uri);
         }
     }
 
@@ -45,7 +42,14 @@ public class RealEstateProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+        if (getContext() != null) {
+            final long id = RealEstateDatabase.getInstance(getContext()).realEstateDao().insertRealEstate(RealEstate.fromContentValues(values));
+            if (id != 0) {
+                getContext().getContentResolver().notifyChange(uri, null);
+                return ContentUris.withAppendedId(uri, id);
+            }
+        }
+        throw new IllegalArgumentException("Failed to insert row into " + uri);
     }
 
     @Override
