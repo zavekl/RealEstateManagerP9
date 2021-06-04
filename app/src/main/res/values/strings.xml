@@ -65,5 +65,6 @@
     <string name="dollar">$</string>
     <string name="zero">0</string>
     <string name="m2">m2</string>
+    <string name="sold">Sold</string>
 
 </resources>

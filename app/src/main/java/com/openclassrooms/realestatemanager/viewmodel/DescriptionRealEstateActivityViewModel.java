@@ -23,4 +23,8 @@ public class DescriptionRealEstateActivityViewModel extends AndroidViewModel {
     public LiveData<RealEstate> getRealestateById(long id) {
         return mRealEstateRepository.getRealEstateById(id);
     }
+
+    public void updateRealEstate(RealEstate realEstate) {
+        mRealEstateRepository.update(realEstate);
+    }
 }

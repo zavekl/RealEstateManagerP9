@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.activity.MainActivity;
 import com.openclassrooms.realestatemanager.adapter.DescriptionAdapter;
 import com.openclassrooms.realestatemanager.model.RealEstate;
+import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActivityViewModel;
 
 import static com.openclassrooms.realestatemanager.activity.MainActivity.hideCriteriaButton;
@@ -33,6 +36,10 @@ public class DescriptionRealEstateFragment extends Fragment {
     public static final String M2 = "m2";
     public static final String DOLLAR = "$";
 
+    private DescriptionRealEstateActivityViewModel mViewModel;
+
+    private RealEstate mRealEstate;
+
     private int mPrice;
 
     private RecyclerView mRecyclerView;
@@ -41,6 +48,8 @@ public class DescriptionRealEstateFragment extends Fragment {
     private TextView mSurface, mNumberRoom, mNumberBedroom, mNumberBathroom, mTVPrice;
 
     private ImageButton mSimulatorButton;
+
+    private CheckBox mCheckBox;
 
     public static DescriptionRealEstateFragment newInstance() {
         return new DescriptionRealEstateFragment();
@@ -68,6 +77,8 @@ public class DescriptionRealEstateFragment extends Fragment {
 
         mSimulatorButton = view.findViewById(R.id.simulator);
 
+        mCheckBox = view.findViewById(R.id.cb_sold);
+
         return view;
     }
 
@@ -75,7 +86,7 @@ public class DescriptionRealEstateFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        DescriptionRealEstateActivityViewModel mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
 
         if (!MainActivity.mTabletMode) {
             hideCriteriaButton();
@@ -91,6 +102,8 @@ public class DescriptionRealEstateFragment extends Fragment {
             mViewModel.getRealestateById(id).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
                 @Override
                 public void onChanged(RealEstate realEstate) {
+                    mRealEstate = realEstate;
+
                     mPrice = realEstate.getPrice();
 
                     adapter.setItems(realEstate.getListPathImage());
@@ -109,6 +122,7 @@ public class DescriptionRealEstateFragment extends Fragment {
                     mNumberBathroom.setText(String.valueOf(realEstate.getBathroomNumber()));
                     mNumberPoi.setText(String.valueOf(realEstate.getPointOfInterest()));
 
+                    mCheckBox.setChecked(!realEstate.isAvailability());
                 }
             });
         } else {
@@ -116,6 +130,7 @@ public class DescriptionRealEstateFragment extends Fragment {
         }
 
         setOnClickSimulatorButton();
+        updateSold();
     }
 
     private void setOnClickSimulatorButton() {
@@ -134,6 +149,19 @@ public class DescriptionRealEstateFragment extends Fragment {
                         .commit();
 
                 MainActivity.displaySearchFragment();
+            }
+        });
+    }
+
+    private void updateSold() {
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mRealEstate != null) {
+                    mRealEstate.setAvailability(!isChecked);
+                    mRealEstate.setDateOfSale(Utils.getTodayDate2());
+                    mViewModel.updateRealEstate(mRealEstate);
+                }
             }
         });
     }
