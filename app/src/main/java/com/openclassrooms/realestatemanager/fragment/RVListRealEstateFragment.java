@@ -44,7 +44,7 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
 
     private RVListRealEstateViewModel mViewModel;
 
-    private static final List<RealEstate> mRealEstates = new ArrayList<>();
+    private final List<RealEstate> mRealEstates = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -103,8 +103,10 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         mViewModel.getAllRealEstate().observe((LifecycleOwner) requireContext(), new Observer<List<RealEstate>>() {
             @Override
             public void onChanged(List<RealEstate> realEstates) {
+                mRealEstates.clear();
                 mRealEstates.addAll(realEstates);
                 Log.d(TAG, "onChanged: setItemsAdapter : " + mRealEstates);
+
                 setItem();
             }
         });

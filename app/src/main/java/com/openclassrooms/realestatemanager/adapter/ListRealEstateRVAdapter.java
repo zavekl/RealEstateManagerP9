@@ -101,6 +101,7 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
                 .into(holder.mImageView);
 
         if (!mItemRealEstate.get(position).isAvailability()) {
+            holder.mTextView.setVisibility(View.VISIBLE);
             holder.mTextView.bringToFront();
         } else {
             holder.mTextView.setVisibility(View.INVISIBLE);

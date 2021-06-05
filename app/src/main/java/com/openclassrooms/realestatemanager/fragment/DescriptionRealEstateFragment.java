@@ -116,7 +116,8 @@ public class DescriptionRealEstateFragment extends Fragment {
                     Log.d(TAG, "onChanged: latlng : " + realEstate.getAddress().getLat() + "/" + realEstate.getAddress().getLng());
 
                     mSurface.setText(new StringBuilder(realEstate.getSurface() + SPACE + M2));
-                    mTVPrice.setText(new StringBuilder(realEstate.getPrice() + SPACE + DOLLAR)); mSurface.setText(new StringBuilder(realEstate.getSurface() + SPACE + M2));
+                    mTVPrice.setText(new StringBuilder(realEstate.getPrice() + SPACE + DOLLAR));
+                    mSurface.setText(new StringBuilder(realEstate.getSurface() + SPACE + M2));
                     mNumberRoom.setText(String.valueOf(realEstate.getPieceNumber()));
                     mNumberBedroom.setText(String.valueOf(realEstate.getBedroomNumber()));
                     mNumberBathroom.setText(String.valueOf(realEstate.getBathroomNumber()));
@@ -154,15 +155,19 @@ public class DescriptionRealEstateFragment extends Fragment {
     }
 
     private void updateSold() {
-        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (mRealEstate != null) {
-                    mRealEstate.setAvailability(!isChecked);
-                    mRealEstate.setDateOfSale(Utils.getTodayDate2());
-                    mViewModel.updateRealEstate(mRealEstate);
+        if (mCheckBox.isChecked()) {
+            mCheckBox.setActivated(false);
+        } else {
+            mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (mRealEstate != null) {
+                        mRealEstate.setAvailability(!isChecked);
+                        mRealEstate.setDateOfSale(Utils.getTodayDate2());
+                        mViewModel.updateRealEstate(mRealEstate);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
