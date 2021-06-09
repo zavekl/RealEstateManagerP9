@@ -1,17 +1,18 @@
 package com.openclassrooms.realestatemanager.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -38,8 +39,6 @@ public class DescriptionRealEstateFragment extends Fragment {
 
     private DescriptionRealEstateActivityViewModel mViewModel;
 
-    private RealEstate mRealEstate;
-
     private int mPrice;
 
     private RecyclerView mRecyclerView;
@@ -49,7 +48,7 @@ public class DescriptionRealEstateFragment extends Fragment {
 
     private ImageButton mSimulatorButton;
 
-    private CheckBox mCheckBox;
+    private Button mButton;
 
     public static DescriptionRealEstateFragment newInstance() {
         return new DescriptionRealEstateFragment();
@@ -77,7 +76,7 @@ public class DescriptionRealEstateFragment extends Fragment {
 
         mSimulatorButton = view.findViewById(R.id.simulator);
 
-        mCheckBox = view.findViewById(R.id.cb_sold);
+        mButton = view.findViewById(R.id.b_sold);
 
         return view;
     }
@@ -102,8 +101,6 @@ public class DescriptionRealEstateFragment extends Fragment {
             mViewModel.getRealestateById(id).observe((LifecycleOwner) requireContext(), new Observer<RealEstate>() {
                 @Override
                 public void onChanged(RealEstate realEstate) {
-                    mRealEstate = realEstate;
-
                     mPrice = realEstate.getPrice();
 
                     adapter.setItems(realEstate.getListPathImage());
@@ -123,7 +120,8 @@ public class DescriptionRealEstateFragment extends Fragment {
                     mNumberBathroom.setText(String.valueOf(realEstate.getBathroomNumber()));
                     mNumberPoi.setText(String.valueOf(realEstate.getPointOfInterest()));
 
-                    mCheckBox.setChecked(!realEstate.isAvailability());
+                    //Manage button
+                    updateSold(realEstate);
                 }
             });
         } else {
@@ -131,7 +129,6 @@ public class DescriptionRealEstateFragment extends Fragment {
         }
 
         setOnClickSimulatorButton();
-        updateSold();
     }
 
     private void setOnClickSimulatorButton() {
@@ -154,20 +151,40 @@ public class DescriptionRealEstateFragment extends Fragment {
         });
     }
 
-    private void updateSold() {
-        if (mCheckBox.isChecked()) {
-            mCheckBox.setActivated(false);
+    private void updateSold(final RealEstate realEstate) {
+        if (!realEstate.isAvailability()) {
+            Log.d(TAG, "updateSold: already sold");
+            mButton.setVisibility(View.GONE);
         } else {
-            mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (mRealEstate != null) {
-                        mRealEstate.setAvailability(!isChecked);
-                        mRealEstate.setDateOfSale(Utils.getTodayDate2());
-                        mViewModel.updateRealEstate(mRealEstate);
-                    }
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick: set sold");
+                    alertDialog(realEstate);
                 }
             });
         }
+    }
+
+    private void alertDialog(final RealEstate realEstate){
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Confirm sell")
+                .setMessage("Are you sure you want to sell this real estate?")
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Continue with delete operation
+                        realEstate.setAvailability(false);
+                        realEstate.setDateOfSale(Utils.getTodayDate2());
+                        mViewModel.updateRealEstate(realEstate);
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

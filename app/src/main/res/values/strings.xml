@@ -66,5 +66,6 @@
     <string name="zero">0</string>
     <string name="m2">m2</string>
     <string name="sold">Sold</string>
+    <string name="sell">Sell</string>
 
 </resources>

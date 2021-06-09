@@ -31,6 +31,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.http.HEAD;
+
 public class RVListRealEstateFragment extends Fragment implements CriteriaReceiver.ICustomListener, ToolbarReceiver.ICustomListener {
 
     private static final String TAG = "RVLREstateFragment";
@@ -52,7 +54,6 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         View view = inflater.inflate(R.layout.rv_real_estate_fragment, container, false);
 
         mFAB = view.findViewById(R.id.rv_fab);
-        startPostponedEnterTransition();
         return view;
     }
 
@@ -106,7 +107,7 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
                 mRealEstates.clear();
                 mRealEstates.addAll(realEstates);
                 Log.d(TAG, "onChanged: setItemsAdapter : " + mRealEstates);
-
+                
                 setItem();
             }
         });
