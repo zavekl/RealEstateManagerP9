@@ -23,16 +23,16 @@ public class ApplicationPreferencesRepo {
 
     public void deleteSharedPrefsCriteria() {
         Log.d(TAG, "deleteSharedPrefsCriteria: ");
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
 
         editor.clear().apply();
     }
 
-    public void setSharedPrefsCriteria(Criteria criteria) {
+    public void setSharedPrefsCriteria(final Criteria criteria) {
         Log.d(TAG, "setSharedPrefsCriteria: ");
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
 
         if (criteria.getType() != null && !criteria.getType().equals("")) {
             Log.d(TAG, "setSharedPrefsCriteria: type");
@@ -71,8 +71,8 @@ public class ApplicationPreferencesRepo {
 
     public Criteria getSharedPrefsCriteria() {
         Log.d(TAG, "getSharedPrefsCriteria: ");
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
-        Criteria criteria = new Criteria();
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
+        final Criteria criteria = new Criteria();
         criteria.setType(sharedPref.getString("criteria_type", null));
         criteria.setMinPrice(sharedPref.getString("criteria_priceMin", null));
         criteria.setMaxPrice(sharedPref.getString("criteria_priceMax", null));
@@ -86,23 +86,23 @@ public class ApplicationPreferencesRepo {
     }
 
     public String getSharedPrefsFirstItemDescription() {
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
         return sharedPref.getString("first_item_description", null);
     }
 
-    public void setSharedPrefsFirstItemDescription(String s) {
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
+    public void setSharedPrefsFirstItemDescription(final String s) {
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
         sharedPref.edit().putString("first_item_description", s).apply();
     }
 
 
     public boolean getSharedPrefsPhotoIntent() {
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
         return sharedPref.getBoolean("photo_intent", false);
     }
 
     public void setSharedPrefsPhotoIntent() {
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
         sharedPref.edit().putBoolean("photo_intent", true).apply();
     }
 

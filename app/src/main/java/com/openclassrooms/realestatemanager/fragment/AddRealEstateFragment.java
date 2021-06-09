@@ -289,8 +289,6 @@ public class AddRealEstateFragment extends Fragment {
     //Create intent which permit to write and select an autocomplete address
     private void createAutoCompleteAddress() {
         if (!Places.isInitialized()) {
-            //TODO suppr key
-//            Places.initialize(requireContext().getApplicationContext(), "AIzaSyAca9g8d5Zsg65NzlXcjGlIhup3ZP9Irv8");
             Places.initialize(requireContext().getApplicationContext(), "AIzaSyArYlrwIOr9xBBQBdWIlgmw2kCfaySXUAU");
         }
         // Specify the types of place data to return.
@@ -317,7 +315,7 @@ public class AddRealEstateFragment extends Fragment {
     }
 
     //Asynktask which permit to make progress bar and to don't block the main thread
-    private class AddImageFileTask extends AsyncTask<Void, Double, Void> {
+    private static class AddImageFileTask extends AsyncTask<Void, Double, Void> {
         private final WeakReference<AddRealEstateFragment> mAddRealEstateFragment;
 
         private AddImageFileTask(AddRealEstateFragment addRealEstateFragment) {
@@ -376,7 +374,7 @@ public class AddRealEstateFragment extends Fragment {
             if (fragment != null) {
                 fragment.mProgressBar.setVisibility(View.INVISIBLE);
 
-                fragment.getActivity().onBackPressed();
+                fragment.requireActivity().onBackPressed();
 
                 MainActivity.displayViewPager();
 

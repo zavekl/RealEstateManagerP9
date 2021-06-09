@@ -75,7 +75,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d(TAG, "onCreateView: toto");
+        Log.d(TAG, "onCreateView:");
         View view = inflater.inflate(R.layout.map_fragment, container, false);
 
         mMapView = view.findViewById(R.id.mapView);
@@ -204,7 +204,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
 
     //If map was saved before, load it
     private void setupMapIfNeeded() {
-        Log.d(TAG, "setupMapIfNeeded: start toto");
+        Log.d(TAG, "setupMapIfNeeded: start");
         try {
             MapsInitializer.initialize(requireContext());
         } catch (Exception e) {
@@ -290,7 +290,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
 
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume: toto");
+        Log.d(TAG, "onResume:");
         super.onResume();
         mMapView.onResume();
         initReceiver();
@@ -307,7 +307,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
 
     @Override
     public void onStop() {
-        Log.d(TAG, "onStop: toto");
+        Log.d(TAG, "onStop:");
         super.onStop();
         if (mGoogleMap != null && mLocationCallback != null) {
             if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
@@ -321,14 +321,8 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
 
     @Override
     public void onPause() {
-        Log.d(TAG, "onPause: toto");
+        Log.d(TAG, "onPause:");
         super.onPause();
-//        if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
-//            MapStateManager mMapStateManager = new MapStateManager(requireContext());
-//            mMapStateManager.saveMapState(mGoogleMap);
-//            mViewModel.stopLocationUpdates(mLocationCallback);
-//        }
-
         mMapView.onPause();
         mIsCenter = false;
 

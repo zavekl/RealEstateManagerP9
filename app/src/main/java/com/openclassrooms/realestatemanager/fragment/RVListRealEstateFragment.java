@@ -35,7 +35,7 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
 
     private static final String TAG = "RVLREstateFragment";
 
-    private static ListRealEstateRVAdapter mAdapter;
+    private ListRealEstateRVAdapter mAdapter;
 
     private CriteriaReceiver mReceiverCriteria;
     private ToolbarReceiver mReceiverToolbar;
@@ -70,7 +70,7 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: ");
-        RecyclerView recyclerView = view.findViewById(R.id.rv_real_estate);
+        final RecyclerView recyclerView = view.findViewById(R.id.rv_real_estate);
         mAdapter = new ListRealEstateRVAdapter(requireActivity(), this);
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(15));
         recyclerView.setAdapter(mAdapter);
@@ -104,7 +104,7 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
             @Override
             public void onChanged(List<RealEstate> realEstates) {
                 mRealEstates.addAll(realEstates);
-                Log.d(TAG, "onChanged: setItemsAdapter : " + realEstates);
+                Log.d(TAG, "onChanged: setItemsAdapter : " + mRealEstates);
                 setItem();
             }
         });
@@ -190,12 +190,12 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
     private static class UpdatePhotoFit extends AsyncTask<Void, Void, Void> {
         private final WeakReference<RVListRealEstateFragment> activityReference;
 
-        UpdatePhotoFit(RVListRealEstateFragment mainActivity) {
+        UpdatePhotoFit(final RVListRealEstateFragment mainActivity) {
             activityReference = new WeakReference<>(mainActivity);
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(final Void... voids) {
             final RVListRealEstateFragment activity = activityReference.get();
             if (activity != null) {
                 try {
@@ -206,8 +206,9 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
                             activity.setItem();
                         }
                     });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } catch (final InterruptedException e) {
+                    Log.e(TAG, "doInBackground: ", e);
+                    Thread.currentThread().interrupt();
                 }
             }
             return null;

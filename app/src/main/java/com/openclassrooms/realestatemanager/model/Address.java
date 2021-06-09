@@ -74,7 +74,7 @@ public class Address {
     }
 
     public void setDistrict(String district) {
-        this.mDistrict = district;
+        mDistrict = district;
     }
 
     @NonNull

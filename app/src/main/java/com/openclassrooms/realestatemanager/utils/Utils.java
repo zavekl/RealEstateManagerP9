@@ -123,8 +123,8 @@ public class Utils {
 
     //Get Bitmap from drawable
     public static Bitmap getBitmap(int drawableRes, Context context) {
-        Drawable drawable = ContextCompat.getDrawable(context, drawableRes);
-        Canvas canvas = new Canvas();
+        final Drawable drawable = ContextCompat.getDrawable(context, drawableRes);
+        final Canvas canvas = new Canvas();
         Bitmap bitmap;
         if (drawable != null) {
             bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -140,8 +140,8 @@ public class Utils {
     }
 
     public static boolean validateAddress(String s) {
-        Pattern p = Pattern.compile("\\d\\w{1,5}(\\s\\D+)+,(\\s\\D+)+,\\s\\w+\\s?\\d{0,5},\\s\\D+");
-        Matcher matcher = p.matcher(s);
+        final Pattern p = Pattern.compile("\\d\\w{1,5}(\\s\\D+)+,(\\s\\D+)+,\\s\\w+\\s?\\d{0,5},\\s\\D+");
+        final Matcher matcher = p.matcher(s);
         return matcher.find();
     }
 

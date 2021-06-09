@@ -68,10 +68,10 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
             Log.d(TAG, "onBindViewHolder: tablet mode for description activity");
             mApplicationPreferencesRepo.setSharedPrefsFirstItemDescription(String.valueOf(mItemRealEstate.get(position).getId()));
             if (MainActivity.mTabletMode && !mApplicationPreferencesRepo.getSharedPrefsPhotoIntent()) {
-                Log.d(TAG, "onBindViewHolder: set first item toto" + mApplicationPreferencesRepo.getSharedPrefsPhotoIntent());
-                DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
+                Log.d(TAG, "onBindViewHolder: set first item" + mApplicationPreferencesRepo.getSharedPrefsPhotoIntent());
+                final DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
 
-                Bundle bundle = new Bundle();
+                final Bundle bundle = new Bundle();
                 bundle.putLong(BUNDLE_ID_DESCRIPTION, mItemRealEstate.get(position).getId());
 
                 fragment.setArguments(bundle);
@@ -112,9 +112,9 @@ public class ListRealEstateRVAdapter extends RecyclerView.Adapter<ListRealEstate
             @Override
             public void onClick(View v) {
                 MainActivity.displayDescriptionFragment();
-                DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
+                final DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
 
-                Bundle bundle = new Bundle();
+                final Bundle bundle = new Bundle();
                 bundle.putLong(BUNDLE_ID_DESCRIPTION, mItemRealEstate.get(position).getId());
 
                 fragment.setArguments(bundle);

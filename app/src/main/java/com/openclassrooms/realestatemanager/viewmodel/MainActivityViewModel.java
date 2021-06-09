@@ -35,10 +35,6 @@ public class MainActivityViewModel extends AndroidViewModel {
         return mApplicationPreferencesRepo.getSharedPrefsFirstItemDescription();
     }
 
-    public void deleteSharedPrefIntentPhoto() {
-        mApplicationPreferencesRepo.deleteSharedPrefsPhotoIntent();
-    }
-
     public boolean getSharedPrefIntentPhoto() {
         return mApplicationPreferencesRepo.getSharedPrefsPhotoIntent();
     }

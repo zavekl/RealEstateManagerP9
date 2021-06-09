@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
@@ -30,7 +31,6 @@ import com.openclassrooms.realestatemanager.viewmodel.MainActivityViewModel;
 
 import java.util.Objects;
 
-import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 import static com.openclassrooms.realestatemanager.adapter.ListRealEstateRVAdapter.BUNDLE_ID_DESCRIPTION;
 
 public class MainActivity extends AppCompatActivity implements CriteriaReceiver.ICustomListener {
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         mFragmentDescription = findViewById(R.id.description_fragment);
 
         //ViewPager
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(viewPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -94,21 +94,21 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
 
     @Override
     public void onBackPressed() {
-        Fragment fragmentID = getSupportFragmentManager().findFragmentById(R.id.description_fragment);
+        final Fragment fragmentid = getSupportFragmentManager().findFragmentById(R.id.description_fragment);
 
-        if (fragmentID instanceof DescriptionRealEstateFragment) {
+        if (fragmentid instanceof DescriptionRealEstateFragment) {
             Log.d(TAG, "onBackPressed: Description fragment is visible");
 
             if (mTabletMode && !mMapView) {
                 if (mFragmentCV.getVisibility() != View.VISIBLE) {
                     Log.d(TAG, "onBackPressed: Description fragment : TABLET MODE");
                     if (mViewModel.getSharedPrefItemDescription() != null) {
-                        long Id = Long.parseLong(mViewModel.getSharedPrefItemDescription());
-                        if (!String.valueOf(Id).equals(fragmentID.getTag())) {
+                        final long Id = Long.parseLong(mViewModel.getSharedPrefItemDescription());
+                        if (!String.valueOf(Id).equals(fragmentid.getTag())) {
                             Log.d(TAG, "onBackPressed: Description fragment : replace desc fragment by first item");
-                            DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
+                            final DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
 
-                            Bundle bundle = new Bundle();
+                            final Bundle bundle = new Bundle();
                             bundle.putLong(BUNDLE_ID_DESCRIPTION, Id);
 
                             fragment.setArguments(bundle);
@@ -123,32 +123,32 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
                 }
             } else {
                 Log.d(TAG, "onBackPressed:");
-                getSupportFragmentManager().beginTransaction().remove(fragmentID).commit();
+                getSupportFragmentManager().beginTransaction().remove(fragmentid).commit();
                 hideDescriptionFragment();
                 displayViewPager();
                 displayCriteriaButton();
             }
         }
 
-        if (fragmentID instanceof AddRealEstateFragment) {
+        if (fragmentid instanceof AddRealEstateFragment) {
             Log.d(TAG, "onBackPressed: AddRealEstate fragment is visible");
-            getSupportFragmentManager().beginTransaction().remove(fragmentID).commit();
+            getSupportFragmentManager().beginTransaction().remove(fragmentid).commit();
             if (!mTabletMode) {
                 hideDescriptionFragment();
             }
             displayViewPager();
         }
 
-        if (fragmentID instanceof SimulatorRealEstateLoanFragment) {
+        if (fragmentid instanceof SimulatorRealEstateLoanFragment) {
             Log.d(TAG, "onBackPressed: SimulatorRealEstateLoanFragment fragment is visible");
-            getSupportFragmentManager().beginTransaction().remove(fragmentID).commit();
+            getSupportFragmentManager().beginTransaction().remove(fragmentid).commit();
         }
 
 
         if (mFragmentCV.getVisibility() == View.VISIBLE) {
             Log.d(TAG, "onBackPressed: criteria fragment set invisible");
             hideSearchFragment();
-        } else if (!(fragmentID instanceof DescriptionRealEstateFragment) & !(fragmentID instanceof AddRealEstateFragment) && mFragmentCV.getVisibility() == View.INVISIBLE) {
+        } else if (!(fragmentid instanceof DescriptionRealEstateFragment) && !(fragmentid instanceof AddRealEstateFragment) && mFragmentCV.getVisibility() == View.INVISIBLE) {
             Log.d(TAG, "onBackPressed: MainActivity is visible");
             super.onBackPressed();
         }
@@ -156,34 +156,38 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
 
     //Manage screen of tablet mod
     private void manageTabletMod() {
-        ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+        final ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(final int position) {
                 Log.d(TAG, "onPageSelected: " + position);
                 switch (position) {
+                    case 1: {
+                        Log.d(TAG, "onPageScrolled: RV");
+                        tabletModeRV();
+                        mMapView = false;
+                        break;
+                    }
+
                     case 0:
-                    default:
+                    default: {
                         Log.d(TAG, "onPageScrolled: MAP");
                         tabletModeMap();
                         mViewPager.setCurrentItem(MAP_VIEWPAGER);
                         mMapView = true;
                         break;
-                    case 1:
-                        Log.d(TAG, "onPageScrolled: RV");
-                        tabletModeRV();
-                        mMapView = false;
-                        break;
+                    }
+
                 }
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrollStateChanged(final int state) {
+                //Don't need to use because we need to know on which page we are
+            }
 
+            @Override
+            public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+                //Don't need to use because we need to know on which page we are
             }
         };
         mViewPager.addOnPageChangeListener(pageChangeListener);
@@ -303,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
         Log.d(TAG, "initReceiver: start");
         mReceiverCriteria = new CriteriaReceiver();
         mReceiverCriteria.setCallback(this);
-        IntentFilter intentFilter = new IntentFilter();
+        final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(CriteriaReceiver.APPLY_CRITERIA);
         registerReceiver(mReceiverCriteria, intentFilter);
     }
@@ -315,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
             public void onClick(View v) {
                 Log.d(TAG, "onClick: setOnCLickResetCriteria");
                 //Send broadcast with the criteria object
-                Intent intent = new Intent();
+                final Intent intent = new Intent();
                 intent.setAction(ToolbarReceiver.APPLY_RESET_CRITERIA);
                 sendBroadcast(intent);
 
@@ -343,13 +347,9 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
                 tabletModeMap();
             }
             if (mViewModel.getSharedPrefIntentPhoto()) {
-                Log.d(TAG, "onResume: back of photo intent toto");
+                Log.d(TAG, "onResume: back of photo intent");
                 tabletModeRV();
                 mViewPager.setCurrentItem(1);
-                Log.d(TAG, "onResume: toto 2 toto");
-               // mViewModel.deleteSharedPrefIntentPhoto();
-                Log.d(TAG, "onResume: deleted toto");
-
             }
         } else {
             mTabletMode = false;
