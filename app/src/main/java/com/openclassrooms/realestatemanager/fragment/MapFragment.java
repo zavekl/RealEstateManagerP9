@@ -75,6 +75,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView:");
         View view = inflater.inflate(R.layout.map_fragment, container, false);
 
         mMapView = view.findViewById(R.id.mapView);
@@ -193,8 +194,8 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
 
                 fragment.setArguments(bundle);
 
-                getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
-                        .add(R.id.description_fragment, fragment, null)
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.description_fragment, fragment, null)
                         .commit();
                 return false;
             }
@@ -289,7 +290,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
 
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume: ");
+        Log.d(TAG, "onResume:");
         super.onResume();
         mMapView.onResume();
         initReceiver();
@@ -305,15 +306,23 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     }
 
     @Override
-    public void onPause() {
-        Log.d(TAG, "onPause: ");
-        super.onPause();
-        if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
-            MapStateManager mMapStateManager = new MapStateManager(requireContext());
-            mMapStateManager.saveMapState(mGoogleMap);
-            mViewModel.stopLocationUpdates(mLocationCallback);
-        }
+    public void onStop() {
+        Log.d(TAG, "onStop:");
+        super.onStop();
+        if (mGoogleMap != null && mLocationCallback != null) {
+            if (EasyPermissions.hasPermissions(requireContext(), permissions)) {
+                MapStateManager mMapStateManager = new MapStateManager(requireContext());
+                mMapStateManager.saveMapState(mGoogleMap);
 
+                mViewModel.stopLocationUpdates(mLocationCallback);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG, "onPause:");
+        super.onPause();
         mMapView.onPause();
         mIsCenter = false;
 
@@ -379,7 +388,6 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     //Toast if permissions denied
     private void displayToastIfPermsDenied() {
         if (EasyPermissions.somePermissionDenied(this, permissions)) {
-            Utils.getEmojiByUnicode(0x26A0);
             Toast.makeText(requireContext(), (Utils.getEmojiByUnicode(0x26A0)) + requireContext().getResources().getString(R.string.permissions_toast_denied) +
                     (Utils.getEmojiByUnicode(0x26A0)), Toast.LENGTH_LONG).show();
         }

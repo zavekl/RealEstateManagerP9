@@ -29,6 +29,9 @@ public class DescriptionRealEstateFragment extends Fragment {
     private static final String TAG = "DescRealEstateFragment";
     public static final String BUNDLE_PRICE_SIMULATOR = "BUNDLE_PRICE";
 
+    public static final String SPACE = " ";
+    public static final String M2 = "m2";
+    public static final String DOLLAR = "$";
 
     private int mPrice;
 
@@ -74,7 +77,9 @@ public class DescriptionRealEstateFragment extends Fragment {
 
         DescriptionRealEstateActivityViewModel mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
 
-        hideCriteriaButton();
+        if (!MainActivity.mTabletMode) {
+            hideCriteriaButton();
+        }
 
         final DescriptionAdapter adapter = new DescriptionAdapter(requireActivity());
         mRecyclerView.setAdapter(adapter);
@@ -93,12 +98,12 @@ public class DescriptionRealEstateFragment extends Fragment {
                     mDescription.setText(realEstate.getDescription());
 
                     mLocation1.setText(realEstate.getAddress().getNumberStreet().trim());
-                    mLocation2.setText(realEstate.getAddress().getPostalCode().trim());
+                    mLocation2.setText(new StringBuilder(realEstate.getAddress().getDistrict().trim() + ", " + realEstate.getAddress().getPostalCode().trim()));
                     mLocation3.setText(realEstate.getAddress().getTown().trim());
                     Log.d(TAG, "onChanged: latlng : " + realEstate.getAddress().getLat() + "/" + realEstate.getAddress().getLng());
 
-                    mSurface.setText(new StringBuilder(realEstate.getSurface() + getString(R.string.simple_space) + getString(R.string.m2)));
-                    mTVPrice.setText(new StringBuilder(realEstate.getPrice() + getString(R.string.simple_space) + getString(R.string.dollar)));
+                    mSurface.setText(new StringBuilder(realEstate.getSurface() + SPACE + M2));
+                    mTVPrice.setText(new StringBuilder(realEstate.getPrice() + SPACE + DOLLAR)); mSurface.setText(new StringBuilder(realEstate.getSurface() + SPACE + M2));
                     mNumberRoom.setText(String.valueOf(realEstate.getPieceNumber()));
                     mNumberBedroom.setText(String.valueOf(realEstate.getBedroomNumber()));
                     mNumberBathroom.setText(String.valueOf(realEstate.getBathroomNumber()));

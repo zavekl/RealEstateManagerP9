@@ -148,6 +148,8 @@ public class AddRealEstateFragment extends Fragment {
 
     //Start intent to choose image in internal storage of device
     private void pickImage() {
+        Log.d(TAG, "pickImage: set shared pref on true for intent photo");
+        mViewModel.setSharedPrefIntentPhoto();
         //Camera
         final List<Intent> cameraIntents = new ArrayList<>();
         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -287,8 +289,7 @@ public class AddRealEstateFragment extends Fragment {
     //Create intent which permit to write and select an autocomplete address
     private void createAutoCompleteAddress() {
         if (!Places.isInitialized()) {
-            //TODO suppr key
-            Places.initialize(requireContext().getApplicationContext(), "AIzaSyAca9g8d5Zsg65NzlXcjGlIhup3ZP9Irv8");
+            Places.initialize(requireContext().getApplicationContext(), "AIzaSyArYlrwIOr9xBBQBdWIlgmw2kCfaySXUAU");
         }
         // Specify the types of place data to return.
         final List<Place.Field> fields = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG);
@@ -299,6 +300,7 @@ public class AddRealEstateFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
+                    mViewModel.setSharedPrefIntentPhoto();
                     startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
                 }
             }
@@ -306,6 +308,7 @@ public class AddRealEstateFragment extends Fragment {
         mTIAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mViewModel.setSharedPrefIntentPhoto();
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
@@ -371,11 +374,9 @@ public class AddRealEstateFragment extends Fragment {
             if (fragment != null) {
                 fragment.mProgressBar.setVisibility(View.INVISIBLE);
 
-                fragment.requireActivity().getSupportFragmentManager().beginTransaction()
-                        .remove(Objects.requireNonNull(fragment.requireActivity().getSupportFragmentManager().findFragmentById(R.id.description_fragment)))
-                        .commit();
+                fragment.requireActivity().onBackPressed();
 
-                MainActivity.revealViewPager();
+                MainActivity.displayViewPager();
 
                 //Send notification
                 fragment.mViewModel.sendNotification();

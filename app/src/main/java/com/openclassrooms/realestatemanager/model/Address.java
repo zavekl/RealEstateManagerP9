@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.model;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by NIATEL Brice on 28/01/2021.
  */
@@ -7,21 +9,24 @@ public class Address {
     private String mPostalCode;
     private String mTown;
     private String mNumberStreet;
+    private String mDistrict;
     private String mLat;
     private String mLng;
 
-    public Address(String numberStreet, String postalCode, String town, String lat, String lng) {
+    public Address(String numberStreet, String district, String postalCode, String town, String lat, String lng) {
         this.mNumberStreet = numberStreet;
+        this.mDistrict = district;
         this.mPostalCode = postalCode;
         this.mTown = town;
         this.mLat = lat;
         this.mLng = lng;
     }
 
-    public Address(String numberStreet, String postalCode, String town) {
+    public Address(String numberStreet, String district, String postalCode, String town) {
         this.mNumberStreet = numberStreet;
         this.mPostalCode = postalCode;
         this.mTown = town;
+        this.mDistrict = district;
     }
 
     public String getPostalCode() {
@@ -64,14 +69,24 @@ public class Address {
         this.mLng = mLng;
     }
 
+    public String getDistrict() {
+        return mDistrict;
+    }
+
+    public void setDistrict(String district) {
+        mDistrict = district;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "Address{" +
                 "mPostalCode='" + mPostalCode + '\'' +
                 ", mTown='" + mTown + '\'' +
                 ", mNumberStreet='" + mNumberStreet + '\'' +
-                ", mLat=" + mLat +
-                ", mLng=" + mLng +
+                ", mDistrict='" + mDistrict + '\'' +
+                ", mLat='" + mLat + '\'' +
+                ", mLng='" + mLng + '\'' +
                 '}';
     }
 }

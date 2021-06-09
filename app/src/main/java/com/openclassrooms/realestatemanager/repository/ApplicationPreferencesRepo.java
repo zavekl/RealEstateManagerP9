@@ -12,6 +12,8 @@ import com.openclassrooms.realestatemanager.model.Criteria;
 public class ApplicationPreferencesRepo {
     private static final String TAG = "ApplicationPreferences";
     private static final String PREF_CRITERIA = "CRITERIA_ID";
+    private static final String PREF_DESCRIPTION = "DESCRIPTION_ID";
+    private static final String PREF_PHOTO_INTENT = "PHOTO_INTENT_ID";
 
     private final Context mContext;
 
@@ -21,16 +23,16 @@ public class ApplicationPreferencesRepo {
 
     public void deleteSharedPrefsCriteria() {
         Log.d(TAG, "deleteSharedPrefsCriteria: ");
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
 
         editor.clear().apply();
     }
 
-    public void setSharedPrefsCriteria(Criteria criteria) {
+    public void setSharedPrefsCriteria(final Criteria criteria) {
         Log.d(TAG, "setSharedPrefsCriteria: ");
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
 
         if (criteria.getType() != null && !criteria.getType().equals("")) {
             Log.d(TAG, "setSharedPrefsCriteria: type");
@@ -69,8 +71,8 @@ public class ApplicationPreferencesRepo {
 
     public Criteria getSharedPrefsCriteria() {
         Log.d(TAG, "getSharedPrefsCriteria: ");
-        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
-        Criteria criteria = new Criteria();
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
+        final Criteria criteria = new Criteria();
         criteria.setType(sharedPref.getString("criteria_type", null));
         criteria.setMinPrice(sharedPref.getString("criteria_priceMin", null));
         criteria.setMaxPrice(sharedPref.getString("criteria_priceMax", null));
@@ -81,5 +83,34 @@ public class ApplicationPreferencesRepo {
         criteria.setPoi(sharedPref.getString("criteria_poi", null));
         Log.d(TAG, "getSharedPrefsCriteria: " + criteria.toString());
         return criteria;
+    }
+
+    public String getSharedPrefsFirstItemDescription() {
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
+        return sharedPref.getString("first_item_description", null);
+    }
+
+    public void setSharedPrefsFirstItemDescription(final String s) {
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
+        sharedPref.edit().putString("first_item_description", s).apply();
+    }
+
+
+    public boolean getSharedPrefsPhotoIntent() {
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
+        return sharedPref.getBoolean("photo_intent", false);
+    }
+
+    public void setSharedPrefsPhotoIntent() {
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
+        sharedPref.edit().putBoolean("photo_intent", true).apply();
+    }
+
+    public void deleteSharedPrefsPhotoIntent() {
+        Log.d(TAG, "deleteSharedPrefsCriteria: ");
+        SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.clear().apply();
     }
 }

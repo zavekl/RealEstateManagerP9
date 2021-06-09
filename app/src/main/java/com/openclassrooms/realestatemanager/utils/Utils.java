@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -121,20 +123,26 @@ public class Utils {
 
     //Get Bitmap from drawable
     public static Bitmap getBitmap(int drawableRes, Context context) {
-        Drawable drawable = ContextCompat.getDrawable(context, drawableRes);
-        Canvas canvas = new Canvas();
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        canvas.setBitmap(bitmap);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        drawable.draw(canvas);
+        final Drawable drawable = ContextCompat.getDrawable(context, drawableRes);
+        final Canvas canvas = new Canvas();
+        Bitmap bitmap;
+        if (drawable != null) {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            canvas.setBitmap(bitmap);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            drawable.draw(canvas);
 
-        return bitmap;
+            return bitmap;
+        } else {
+            return null;
+        }
+
     }
 
     public static boolean validateAddress(String s) {
-        List<String> list = Arrays.asList(TextUtils.split(s, ","));
-        Log.d(TAG, "validateAddress: " + list.size());
-        return list.size() == 3;
+        final Pattern p = Pattern.compile("\\d\\w{1,5}(\\s\\D+)+,(\\s\\D+)+,\\s\\w+\\s?\\d{0,5},\\s\\D+");
+        final Matcher matcher = p.matcher(s);
+        return matcher.find();
     }
 
     public static Address stringToAddress(String s) {
@@ -142,8 +150,8 @@ public class Utils {
         Log.d(TAG, "stringToAdress: " + s);
         Log.d(TAG, "stringToAdress: " + list.toString());
 
-        if (list.size() == 3) {
-            return new Address(list.get(0), list.get(1), list.get(2));
+        if (list.size() == 4) {
+            return new Address(list.get(0), list.get(1), list.get(2), list.get(3));
         } else {
             return null;
         }

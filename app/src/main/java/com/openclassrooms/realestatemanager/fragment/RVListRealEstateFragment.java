@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.fragment;
 
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ import com.openclassrooms.realestatemanager.utils.ToolbarReceiver;
 import com.openclassrooms.realestatemanager.utils.VerticalSpaceItemDecoration;
 import com.openclassrooms.realestatemanager.viewmodel.RVListRealEstateViewModel;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RVListRealEstateFragment extends Fragment implements CriteriaReceiver.ICustomListener, ToolbarReceiver.ICustomListener {
@@ -41,17 +44,21 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
 
     private RVListRealEstateViewModel mViewModel;
 
+    private static final List<RealEstate> mRealEstates = new ArrayList<>();
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.rv_real_estate_fragment, container, false);
 
         mFAB = view.findViewById(R.id.rv_fab);
+        startPostponedEnterTransition();
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated: ");
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(RVListRealEstateViewModel.class);
 
@@ -59,18 +66,18 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         setItemAdapter();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView mRecyclerView = view.findViewById(R.id.rv_real_estate);
+        Log.d(TAG, "onViewCreated: ");
+        final RecyclerView recyclerView = view.findViewById(R.id.rv_real_estate);
         mAdapter = new ListRealEstateRVAdapter(requireActivity(), this);
-        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(15));
-        mRecyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(15));
+        recyclerView.setAdapter(mAdapter);
 
-        onScrollRecyclerView(mRecyclerView);
-
+        onScrollRecyclerView(recyclerView);
         onClickFAB();
+        setItem();
     }
 
     //On click of FAB run AddRealEstateFragment
@@ -78,11 +85,15 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.displayDescriptionFragment();
                 Fragment fragment = AddRealEstateFragment.newInstance();
-                getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
+                getParentFragmentManager().beginTransaction()
                         .add(R.id.description_fragment, fragment, null)
                         .commit();
-                MainActivity.hideViewPager();
+                if (!MainActivity.mTabletMode) {
+                    Log.d(TAG, "onClick: phone mode");
+                    MainActivity.hideViewPager();
+                }
             }
         });
     }
@@ -92,10 +103,16 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         mViewModel.getAllRealEstate().observe((LifecycleOwner) requireContext(), new Observer<List<RealEstate>>() {
             @Override
             public void onChanged(List<RealEstate> realEstates) {
-                Log.d(TAG, "onChanged: setItemsAdapter : " + realEstates);
-                mAdapter.setItems(realEstates);
+                mRealEstates.addAll(realEstates);
+                Log.d(TAG, "onChanged: setItemsAdapter : " + mRealEstates);
+                setItem();
             }
         });
+    }
+
+    public void setItem() {
+        Log.d("MainActivity", "setItem: ");
+        mAdapter.setItems(mRealEstates);
     }
 
     //Make fab disappear if scroll down the RV
@@ -156,6 +173,10 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         super.onResume();
         initReceiver();
         Log.d(TAG, "onResume: ");
+
+        if (MainActivity.mTabletMode) {
+            new UpdatePhotoFit(this).execute();
+        }
     }
 
     @Override
@@ -164,5 +185,33 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         requireContext().unregisterReceiver(mReceiverCriteria);
         requireContext().unregisterReceiver(mReceiverToolbar);
         Log.d(TAG, "onPause: ");
+    }
+
+    private static class UpdatePhotoFit extends AsyncTask<Void, Void, Void> {
+        private final WeakReference<RVListRealEstateFragment> activityReference;
+
+        UpdatePhotoFit(final RVListRealEstateFragment mainActivity) {
+            activityReference = new WeakReference<>(mainActivity);
+        }
+
+        @Override
+        protected Void doInBackground(final Void... voids) {
+            final RVListRealEstateFragment activity = activityReference.get();
+            if (activity != null) {
+                try {
+                    Thread.sleep(10);
+                    activity.requireActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.setItem();
+                        }
+                    });
+                } catch (final InterruptedException e) {
+                    Log.e(TAG, "doInBackground: ", e);
+                    Thread.currentThread().interrupt();
+                }
+            }
+            return null;
+        }
     }
 }

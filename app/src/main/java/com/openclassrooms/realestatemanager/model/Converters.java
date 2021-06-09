@@ -18,6 +18,7 @@ public class Converters {
     public String addressToString(Address address) {
         List<String> list = new ArrayList<>();
         list.add(address.getNumberStreet());
+        list.add(address.getDistrict());
         list.add(address.getPostalCode());
         list.add(address.getTown());
         list.add(address.getLat());
@@ -28,7 +29,7 @@ public class Converters {
     @TypeConverter
     public static Address stringToAddress(String s) {
         List<String> list = Arrays.asList(TextUtils.split(s, ","));
-        return new Address(list.get(0), list.get(1), list.get(2), list.get(3), list.get(4));
+        return new Address(list.get(0), list.get(1), list.get(2), list.get(3), list.get(4),list.get(5));
     }
 
     @TypeConverter
