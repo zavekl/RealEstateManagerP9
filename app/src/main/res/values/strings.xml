@@ -67,5 +67,18 @@
     <string name="m2">m2</string>
     <string name="sold">Sold</string>
     <string name="sell">Sell</string>
+    
+    <string name="simulator_button">Simulator button</string>
+    <string name="surface">Surface</string>
+    <string name="price">Price</string>
+    <string name="point_of_interest">Point of interest</string>
+    <string name="criteria">Criteria</string>
+    <string name="cancel_criteria">Cancel criteria</string>
+    <string name="zoom_map">Zoom map</string>
+    <string name="real_estate_item">Real estate item</string>
+    <string name="real_estate_image">Real estate image</string>
+    <string name="type_of_real_estate">Type of real estate</string>
+    <string name="add_real_estate">Add real estate</string>
+>>>>>>> d0e47ef (Fix xml)
 
 </resources>

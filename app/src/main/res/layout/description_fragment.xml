@@ -38,7 +38,8 @@
                 android:layout_marginEnd="14dp"
                 android:background="@drawable/ic_baseline_info_24"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/simulator_button" />
 
             <TextView
                 android:id="@+id/tv_title_description"
@@ -147,7 +148,8 @@
                 android:src="@drawable/ic_size"
                 app:layout_constraintEnd_toStartOf="@id/iv_room"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_title_information" />
+                app:layout_constraintTop_toBottomOf="@id/tv_title_information"
+                android:contentDescription="@string/surface" />
 
             <TextView
                 android:id="@+id/tv_surface"
@@ -168,7 +170,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_surface"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_information"
-                app:tint="@android:color/black" />
+                app:tint="@android:color/black"
+                android:contentDescription="@string/price" />
 
             <TextView
                 android:id="@+id/tv_price"
@@ -188,7 +191,8 @@
                 android:src="@drawable/ic_bedroom"
                 app:layout_constraintEnd_toStartOf="@id/iv_bathroom"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_surface" />
+                app:layout_constraintTop_toBottomOf="@id/tv_surface"
+                android:contentDescription="@string/bedroom" />
 
             <TextView
                 android:id="@+id/tv_bedroom"
@@ -209,7 +213,8 @@
                 android:src="@drawable/ic_bathtub_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_surface"
-                app:layout_constraintTop_toBottomOf="@id/tv_price" />
+                app:layout_constraintTop_toBottomOf="@id/tv_price"
+                android:contentDescription="@string/bathroom" />
 
             <TextView
                 android:id="@+id/tv_bathroom"
@@ -229,7 +234,8 @@
                 android:background="@drawable/ic_place_black_18dp"
                 app:layout_constraintEnd_toEndOf="@id/tv_bedroom"
                 app:layout_constraintStart_toStartOf="@id/tv_bedroom"
-                app:layout_constraintTop_toBottomOf="@id/tv_bedroom" />
+                app:layout_constraintTop_toBottomOf="@id/tv_bedroom"
+                android:contentDescription="@string/point_of_interest" />
 
             <TextView
                 android:id="@+id/tv_poi"
@@ -250,7 +256,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_poi"
                 app:layout_constraintTop_toBottomOf="@id/tv_bathroom"
-                app:tint="@android:color/black" />
+                app:tint="@android:color/black"
+                android:contentDescription="@string/room" />
 
             <TextView
                 android:id="@+id/tv_room"
