@@ -31,8 +31,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.http.HEAD;
-
 public class RVListRealEstateFragment extends Fragment implements CriteriaReceiver.ICustomListener, ToolbarReceiver.ICustomListener {
 
     private static final String TAG = "RVLREstateFragment";
