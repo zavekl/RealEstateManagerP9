@@ -1,15 +1,18 @@
 package com.openclassrooms.realestatemanager.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -20,6 +23,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.activity.MainActivity;
 import com.openclassrooms.realestatemanager.adapter.DescriptionAdapter;
 import com.openclassrooms.realestatemanager.model.RealEstate;
+import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActivityViewModel;
 
 import static com.openclassrooms.realestatemanager.activity.MainActivity.hideCriteriaButton;
@@ -33,6 +37,8 @@ public class DescriptionRealEstateFragment extends Fragment {
     public static final String M2 = "m2";
     public static final String DOLLAR = "$";
 
+    private DescriptionRealEstateActivityViewModel mViewModel;
+
     private int mPrice;
 
     private RecyclerView mRecyclerView;
@@ -41,6 +47,8 @@ public class DescriptionRealEstateFragment extends Fragment {
     private TextView mSurface, mNumberRoom, mNumberBedroom, mNumberBathroom, mTVPrice;
 
     private ImageButton mSimulatorButton;
+
+    private Button mButton;
 
     public static DescriptionRealEstateFragment newInstance() {
         return new DescriptionRealEstateFragment();
@@ -68,6 +76,8 @@ public class DescriptionRealEstateFragment extends Fragment {
 
         mSimulatorButton = view.findViewById(R.id.simulator);
 
+        mButton = view.findViewById(R.id.b_sold);
+
         return view;
     }
 
@@ -75,7 +85,7 @@ public class DescriptionRealEstateFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        DescriptionRealEstateActivityViewModel mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(DescriptionRealEstateActivityViewModel.class);
 
         if (!MainActivity.mTabletMode) {
             hideCriteriaButton();
@@ -103,12 +113,15 @@ public class DescriptionRealEstateFragment extends Fragment {
                     Log.d(TAG, "onChanged: latlng : " + realEstate.getAddress().getLat() + "/" + realEstate.getAddress().getLng());
 
                     mSurface.setText(new StringBuilder(realEstate.getSurface() + SPACE + M2));
-                    mTVPrice.setText(new StringBuilder(realEstate.getPrice() + SPACE + DOLLAR)); mSurface.setText(new StringBuilder(realEstate.getSurface() + SPACE + M2));
+                    mTVPrice.setText(new StringBuilder(realEstate.getPrice() + SPACE + DOLLAR));
+                    mSurface.setText(new StringBuilder(realEstate.getSurface() + SPACE + M2));
                     mNumberRoom.setText(String.valueOf(realEstate.getPieceNumber()));
                     mNumberBedroom.setText(String.valueOf(realEstate.getBedroomNumber()));
                     mNumberBathroom.setText(String.valueOf(realEstate.getBathroomNumber()));
                     mNumberPoi.setText(String.valueOf(realEstate.getPointOfInterest()));
 
+                    //Manage button
+                    updateSold(realEstate);
                 }
             });
         } else {
@@ -136,5 +149,42 @@ public class DescriptionRealEstateFragment extends Fragment {
                 MainActivity.displaySearchFragment();
             }
         });
+    }
+
+    private void updateSold(final RealEstate realEstate) {
+        if (!realEstate.isAvailability()) {
+            Log.d(TAG, "updateSold: already sold");
+            mButton.setVisibility(View.GONE);
+        } else {
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick: set sold");
+                    alertDialog(realEstate);
+                }
+            });
+        }
+    }
+
+    private void alertDialog(final RealEstate realEstate){
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Confirm sell")
+                .setMessage("Are you sure you want to sell this real estate?")
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Continue with delete operation
+                        realEstate.setAvailability(false);
+                        realEstate.setDateOfSale(Utils.getTodayDate2());
+                        mViewModel.updateRealEstate(realEstate);
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }
