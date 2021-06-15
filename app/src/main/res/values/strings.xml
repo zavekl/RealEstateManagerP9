@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Real Estate Manager</string>
+    <string name="app_name" translatable="false">Real Estate Manager</string>
 
     <string name="map">Map</string>
     <string name="real_estate">Real Estate</string>

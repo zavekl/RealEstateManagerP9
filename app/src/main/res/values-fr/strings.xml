@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map">Carte</string>
+    <string name="real_estate">Bien immobilier</string>
+
+    <string name="permissions_toast_denied">Cette application ne va pas fonctionner parfataitement. S\'il vous plait, acceptez les permissions de géolocalisation.</string>
+    <string name="permissions_denied">Nous avons besoins des permissions pour cette application.</string>
+
+    <string name="location">LOCALISATION</string>
+    <string name="tv_type">TYPE</string>
+    <string name="tv_type_lowercase">Type</string>
+    <string name="tv_description">DESCRIPTION</string>
+    <string name="tv_price">PRIX</string>
+    <string name="tv_price_min">PRIX MINIMAL</string>
+    <string name="tv_price_max">PRIX MAXIMAL</string>
+    <string name="tv_price_lowercase">Prix</string>
+    <string name="tv_surface">SURFACE</string>
+    <string name="tv_surface_min">SURFACE MINIMAL</string>
+    <string name="tv_surface_max">SURFACE MAXIMAL</string>
+    <string name="tv_surface_lowercase">Surface</string>
+    <string name="tv_available_lowercase">Disponibilité</string>
+    <string name="tv_room_number">NUMERO DE PIECE</string>
+    <string name="tv_room_number_lowercase">Pièce</string>
+    <string name="tv_poi_number_lowercase">Proximité de point d\'intérêt</string>
+    <string name="tv_poi_number">POINT D\'INTERET</string>
+    <string name="room">Pièce</string>
+    <string name="bedroom">Chambre</string>
+    <string name="bathroom">Salle de bain</string>
+    <string name="create">Création</string>
+
+    <string name="field_empty">Le champ ne peut être vide</string>
+    <string name="incorrect_address">Adresse incorrecte</string>
+
+    <string name="image_view">Image</string>
+
+    <string name="image_intent">Choissez une image</string>
+    <string name="informations">INFORMATIONS</string>
+    <string name="address">ADRESSE</string>
+
+    <string name="b_confirm">CONFIRMATION</string>
+    <string name="credit_simulator">SILMULATEUR DE CREDIT</string>
+    <string name="tie_number_of_years">NOMBRE D\'ANNEES</string>
+    <string name="tie_number_of_percentage">NOMBRE DE POURCENTAGE</string>
+    <string name="monthly_payment">PAIEMENT MENSUEL</string>
+    <string name="cost_of_credit">COUT DU CREDIT</string>
+
+    <string name="notification_text">Ajout du bien immobilié réussi</string>
+    <string name="tv_item_sold">VENDU</string>
+
+    <string name="tie_money_contribution">CONTRIBUTION FINANCIERE</string>
+    <string name="tie_money_contribution_error">La contribution coûte plus chère que le prix du bien immobilier</string>
+
+    <string name="simple_space">\u0020</string>
+    <string name="dollar">$</string>
+    <string name="zero">0</string>
+    <string name="sell">Sell</string>
+
+    <string name="simulator_button">Bouton de simulation</string>
+    <string name="surface">Surface</string>
+    <string name="price">Prix</string>
+    <string name="point_of_interest">Point d\'intérêt</string>
+    <string name="criteria">Critère</string>
+    <string name="cancel_criteria">Remise à éro des critères</string>
+    <string name="zoom_map">Agrandir la carte</string>
+    <string name="real_estate_item">Objet d\'un bien immobilier</string>
+    <string name="real_estate_image">Image d\'un bien immobilier</string>
+    <string name="type_of_real_estate">Type de bien immobilier</string>
+    <string name="add_real_estate">Ajout d\'un bien immobilier</string>
+</resources>
