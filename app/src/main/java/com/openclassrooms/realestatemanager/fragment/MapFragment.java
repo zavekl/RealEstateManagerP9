@@ -69,7 +69,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
     private LatLng mLatLng;
     private Boolean mIsCenter = false;
 
-    List<RealEstate> mListRealEstate = new ArrayList<>();
+    private final List<RealEstate> mListRealEstate = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -169,7 +169,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
             public void onClick(View v) {
                 boolean locationGranted = EasyPermissions.hasPermissions(requireContext(), permissions);
                 if (!locationGranted) {
-                    Log.d(TAG, "onClick: location denied : " + locationGranted);
+                    Log.d(TAG, "onClick: location denied : ");
                     askPermissions();
                 } else {
                     Log.d(TAG, "onClick: location granted");

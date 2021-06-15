@@ -171,7 +171,7 @@ public class AddRealEstateFragment extends Fragment {
         // Chooser of filesystem options.
         final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Image Source");
 
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[0]));
 
         startActivityForResult(Intent.createChooser(chooserIntent, requireContext().getResources().getString(R.string.image_intent)), REQUEST_CODE);
     }
@@ -208,7 +208,10 @@ public class AddRealEstateFragment extends Fragment {
                     Bitmap mBitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), data.getData());
                     mAddGridViewAdapter.addItem(mBitmap);
                 } else {
-                    mAddGridViewAdapter.addItem((Bitmap) data.getExtras().get("data"));
+                    if (data.getExtras() != null) {
+
+                        mAddGridViewAdapter.addItem((Bitmap) data.getExtras().get("data"));
+                    }
                 }
 
                 //Or create another adapter with the data
@@ -225,15 +228,17 @@ public class AddRealEstateFragment extends Fragment {
             Place place = Autocomplete.getPlaceFromIntent(data);
             mTIAddress.setText(place.getAddress());
             mLatLng = place.getLatLng();
-            mViewModel.getPOIAroundUser(String.valueOf(mLatLng.latitude), String.valueOf(mLatLng.longitude))
-                    .observe(this, new Observer<NearByPlaceResults>() {
-                        @Override
-                        public void onChanged(NearByPlaceResults nearByPlaceResults) {
-                            Log.d(TAG, "onChanged: result : " + nearByPlaceResults.getResults().toString());
-                            mNumberOfPOI = nearByPlaceResults.getResults().size();
-                            Log.d(TAG, "onChanged: number of POI = " + mNumberOfPOI);
-                        }
-                    });
+            if (mLatLng != null) {
+                mViewModel.getPOIAroundUser(String.valueOf(mLatLng.latitude), String.valueOf(mLatLng.longitude))
+                        .observe(this, new Observer<NearByPlaceResults>() {
+                            @Override
+                            public void onChanged(NearByPlaceResults nearByPlaceResults) {
+                                Log.d(TAG, "onChanged: result : " + nearByPlaceResults.getResults().toString());
+                                mNumberOfPOI = nearByPlaceResults.getResults().size();
+                                Log.d(TAG, "onChanged: number of POI = " + mNumberOfPOI);
+                            }
+                        });
+            }
 
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR && data != null) {
             Status status = Autocomplete.getStatusFromIntent(data);
@@ -268,9 +273,9 @@ public class AddRealEstateFragment extends Fragment {
                         Toast.makeText(requireContext(), "Chose at minimal one picture please.", Toast.LENGTH_LONG).show();
                     } else {
                         Log.d(TAG, "onClick: create RealEstate");
-                        RealEstate realEstate = new RealEstate(mTIType.getText().toString(), Integer.parseInt(mTIPrice.getText().toString()), mTISurface.getText().toString(),
-                                Integer.parseInt(mTIRoom.getText().toString()), Integer.parseInt(mTIBedroom.getText().toString()),
-                                Integer.parseInt(mTIBathroom.getText().toString()), mTIDescription.getText().toString(), address, String.valueOf(mNumberOfPOI),
+                        RealEstate realEstate = new RealEstate(mTIType.getText().toString(), Integer.parseInt(Objects.requireNonNull(mTIPrice.getText()).toString()), Objects.requireNonNull(mTISurface.getText()).toString(),
+                                Integer.parseInt(Objects.requireNonNull(mTIRoom.getText()).toString()), Integer.parseInt(Objects.requireNonNull(mTIBedroom.getText()).toString()),
+                                Integer.parseInt(Objects.requireNonNull(mTIBathroom.getText()).toString()), Objects.requireNonNull(mTIDescription.getText()).toString(), address, String.valueOf(mNumberOfPOI),
                                 true, mListBitmapNameFile, getTodayDate2(), "A FAIRE", "AGENT 1");
 
                         mViewModel.insert(realEstate);
