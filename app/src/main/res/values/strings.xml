@@ -6,10 +6,8 @@
 
     <string name="permissions_toast_denied">This application will not work normally. Please, accept the location permission.</string>
     <string name="permissions_denied">We need permissions for the map.</string>
-    <string name="insufficient_memory">The memory of your device is insufficient. Please make space.</string>
 
     <string name="location">LOCATION</string>
-    <string name="tv_creation_title">CREATE NEW REAL ESTATE</string>
     <string name="tv_type">TYPE</string>
     <string name="tv_type_lowercase">Type</string>
     <string name="tv_description">DESCRIPTION</string>
@@ -26,13 +24,6 @@
     <string name="tv_room_number_lowercase">Room</string>
     <string name="tv_poi_number_lowercase">Proximity to point of interest</string>
     <string name="tv_poi_number">POINT OF INTEREST</string>
-    <string name="tv_bedroom_number">BEDROOM NUMBER</string>
-    <string name="tv_bathroom_number">BATHROOM NUMBER</string>
-    <string name="tv_address">ADDRESS</string>
-    <string name="b_create">Create</string>
-    <string name="number_and_street">NUMBER AND STREET</string>
-    <string name="postal_code">POSTAL CODE</string>
-    <string name="town">TOWN</string>
     <string name="room">ROOM</string>
     <string name="bedroom">BEDROOM</string>
     <string name="bathroom">BATHROOM</string>
@@ -47,7 +38,6 @@
     <string name="informations">INFORMATIONS</string>
     <string name="address">ADDRESS</string>
 
-    <string name="tv_your_research">Your research (min 3 chars)</string>
     <string name="b_confirm">CONFIRM</string>
     <string name="credit_simulator">CREDIT SIMULATOR</string>
     <string name="tie_number_of_years">NUMBER OF YEARS</string>
@@ -64,10 +54,8 @@
     <string name="simple_space">\u0020</string>
     <string name="dollar">$</string>
     <string name="zero">0</string>
-    <string name="m2">m2</string>
-    <string name="sold">Sold</string>
     <string name="sell">Sell</string>
-    
+
     <string name="simulator_button">Simulator button</string>
     <string name="surface">Surface</string>
     <string name="price">Price</string>
@@ -79,6 +67,5 @@
     <string name="real_estate_image">Real estate image</string>
     <string name="type_of_real_estate">Type of real estate</string>
     <string name="add_real_estate">Add real estate</string>
->>>>>>> d0e47ef (Fix xml)
 
 </resources>
