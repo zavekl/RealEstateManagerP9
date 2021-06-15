@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.viewmodel;
 
 import android.app.Application;
-import android.location.LocationListener;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -18,7 +17,6 @@ import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
 import java.util.List;
 
 public class MapFragmentViewModel extends AndroidViewModel {
-    private static final String TAG = "MapFragmentViewModel";
 
     private final MapRepository mMapRepository;
     private final LiveData<List<RealEstate>> mAllRealestateAddress;
@@ -38,10 +36,6 @@ public class MapFragmentViewModel extends AndroidViewModel {
 
     public void stopLocationUpdates(LocationCallback locationCallback) {
         mMapRepository.stopLocationUpdates(locationCallback);
-    }
-
-    public void requestGPSUpdate(LocationListener locationListener) {
-        mMapRepository.requestGPSUpdate(locationListener);
     }
 
     public LiveData<List<RealEstate>> getAllRealEstate() {

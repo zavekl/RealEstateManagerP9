@@ -37,11 +37,6 @@ public class RealEstateRepository {
         new UpdateRealEstateAsyncTask(mRealEstateDao).execute(realEstate);
     }
 
-    public void delete(RealEstate realEstate) {
-        Log.d(TAG, "delete: ");
-        new DeleteRealEstateAsyncTask(mRealEstateDao).execute(realEstate);
-    }
-
     public LiveData<List<RealEstate>> getAllRealEstate() {
         Log.d(TAG, "getAllIdRealEstate: ");
         return mAllIdRealEstates;
@@ -77,20 +72,6 @@ public class RealEstateRepository {
         @Override
         protected Void doInBackground(RealEstate... realEstates) {
             mRealEstateDao.updateRealEstate(realEstates[0]);
-            return null;
-        }
-    }
-
-    private static class DeleteRealEstateAsyncTask extends AsyncTask<RealEstate, Void, Void> {
-        private final RealEstateDao mRealEstateDao;
-
-        private DeleteRealEstateAsyncTask(RealEstateDao realEstateDao) {
-            this.mRealEstateDao = realEstateDao;
-        }
-
-        @Override
-        protected Void doInBackground(RealEstate... realEstates) {
-            mRealEstateDao.deleteRealEstate(realEstates[0]);
             return null;
         }
     }
