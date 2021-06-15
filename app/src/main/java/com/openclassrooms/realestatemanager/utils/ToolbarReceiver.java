@@ -17,9 +17,11 @@ public class ToolbarReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(APPLY_RESET_CRITERIA)) {
-            Log.d(TAG, "onReceive: ");
-            mCallback.applyResetCriteria();
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(APPLY_RESET_CRITERIA)) {
+                Log.d(TAG, "onReceive: ");
+                mCallback.applyResetCriteria();
+            }
         }
     }
 

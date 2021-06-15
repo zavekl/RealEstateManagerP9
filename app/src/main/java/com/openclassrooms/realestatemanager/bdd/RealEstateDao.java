@@ -4,7 +4,6 @@ import android.database.Cursor;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -23,9 +22,6 @@ public interface RealEstateDao {
 
     @Update
     void updateRealEstate(RealEstate realEstate);
-
-    @Delete
-    void deleteRealEstate(RealEstate realEstate);
 
     @Query("SELECT * FROM realEstate")
     LiveData<List<RealEstate>> getAllRealEstate();
