@@ -117,7 +117,8 @@ public class Utils {
         Log.d(TAG, "stringToAdress: " + list.toString());
 
         if (list.size() == 4) {
-            return new Address(list.get(0), list.get(1), list.get(2), list.get(3));
+            Log.d(TAG, "stringToAddress: list");
+            return new Address(list.get(0), list.get(1).trim(), list.get(2).trim(), list.get(3).trim());
         } else {
             return null;
         }
