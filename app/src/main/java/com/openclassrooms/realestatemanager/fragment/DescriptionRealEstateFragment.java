@@ -33,6 +33,7 @@ public class DescriptionRealEstateFragment extends Fragment {
     private static final String TAG = "DescRealEstateFragment";
     public static final String BUNDLE_PRICE_SIMULATOR = "BUNDLE_PRICE";
 
+    public static final String SELL = "Date of sell: ";
     public static final String SPACE = " ";
     public static final String M2 = "m2";
     public static final String DOLLAR = "$";
@@ -49,6 +50,7 @@ public class DescriptionRealEstateFragment extends Fragment {
     private ImageButton mSimulatorButton;
 
     private Button mButton;
+    private TextView mDate;
 
     public static DescriptionRealEstateFragment newInstance() {
         return new DescriptionRealEstateFragment();
@@ -77,6 +79,8 @@ public class DescriptionRealEstateFragment extends Fragment {
         mSimulatorButton = view.findViewById(R.id.simulator);
 
         mButton = view.findViewById(R.id.b_sold);
+
+        mDate = view.findViewById(R.id.tv_sell);
 
         return view;
     }
@@ -155,6 +159,8 @@ public class DescriptionRealEstateFragment extends Fragment {
         if (!realEstate.isAvailability()) {
             Log.d(TAG, "updateSold: already sold");
             mButton.setVisibility(View.GONE);
+            String date = realEstate.getDateOfSale().substring(0, 10);
+            mDate.setText(new StringBuilder(SELL + date));
         } else {
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -166,10 +172,11 @@ public class DescriptionRealEstateFragment extends Fragment {
         }
     }
 
-    private void alertDialog(final RealEstate realEstate){
+    private void alertDialog(final RealEstate realEstate) {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Confirm sell")
                 .setMessage("Are you sure you want to sell this real estate?")
+
 
                 // Specifying a listener allows you to take an action before dismissing the dialog.
                 // The dialog is automatically dismissed when a dialog button is clicked.

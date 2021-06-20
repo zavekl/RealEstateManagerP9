@@ -53,7 +53,7 @@ public class TextInputUtils {
     }
 
     private boolean validateAddress() {
-        String text = Objects.requireNonNull(mTIAddress.getText().toString());
+        String text = Objects.requireNonNull(Objects.requireNonNull(mTIAddress.getText()).toString());
         Log.d(TAG, "validateAddress: " + mTIAddress.getText().toString());
         if (text.isEmpty()) {
             Log.d(TAG, "validateAddress: empty");
@@ -83,7 +83,7 @@ public class TextInputUtils {
     }
 
     private boolean validatePrice() {
-        String text = Objects.requireNonNull(mTIPrice.getText().toString().trim());
+        String text = Objects.requireNonNull(Objects.requireNonNull(mTIPrice.getText()).toString().trim());
         if (text.isEmpty()) {
             mTIPrice.setError(mContext.getString(R.string.field_empty));
             return false;
@@ -94,7 +94,7 @@ public class TextInputUtils {
     }
 
     private boolean validateDescription() {
-        String text = Objects.requireNonNull(mTIDescription.getText().toString().trim());
+        String text = Objects.requireNonNull(Objects.requireNonNull(mTIDescription.getText()).toString().trim());
         if (text.isEmpty()) {
             mTIDescription.setError(mContext.getString(R.string.field_empty));
             return false;
@@ -105,7 +105,7 @@ public class TextInputUtils {
     }
 
     private boolean validateSurface() {
-        String text = Objects.requireNonNull(mTISurface.getText().toString().trim());
+        String text = Objects.requireNonNull(Objects.requireNonNull(mTISurface.getText()).toString().trim());
         if (text.isEmpty()) {
             mTISurface.setError(mContext.getString(R.string.field_empty));
             return false;
@@ -116,7 +116,7 @@ public class TextInputUtils {
     }
 
     private boolean validateRoom() {
-        String text = Objects.requireNonNull(mTIRoom.getText().toString().trim());
+        String text = Objects.requireNonNull(Objects.requireNonNull(mTIRoom.getText()).toString().trim());
         if (text.isEmpty()) {
             mTIRoom.setError(mContext.getString(R.string.field_empty));
             return false;
@@ -127,7 +127,7 @@ public class TextInputUtils {
     }
 
     private boolean validateBedroom() {
-        String text = Objects.requireNonNull(mTIBedroom.getText().toString().trim());
+        String text = Objects.requireNonNull(Objects.requireNonNull(mTIBedroom.getText()).toString().trim());
         if (text.isEmpty()) {
             mTIBedroom.setError(mContext.getString(R.string.field_empty));
             return false;
@@ -138,7 +138,7 @@ public class TextInputUtils {
     }
 
     private boolean validateBathroom() {
-        String text = Objects.requireNonNull(mTIBathroom.getText().toString().trim());
+        String text = Objects.requireNonNull(Objects.requireNonNull(mTIBathroom.getText()).toString().trim());
         if (text.isEmpty()) {
             mTIBathroom.setError(mContext.getString(R.string.field_empty));
             return false;

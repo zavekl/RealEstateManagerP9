@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -12,7 +12,6 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
-import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.model.Address;
 
 import java.text.DateFormat;
@@ -23,8 +22,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -37,8 +34,8 @@ public class Utils {
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      *
-     * @param dollars
-     * @return
+     * @param dollars the type of money to convert
+     * @return Euro
      */
     public static int convertDollarToEuro(int dollars) {
         return (int) Math.round(dollars * 0.812);
@@ -53,9 +50,10 @@ public class Utils {
      * Conversion de la date d'aujourd'hui en un format plus approprié
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      *
-     * @return
+     * @return date in format yyyy/MM/dd
      */
     public static String getTodayDate1() {
+        @SuppressLint("SimpleDateFormat")
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         return dateFormat.format(new Date());
     }
@@ -70,11 +68,11 @@ public class Utils {
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      *
-     * @param context
-     * @return
+     * @param context need for getSystemService method
+     * @return if the wifi is enable
      */
     public static Boolean isInternetAvailable1(Context context) {
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
     }
 
@@ -87,38 +85,6 @@ public class Utils {
     //Get Emoji by unicode
     public static String getEmojiByUnicode(int unicode) {
         return new String(Character.toChars(unicode));
-    }
-
-    //Check if is the first run of the app
-    public static Boolean checkFirstRun(Context context) {
-        boolean result = false;
-        final String PREFS_NAME = "MyPrefsFile";
-        final String PREF_VERSION_CODE_KEY = "version_code";
-        final int DOESNT_EXIST = -1;
-
-        // Get current version code
-        int currentVersionCode = BuildConfig.VERSION_CODE;
-
-        // Get saved version code
-        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
-
-        // Check for first run or upgrade
-        if (currentVersionCode == savedVersionCode) {
-
-            // This is just a normal run
-            result = false;
-
-        } else if (savedVersionCode == DOESNT_EXIST) {
-            result = true;
-
-        } else if (currentVersionCode > savedVersionCode) {
-            result = false;
-
-        }
-        // Update the shared preferences with the current version code
-        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
-        return result;
     }
 
     //Get Bitmap from drawable
@@ -157,14 +123,8 @@ public class Utils {
         }
     }
 
-    //Convert list of image to string with delimiter
-    public String photoListToString(List<String> list) {
-        return TextUtils.join(",", list);
-    }
-
     //Convert string with delimiter to list of image
     public static List<String> stringToPhotoList(String s) {
         return Arrays.asList(TextUtils.split(s, ","));
-
     }
 }

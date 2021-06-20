@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
     private static ViewPager mViewPager;
     private static TabLayout mTabLayout;
 
+    @SuppressLint("StaticFieldLeak")
     private static ImageButton mResearchButton;
     private ImageButton mStateResearchButton;
     private static FragmentContainerView mFragmentCV;

@@ -43,10 +43,13 @@ public class RealEstateProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         if (getContext() != null) {
-            final long id = RealEstateDatabase.getInstance(getContext()).realEstateDao().insertRealEstate(RealEstate.fromContentValues(values));
-            if (id != 0) {
-                getContext().getContentResolver().notifyChange(uri, null);
-                return ContentUris.withAppendedId(uri, id);
+            final long id;
+            if (values != null) {
+                id = RealEstateDatabase.getInstance(getContext()).realEstateDao().insertRealEstate(RealEstate.fromContentValues(values));
+                if (id != 0) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                    return ContentUris.withAppendedId(uri, id);
+                }
             }
         }
         throw new IllegalArgumentException("Failed to insert row into " + uri);

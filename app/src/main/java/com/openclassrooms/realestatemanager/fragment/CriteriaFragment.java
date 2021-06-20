@@ -107,23 +107,23 @@ public class CriteriaFragment extends Fragment {
         if (criteria.getMinPrice() != null) {
             Log.d(TAG, "setCriteriaSharedPref: getMinPrice");
             mTIPriceMin.setText(criteria.getMinPrice());
-            listPrice.add(Float.valueOf(mTIPriceMin.getText().toString()));
+            listPrice.add(Float.valueOf(Objects.requireNonNull(mTIPriceMin.getText()).toString()));
         }
         if (criteria.getMaxPrice() != null) {
             Log.d(TAG, "setCriteriaSharedPref: getMaxPrice");
             mTIPriceMax.setText(criteria.getMaxPrice());
-            listPrice.add(Float.valueOf(mTIPriceMax.getText().toString()));
+            listPrice.add(Float.valueOf(Objects.requireNonNull(mTIPriceMax.getText()).toString()));
             mRSPrice.setValues(listPrice);
         }
         if (criteria.getMinSurface() != null) {
             Log.d(TAG, "setCriteriaSharedPref: getMinSurface");
             mTISurfaceMin.setText(criteria.getMinSurface());
-            listSurface.add(Float.valueOf(mTISurfaceMin.getText().toString()));
+            listSurface.add(Float.valueOf(Objects.requireNonNull(mTISurfaceMin.getText()).toString()));
         }
         if (criteria.getMaxSurface() != null) {
             Log.d(TAG, "setCriteriaSharedPref: getMaxSurface");
             mTISurfaceMax.setText(criteria.getMaxSurface());
-            listSurface.add(Float.valueOf(mTISurfaceMax.getText().toString()));
+            listSurface.add(Float.valueOf(Objects.requireNonNull(mTISurfaceMax.getText()).toString()));
             mRSSurface.setValues(listSurface);
         }
         Log.d(TAG, "setCriteriaSharedPref: getAvailable");
@@ -136,7 +136,7 @@ public class CriteriaFragment extends Fragment {
         if (criteria.getPoi() != null) {
             Log.d(TAG, "setCriteriaSharedPref: getPoi");
             mTIPoi.setText(criteria.getPoi());
-            mSPoi.setValue(Float.parseFloat(mTIPoi.getText().toString()));
+            mSPoi.setValue(Float.parseFloat(Objects.requireNonNull(mTIPoi.getText()).toString()));
         }
     }
 

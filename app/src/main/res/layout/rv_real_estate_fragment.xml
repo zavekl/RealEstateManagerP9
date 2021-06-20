@@ -23,5 +23,6 @@
         android:layout_marginBottom="20dp"
         android:src="@drawable/ic_baseline_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/add_real_estate" />
 </androidx.constraintlayout.widget.ConstraintLayout>

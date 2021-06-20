@@ -20,14 +20,16 @@ public class CriteriaReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(APPLY_CRITERIA)) {
-            Log.d(TAG, "onReceive: criteria :" + intent.getSerializableExtra("Criteria"));
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(APPLY_CRITERIA)) {
+                Log.d(TAG, "onReceive: criteria :" + intent.getSerializableExtra("Criteria"));
 
-            Criteria criteria = (Criteria) intent.getSerializableExtra("Criteria");
+                Criteria criteria = (Criteria) intent.getSerializableExtra("Criteria");
 
-            if (criteria != null) {
-                mCallback.applyCriteria(criteria);
-                Log.d(TAG, "onReceive:  applyCriteria");
+                if (criteria != null) {
+                    mCallback.applyCriteria(criteria);
+                    Log.d(TAG, "onReceive:  applyCriteria");
+                }
             }
         }
     }

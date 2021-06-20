@@ -5,6 +5,7 @@ android {
     defaultConfig {
         applicationId "com.openclassrooms.realestatemanager"
         minSdkVersion 19
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -41,6 +42,7 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.2.1'
 
+    //noinspection GradleDependency,GradleDependency,GradleDependency
     //NO UPDATE --> Unexpected error https://github.com/mockito/mockito/issues/1606
     testImplementation "org.mockito:mockito-core:2.18.3"
     androidTestImplementation 'org.mockito:mockito-android:2.18.3'

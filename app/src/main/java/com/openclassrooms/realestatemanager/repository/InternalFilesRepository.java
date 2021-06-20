@@ -38,10 +38,8 @@ public class InternalFilesRepository {
         return availableBlocks * blockSize > MEMORY;
     }
 
-    public boolean setFile(String name, Bitmap bitmapImage) {
-        boolean result;
+    public void setFile(String name, Bitmap bitmapImage) {
         if (checkSpaceMemory()) {
-            result = false;
             File directory = mContext.getDir("imageDir", Context.MODE_PRIVATE); // path to /data/data/yourapp/app_data/imageDir
             File myPath = new File(directory, name + ".jpg");
 
@@ -50,7 +48,6 @@ public class InternalFilesRepository {
                 fos = new FileOutputStream(myPath);
                 // Use the compress method on the BitMap object to write image to the OutputStream
                 bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                result = true;
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(TAG, "setFile: ", e);
@@ -68,9 +65,8 @@ public class InternalFilesRepository {
                 }
             }
         } else {
-            result = true;
+            Log.d(TAG, "setFile: Not enougt space");
         }
-        return result;
     }
 
     public Bitmap getFile(String name) {

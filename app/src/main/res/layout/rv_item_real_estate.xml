@@ -37,7 +37,8 @@
             android:layout_marginBottom="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/real_estate_image" />
 
         <View
             android:layout_width="match_parent"
@@ -56,7 +57,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/rv_tv_item_type"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo"
+            android:contentDescription="@string/type_of_real_estate" />
 
         <TextView
             android:id="@+id/rv_tv_item_type"
@@ -81,7 +83,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/rv_tv_item_town"
             app:layout_constraintStart_toEndOf="@id/rv_tv_item_type"
-            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo"
+            android:contentDescription="@string/address" />
 
         <TextView
             android:id="@+id/rv_tv_item_town"
@@ -106,7 +109,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/rv_tv_item_price"
             app:layout_constraintStart_toEndOf="@id/rv_tv_item_town"
-            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo" />
+            app:layout_constraintTop_toBottomOf="@id/rv_iv_photo"
+            android:contentDescription="@string/price" />
 
         <TextView
             android:id="@+id/rv_tv_item_price"

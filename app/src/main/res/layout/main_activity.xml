@@ -30,7 +30,8 @@
                 android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/criteria" />
 
             <ImageButton
                 android:id="@+id/biv_state_criteria"
@@ -42,7 +43,8 @@
                 android:src="@drawable/ic_baseline_delete_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/biv_criteria"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/cancel_criteria" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
