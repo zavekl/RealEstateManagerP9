@@ -65,9 +65,17 @@ public class ContentProviderTest {
         assertThat(cursor, notNullValue());
         assertThat(cursor.getCount(), is(6));
         assertThat(cursor.moveToFirst(), is(true));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("price")), is("240000"));
         assertThat(cursor.moveToNext(), is(true));
-        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("description")), is("This is a description"));
-        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("incoming_date")), is("28/05/2012"));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("price")), is("200000"));
+        assertThat(cursor.moveToNext(), is(true));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("price")), is("120000"));
+        assertThat(cursor.moveToNext(), is(true));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("price")), is("90000"));
+        assertThat(cursor.moveToNext(), is(true));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("price")), is("450000"));
+        assertThat(cursor.moveToNext(), is(true));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("price")), is("340000"));
     }
 
     private List<ContentValues> generateItem() {
@@ -99,7 +107,7 @@ public class ContentProviderTest {
         values1.put("bedroom_number", "7");
         values1.put("bathroom_number", "3");
         values1.put("description", "This is a description");
-        values1.put("address", "1491 Sterling Pl, Brooklyn NY 11213, USA, 40.671519004121194, -73.92901004009369");
+        values1.put("address", "1491 Sterling Pl, Brooklyn, NY 11213, USA, 40.671519004121194, -73.92901004009369");
         values1.put("pointofinterest", "6");
         values1.put("availability", "true");
         values1.put("image", "item1");
@@ -115,7 +123,7 @@ public class ContentProviderTest {
         values2.put("bedroom_number", "7");
         values2.put("bathroom_number", "8");
         values2.put("description", "This is a description");
-        values2.put("address", "1492 Sterling Pl, Brooklyn NY 11213, USA, 40.67133000426025, -73.92927291080991");
+        values2.put("address", "1492 Sterling Pl, Brooklyn, NY 11213, USA, 40.67133000426025, -73.92927291080991");
         values2.put("pointofinterest", "16");
         values2.put("availability", "true");
         values2.put("image", "item2");
@@ -131,7 +139,7 @@ public class ContentProviderTest {
         values3.put("bedroom_number", "7");
         values3.put("bathroom_number", "3");
         values3.put("description", "This is a description");
-        values3.put("address", "1493 Sterling Pl, Brooklyn NY 11213, USA, 40.67151598663605, -73.92893896155475");
+        values3.put("address", "1493 Sterling Pl, Brooklyn, NY 11213, USA, 40.67151598663605, -73.92893896155475");
         values3.put("pointofinterest", "9");
         values3.put("availability", "true");
         values3.put("image", "item3");
@@ -147,7 +155,7 @@ public class ContentProviderTest {
         values4.put("bedroom_number", "7");
         values4.put("bathroom_number", "3");
         values4.put("description", "This is a description");
-        values4.put("address", "1494 Sterling Pl, Brooklyn NY 11213, USA, 40.671326315546544, -73.92920926817706");
+        values4.put("address", "1494 Sterling Pl, Brooklyn, NY 11213, USA, 40.671326315546544, -73.92920926817706");
         values4.put("pointofinterest", "12");
         values4.put("availability", "true");
         values4.put("image", "item4");
@@ -163,7 +171,7 @@ public class ContentProviderTest {
         values5.put("bedroom_number", "7");
         values5.put("bathroom_number", "3");
         values5.put("description", "This is a description");
-        values5.put("address", "1495 Sterling Pl, Brooklyn NY 11213, USA, 40.67149800745375, -73.92885002956207");
+        values5.put("address", "1495 Sterling Pl, Brooklyn, NY 11213, USA, 40.67149800745375, -73.92885002956207");
         values5.put("pointofinterest", "23");
         values5.put("availability", "true");
         values5.put("image", "item5");
@@ -179,7 +187,7 @@ public class ContentProviderTest {
         values6.put("bedroom_number", "7");
         values6.put("bathroom_number", "3");
         values6.put("description", "This is a description");
-        values6.put("address", "1496 Sterling Pl, Brooklyn NY 11213, USA, 40.67132262683284, -73.92914562554421");
+        values6.put("address", "1496 Sterling Pl, Brooklyn, NY 11213, USA, 40.67132262683284, -73.92914562554421");
         values6.put("pointofinterest", "6");
         values6.put("availability", "true");
         values6.put("image", "item6");

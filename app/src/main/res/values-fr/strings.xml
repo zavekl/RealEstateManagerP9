@@ -23,10 +23,11 @@
     <string name="tv_room_number_lowercase">Pièce</string>
     <string name="tv_poi_number_lowercase">Proximité de point d\'intérêt</string>
     <string name="tv_poi_number">POINT D\'INTERET</string>
-    <string name="room">Pièce</string>
-    <string name="bedroom">Chambre</string>
-    <string name="bathroom">Salle de bain</string>
+    <string name="room">PIECE</string>
+    <string name="bedroom">CHAMBRE</string>
+    <string name="bathroom">SALLE DE BAIN</string>
     <string name="create">Création</string>
+    <string name="minimal_image">Choissez au minimum une image.</string>
 
     <string name="field_empty">Le champ ne peut être vide</string>
     <string name="incorrect_address">Adresse incorrecte</string>
@@ -46,6 +47,8 @@
 
     <string name="notification_text">Ajout du bien immobilié réussi</string>
     <string name="tv_item_sold">VENDU</string>
+    <string name="alterdialog1">Confirmation de vente</string>
+    <string name="alterdialog2">Etes vous sûr de vouloir vendre ce bien?</string>
 
     <string name="tie_money_contribution">CONTRIBUTION FINANCIERE</string>
     <string name="tie_money_contribution_error">La contribution coûte plus chère que le prix du bien immobilier</string>

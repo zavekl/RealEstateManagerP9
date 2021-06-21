@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.activity.MainActivity;
 import com.openclassrooms.realestatemanager.model.Criteria;
 import com.openclassrooms.realestatemanager.model.MapStateManager;
 import com.openclassrooms.realestatemanager.model.RealEstate;
@@ -147,8 +148,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
         Log.d(TAG, "setMarker: ");
         mGoogleMap.clear();
         for (RealEstate realEstate : l) {
-            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(realEstate.getAddress().getLat()), Double.parseDouble(realEstate.getAddress().getLng()))).
-                    title(realEstate.getType())).setTag(realEstate.getId());
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(realEstate.getAddress().getLat()), Double.parseDouble(realEstate.getAddress().getLng())))).setTag(realEstate.getId());
         }
     }
 
@@ -184,15 +184,22 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                Log.d(TAG, "onMarkerClick: click");
                 DescriptionRealEstateFragment fragment = DescriptionRealEstateFragment.newInstance();
 
                 Bundle bundle = new Bundle();
 
                 if (marker.getTag() != null) {
                     bundle.putLong(BUNDLE_ID_DESCRIPTION, Long.parseLong(marker.getTag().toString()));
+                    Log.d(TAG, "onMarkerClick: id getted");
                 }
 
                 fragment.setArguments(bundle);
+                if (MainActivity.mTabletMode) {
+                    MainActivity.tabletModeRV();
+                } else {
+                    MainActivity.displayDescriptionFragment();
+                }
 
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.description_fragment, fragment, null)

@@ -26,6 +26,8 @@ import com.openclassrooms.realestatemanager.model.RealEstate;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodel.DescriptionRealEstateActivityViewModel;
 
+import java.util.Locale;
+
 import static com.openclassrooms.realestatemanager.activity.MainActivity.hideCriteriaButton;
 import static com.openclassrooms.realestatemanager.adapter.ListRealEstateRVAdapter.BUNDLE_ID_DESCRIPTION;
 
@@ -34,6 +36,7 @@ public class DescriptionRealEstateFragment extends Fragment {
     public static final String BUNDLE_PRICE_SIMULATOR = "BUNDLE_PRICE";
 
     public static final String SELL = "Date of sell: ";
+    public static final String SELLFR = "Date de vente: ";
     public static final String SPACE = " ";
     public static final String M2 = "m2";
     public static final String DOLLAR = "$";
@@ -160,7 +163,12 @@ public class DescriptionRealEstateFragment extends Fragment {
             Log.d(TAG, "updateSold: already sold");
             mButton.setVisibility(View.GONE);
             String date = realEstate.getDateOfSale().substring(0, 10);
-            mDate.setText(new StringBuilder(SELL + date));
+            if (Locale.getDefault().getDisplayLanguage().equals(Locale.ENGLISH.getDisplayLanguage())) {
+                mDate.setText(new StringBuilder(SELL + date));
+            } else {
+                mDate.setText(new StringBuilder(SELLFR + date));
+            }
+
         } else {
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -174,8 +182,8 @@ public class DescriptionRealEstateFragment extends Fragment {
 
     private void alertDialog(final RealEstate realEstate) {
         new AlertDialog.Builder(requireContext())
-                .setTitle("Confirm sell")
-                .setMessage("Are you sure you want to sell this real estate?")
+                .setTitle(getString(R.string.alterdialog1))
+                .setMessage(getString(R.string.alterdialog2))
 
 
                 // Specifying a listener allows you to take an action before dismissing the dialog.

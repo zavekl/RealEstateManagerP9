@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
     }
 
     //Display half screen RV if tablet mode
-    private void tabletModeRV() {
+    public static void tabletModeRV() {
         if (mTabletMode) {
             Log.d(TAG, "tabletModeRV: ");
             final ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mConstraintLayout.getLayoutParams();
@@ -337,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements CriteriaReceiver.
     public void onResume() {
         Log.d(TAG, "onResume: ");
         super.onResume();
+        displayCriteriaButton();
         //If screen > 900 then tablet mod
         if (getResources().getConfiguration().screenWidthDp > 900) {
             Log.d(TAG, "onCreate: tablet mod");

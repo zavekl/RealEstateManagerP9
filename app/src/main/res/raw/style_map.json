@@ -54,7 +54,7 @@
     "featureType": "landscape",
     "stylers": [
       {
-        "visibility": "off"
+        "visibility": "on"
       }
     ]
   },
@@ -62,7 +62,7 @@
     "featureType": "landscape.man_made",
     "stylers": [
       {
-        "visibility": "off"
+        "visibility": "simplified"
       }
     ]
   },

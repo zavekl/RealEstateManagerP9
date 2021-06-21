@@ -266,17 +266,17 @@ public class AddRealEstateFragment extends Fragment {
                 }
 
                 if (mListBitmapNameFile.isEmpty()) {
-                    Toast.makeText(requireContext(), "Chose at minimal one picture please.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), getString(R.string.minimal_image), Toast.LENGTH_LONG).show();
                 }
                 if (mViewModel.validateTextInput()) {
                     if (mListBitmapNameFile.isEmpty()) {
-                        Toast.makeText(requireContext(), "Chose at minimal one picture please.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), getString(R.string.minimal_image), Toast.LENGTH_LONG).show();
                     } else {
                         Log.d(TAG, "onClick: create RealEstate");
                         RealEstate realEstate = new RealEstate(mTIType.getText().toString(), Integer.parseInt(Objects.requireNonNull(mTIPrice.getText()).toString()), Objects.requireNonNull(mTISurface.getText()).toString(),
                                 Integer.parseInt(Objects.requireNonNull(mTIRoom.getText()).toString()), Integer.parseInt(Objects.requireNonNull(mTIBedroom.getText()).toString()),
                                 Integer.parseInt(Objects.requireNonNull(mTIBathroom.getText()).toString()), Objects.requireNonNull(mTIDescription.getText()).toString(), address, String.valueOf(mNumberOfPOI),
-                                true, mListBitmapNameFile, getTodayDate2(), "A FAIRE", "AGENT 1");
+                                true, mListBitmapNameFile, getTodayDate2(), "", "AGENT 1");
 
                         mViewModel.insert(realEstate);
 

@@ -28,6 +28,7 @@
     <string name="bedroom">BEDROOM</string>
     <string name="bathroom">BATHROOM</string>
     <string name="create">CREATE</string>
+    <string name="minimal_image">Choose at minimal one picture please.</string>
 
     <string name="field_empty">Field can\'t be empty</string>
     <string name="incorrect_address">Address incorrect</string>
@@ -47,6 +48,8 @@
 
     <string name="notification_text">Add of Real Estate is successful</string>
     <string name="tv_item_sold">SOLD</string>
+    <string name="alterdialog1">Confirm selling</string>
+    <string name="alterdialog2">Are you sure you want to sell this real estate?</string>
 
     <string name="tie_money_contribution">MONEY CONTRIBUTION</string>
     <string name="tie_money_contribution_error">Contribution cost more than real estate</string>

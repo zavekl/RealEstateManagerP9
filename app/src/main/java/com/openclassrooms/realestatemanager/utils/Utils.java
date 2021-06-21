@@ -102,7 +102,6 @@ public class Utils {
         } else {
             return null;
         }
-
     }
 
     public static boolean validateAddress(String s) {
