@@ -23,6 +23,7 @@ public class RealEstateProvider extends ContentProvider {
         return true;
     }
 
+    //Query database
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
@@ -39,6 +40,7 @@ public class RealEstateProvider extends ContentProvider {
         return null;
     }
 
+    //Insert in database
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {

@@ -94,6 +94,7 @@ public class CriteriaFragment extends Fragment {
         setCriteriaSharedPref();
     }
 
+    //Save criteria in sharedPref
     private void setCriteriaSharedPref() {
         Criteria criteria = mViewModel.getSharedPref();
 
@@ -240,6 +241,7 @@ public class CriteriaFragment extends Fragment {
         });
     }
 
+    //Link edit text with slider
     private void linkEditText() {
         final Float[] minPrice = new Float[1];
         final Float[] maxPrice = new Float[1];

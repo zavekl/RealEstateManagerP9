@@ -27,26 +27,29 @@ public class RealEstateRepository {
         mAllIdRealEstates = mRealEstateDao.getAllRealEstate();
     }
 
+    //Insert in DB
     public void insert(RealEstate realEstate) {
         Log.d(TAG, "insert: " + realEstate);
         new InsertRealEstateAsyncTask(mRealEstateDao).execute(realEstate);
     }
 
+    //Update an item in DB
     public void update(RealEstate realEstate) {
         Log.d(TAG, "update: ");
         new UpdateRealEstateAsyncTask(mRealEstateDao).execute(realEstate);
     }
 
+    //Get all the DB
     public LiveData<List<RealEstate>> getAllRealEstate() {
         Log.d(TAG, "getAllIdRealEstate: ");
         return mAllIdRealEstates;
     }
 
+    //Get an item in DB
     public LiveData<RealEstate> getRealEstateById(long id) {
         Log.d(TAG, "getAllIdRealEstate: ");
         return mRealEstateDao.getRealEstateById(id);
     }
-
 
     private static class InsertRealEstateAsyncTask extends AsyncTask<RealEstate, Void, Void> {
         private final RealEstateDao mRealEstateDao;

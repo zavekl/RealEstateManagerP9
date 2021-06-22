@@ -111,6 +111,7 @@ public class RVListRealEstateFragment extends Fragment implements CriteriaReceiv
         });
     }
 
+    //Set item in adapter
     public void setItem() {
         Log.d("MainActivity", "setItem: ");
         mAdapter.setItems(mRealEstates);

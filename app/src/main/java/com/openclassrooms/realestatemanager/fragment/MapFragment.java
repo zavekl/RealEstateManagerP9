@@ -124,6 +124,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
         };
     }
 
+    //Add realestate marker
     private void addRealEstateMarker() {
         mViewModel.getAllRealEstate().observe(this, new Observer<List<RealEstate>>() {
             @Override
@@ -144,6 +145,7 @@ public class MapFragment extends Fragment implements EasyPermissions.PermissionC
         Log.d(TAG, "addRealEstateMarker: end");
     }
 
+    //Add realestate marker
     private void setMarker(List<RealEstate> l) {
         Log.d(TAG, "setMarker: ");
         mGoogleMap.clear();

@@ -28,6 +28,7 @@ public class NotificationRepo {
         this.context = context;
     }
 
+    //Send notification to the device
     public void sendNotification() {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);

@@ -76,7 +76,7 @@ public class Utils {
         return wifi.isWifiEnabled();
     }
 
-    //New method
+    //New method to get the connectivity of internet
     public static Boolean isInternetAvailable2(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
@@ -104,12 +104,14 @@ public class Utils {
         }
     }
 
+    //Validate address with regex
     public static boolean validateAddress(String s) {
         final Pattern p = Pattern.compile("\\d\\w{1,5}(\\s\\D+)+,(\\s\\D+)+,\\s\\w+\\s?\\d{0,5},\\s\\D+");
         final Matcher matcher = p.matcher(s);
         return matcher.find();
     }
 
+    //Convert string to address object
     public static Address stringToAddress(String s) {
         List<String> list = Arrays.asList(TextUtils.split(s, ","));
         Log.d(TAG, "stringToAdress: " + s);

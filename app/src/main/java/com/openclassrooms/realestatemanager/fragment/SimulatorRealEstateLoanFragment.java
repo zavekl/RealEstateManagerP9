@@ -185,6 +185,7 @@ public class SimulatorRealEstateLoanFragment extends Fragment {
         });
     }
 
+    //Calculate the loan of realestate
     private void calculateResults() {
         if (mNumberYears.getText() != null && mNumberRate.getText() != null) {
             if (!mNumberYears.getText().toString().equals("") && !mNumberRate.getText().toString().equals("")) {

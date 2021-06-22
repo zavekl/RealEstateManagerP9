@@ -27,6 +27,7 @@ public class InternalFilesRepository {
         this.mContext = mContext;
     }
 
+    //Check if we can add an image in device
     private boolean checkSpaceMemory() {
         File path = Environment.getDataDirectory();
         StatFs stat = new StatFs(path.getPath());
@@ -38,6 +39,7 @@ public class InternalFilesRepository {
         return availableBlocks * blockSize > MEMORY;
     }
 
+    //Set the file in device
     public void setFile(String name, Bitmap bitmapImage) {
         if (checkSpaceMemory()) {
             File directory = mContext.getDir("imageDir", Context.MODE_PRIVATE); // path to /data/data/yourapp/app_data/imageDir
@@ -69,6 +71,7 @@ public class InternalFilesRepository {
         }
     }
 
+    //Get the file in device
     public Bitmap getFile(String name) {
         File directory = mContext.getDir("imageDir", Context.MODE_PRIVATE); // path to /data/data/yourapp/app_data/imageDir
         File myPath = new File(directory, name + ".jpg");

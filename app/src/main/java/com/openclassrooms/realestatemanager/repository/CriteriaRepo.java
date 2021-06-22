@@ -38,6 +38,7 @@ public class CriteriaRepo {
         }
     }
 
+    //Filter
     public List<RealEstate> filterAllParameters() {
         mRealEstatesList.clear();
         mRealEstatesList.addAll(mRealEstatesListBackUp);

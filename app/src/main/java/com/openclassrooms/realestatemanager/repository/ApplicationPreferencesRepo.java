@@ -21,6 +21,7 @@ public class ApplicationPreferencesRepo {
         this.mContext = Context;
     }
 
+    //Delete sharedpref criteria
     public void deleteSharedPrefsCriteria() {
         Log.d(TAG, "deleteSharedPrefsCriteria: ");
         final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
@@ -29,6 +30,7 @@ public class ApplicationPreferencesRepo {
         editor.clear().apply();
     }
 
+    //Set sharedpref criteria
     public void setSharedPrefsCriteria(final Criteria criteria) {
         Log.d(TAG, "setSharedPrefsCriteria: ");
         final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
@@ -68,7 +70,7 @@ public class ApplicationPreferencesRepo {
 
         editor.apply();
     }
-
+    //Get sharedpref criteria
     public Criteria getSharedPrefsCriteria() {
         Log.d(TAG, "getSharedPrefsCriteria: ");
         final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_CRITERIA, Context.MODE_PRIVATE);
@@ -85,27 +87,31 @@ public class ApplicationPreferencesRepo {
         return criteria;
     }
 
+    //Get sharedpref description
     public String getSharedPrefsFirstItemDescription() {
         final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
         return sharedPref.getString("first_item_description", null);
     }
 
+    //Set sharedpref description
     public void setSharedPrefsFirstItemDescription(final String s) {
         final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_DESCRIPTION, Context.MODE_PRIVATE);
         sharedPref.edit().putString("first_item_description", s).apply();
     }
 
-
+    //Get sharedpref photo
     public boolean getSharedPrefsPhotoIntent() {
         final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
         return sharedPref.getBoolean("photo_intent", false);
     }
 
+    //Set sharedpref photo
     public void setSharedPrefsPhotoIntent() {
         final SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);
         sharedPref.edit().putBoolean("photo_intent", true).apply();
     }
 
+    //Delete sharedpref photo
     public void deleteSharedPrefsPhotoIntent() {
         Log.d(TAG, "deleteSharedPrefsCriteria: ");
         SharedPreferences sharedPref = mContext.getSharedPreferences(PREF_PHOTO_INTENT, Context.MODE_PRIVATE);

@@ -21,15 +21,18 @@ public class MapRepository {
         this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
     }
 
+    //Start location update
     @SuppressLint("MissingPermission")
     public void startLocationUpdates(LocationCallback locationCallback) {
         fusedLocationProviderClient.requestLocationUpdates(createLocationRequest(), locationCallback, Looper.getMainLooper());
     }
 
+    //Stop location update
     public void stopLocationUpdates(LocationCallback locationCallback) {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
+    //Create location request
     private LocationRequest createLocationRequest() {
         LocationRequest mLocationRequest = LocationRequest.create();
 

@@ -44,10 +44,12 @@ public class TextInputUtils {
         this.mContext = mContext;
     }
 
+    //Validate all parameter
     public boolean validateAllParameters() {
         return validateType() & validatePrice() & validateDescription() & validateSurface() & validateRoom() & validateBedroom() & validateBathroom() & validateAddress();
     }
 
+    //Return the list for the dropdowntext
     public List<String> getItems() {
         return Arrays.asList("House", "Castle", "Mansion", "Duplex", "Apartment");
     }

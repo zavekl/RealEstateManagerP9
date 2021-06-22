@@ -53,7 +53,7 @@ public class RetrofitRepository {
 
     public LiveData<NearByPlaceResults> getPOIAroundUser(String latLng) {
         final MutableLiveData<NearByPlaceResults> liveData = new MutableLiveData<>();
-        final Call<NearByPlaceResults> call = mApiService.getPOIAroundUser(latLng, RADIUS, TYPESEARCH, SENSOR, "AIzaSyArYlrwIOr9xBBQBdWIlgmw2kCfaySXUAU");
+        final Call<NearByPlaceResults> call = mApiService.getPOIAroundRealestate(latLng, RADIUS, TYPESEARCH, SENSOR, "AIzaSyArYlrwIOr9xBBQBdWIlgmw2kCfaySXUAU");
 
         call.enqueue(new Callback<NearByPlaceResults>() {
             @Override

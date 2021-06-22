@@ -13,6 +13,7 @@ public class EstateLoanSimulatorRepo {
     private String mInterestRate;
     private String mTimeCreditYear;
 
+    //Calculate the loan per month
     public int calculateEstateLoanPerMonth() {
         // M = [mRealEstatePrice × (mInterestRate/12)]/[1 – (1 + (mInterestRate/12)) -(12 × mTimeCreditYear)]
 
@@ -24,11 +25,13 @@ public class EstateLoanSimulatorRepo {
         return result;
     }
 
+    //Calculate the cost of credit
     public int calculateCostOfCredit() {
         return (int) (calculateEstateLoanPerMonth() * (Double.parseDouble(mTimeCreditYear) * 12)
                 - Double.parseDouble(mRealEstatePrice));
     }
 
+    //Setters
     public void setRealEstatePrice(String realEstatePrice) {
         mRealEstatePrice = realEstatePrice;
     }
