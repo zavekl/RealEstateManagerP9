@@ -4,6 +4,7 @@ import android.content.ContentValues;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.openclassrooms.realestatemanager.utils.Utils;
@@ -64,7 +65,7 @@ public class RealEstate {
         this.mDateOfSale = mDateOfSale;
         this.mRealEstateAgent = mRealEstateAgent;
     }
-
+    @Ignore
     public RealEstate() {
     }
 
